@@ -1,0 +1,442 @@
+[
+    {
+        "id": "191",
+        "name": "SL-GS-EBAA",
+        "placement_date": "?STR_TO_DATE('2019-05-23T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-1.20139",
+        "longitude": "-103.31424",
+        "status": "Active"
+    },
+    {
+        "id": "192",
+        "name": "SL-GS-027A",
+        "placement_date": "?STR_TO_DATE('2019-05-23T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "67.94023",
+        "longitude": "-10.64329",
+        "status": "Decommissioned"
+    },
+    {
+        "id": "193",
+        "name": "SL-GS-3D48",
+        "placement_date": "?STR_TO_DATE('2019-05-23T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "82.14743",
+        "longitude": "85.36332",
+        "status": "Decommissioned"
+    },
+    {
+        "id": "194",
+        "name": "SL-GS-E69D",
+        "placement_date": "?STR_TO_DATE('2019-05-23T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-33.82925",
+        "longitude": "13.50745",
+        "status": "Decommissioned"
+    },
+    {
+        "id": "195",
+        "name": "SL-GS-00C9",
+        "placement_date": "?STR_TO_DATE('2019-05-23T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "36.79612",
+        "longitude": "-136.69250",
+        "status": "Decommissioned"
+    },
+    {
+        "id": "196",
+        "name": "SL-GS-C178",
+        "placement_date": "?STR_TO_DATE('2019-05-23T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-33.82517",
+        "longitude": "101.51080",
+        "status": "Decommissioned"
+    },
+    {
+        "id": "197",
+        "name": "SL-GS-D597",
+        "placement_date": "?STR_TO_DATE('2019-05-23T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-39.39540",
+        "longitude": "64.92092",
+        "status": "Decommissioned"
+    },
+    {
+        "id": "198",
+        "name": "SL-GS-8185",
+        "placement_date": "?STR_TO_DATE('2019-05-23T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "8.95223",
+        "longitude": "-143.01338",
+        "status": "Decommissioned"
+    },
+    {
+        "id": "199",
+        "name": "SL-GS-9ED5",
+        "placement_date": "?STR_TO_DATE('2019-05-23T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-59.66955",
+        "longitude": "144.80271",
+        "status": "Decommissioned"
+    },
+    {
+        "id": "200",
+        "name": "SL-GS-C23D",
+        "placement_date": "?STR_TO_DATE('2019-05-23T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "57.54557",
+        "longitude": "28.91429",
+        "status": "Decommissioned"
+    },
+    {
+        "id": "201",
+        "name": "SL-GS-A4E9",
+        "placement_date": "?STR_TO_DATE('2019-05-23T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "23.00415",
+        "longitude": "123.18827",
+        "status": "Decommissioned"
+    },
+    {
+        "id": "202",
+        "name": "SL-GS-6079",
+        "placement_date": "?STR_TO_DATE('2019-11-10T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-66.47466",
+        "longitude": "-42.65545",
+        "status": "Active"
+    },
+    {
+        "id": "203",
+        "name": "SL-GS-6EC6",
+        "placement_date": "?STR_TO_DATE('2019-11-10T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "48.69293",
+        "longitude": "136.44202",
+        "status": "Active"
+    },
+    {
+        "id": "204",
+        "name": "SL-GS-E4F9",
+        "placement_date": "?STR_TO_DATE('2019-11-10T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-42.19617",
+        "longitude": "-36.21932",
+        "status": "Active"
+    },
+    {
+        "id": "205",
+        "name": "SL-GS-2FD7",
+        "placement_date": "?STR_TO_DATE('2019-11-10T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "54.99444",
+        "longitude": "120.28026",
+        "status": "Active"
+    },
+    {
+        "id": "206",
+        "name": "SL-GS-775E",
+        "placement_date": "?STR_TO_DATE('2019-11-10T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-53.50747",
+        "longitude": "-82.03051",
+        "status": "Active"
+    },
+    {
+        "id": "207",
+        "name": "SL-GS-A3E4",
+        "placement_date": "?STR_TO_DATE('2019-11-10T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-89.29041",
+        "longitude": "-126.77229",
+        "status": "Active"
+    },
+    {
+        "id": "208",
+        "name": "SL-GS-50BB",
+        "placement_date": "?STR_TO_DATE('2019-11-10T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-81.61694",
+        "longitude": "-173.83925",
+        "status": "Active"
+    },
+    {
+        "id": "209",
+        "name": "SL-GS-7C25",
+        "placement_date": "?STR_TO_DATE('2019-11-10T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "9.53209",
+        "longitude": "-86.30290",
+        "status": "Active"
+    },
+    {
+        "id": "210",
+        "name": "SL-GS-500F",
+        "placement_date": "?STR_TO_DATE('2019-11-10T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-0.07332",
+        "longitude": "-110.86885",
+        "status": "Active"
+    },
+    {
+        "id": "211",
+        "name": "SL-GS-FB3A",
+        "placement_date": "?STR_TO_DATE('2019-11-10T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "53.67583",
+        "longitude": "70.57932",
+        "status": "Active"
+    },
+    {
+        "id": "212",
+        "name": "SL-GS-6E0F",
+        "placement_date": "?STR_TO_DATE('2019-11-10T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-11.48797",
+        "longitude": "-91.03853",
+        "status": "Active"
+    },
+    {
+        "id": "213",
+        "name": "SL-GS-96B7",
+        "placement_date": "?STR_TO_DATE('2021-02-15T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "6.29538",
+        "longitude": "14.39035",
+        "status": "Active"
+    },
+    {
+        "id": "214",
+        "name": "SL-GS-D86E",
+        "placement_date": "?STR_TO_DATE('2021-02-15T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "33.55473",
+        "longitude": "25.15482",
+        "status": "Decommissioned"
+    },
+    {
+        "id": "215",
+        "name": "SL-GS-289E",
+        "placement_date": "?STR_TO_DATE('2021-02-15T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-21.05036",
+        "longitude": "58.24105",
+        "status": "Active"
+    },
+    {
+        "id": "216",
+        "name": "SL-GS-5230",
+        "placement_date": "?STR_TO_DATE('2021-02-15T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "38.87273",
+        "longitude": "95.29030",
+        "status": "Active"
+    },
+    {
+        "id": "217",
+        "name": "SL-GS-7A76",
+        "placement_date": "?STR_TO_DATE('2021-05-25T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-73.53610",
+        "longitude": "139.72122",
+        "status": "Active"
+    },
+    {
+        "id": "218",
+        "name": "SL-GS-CBD4",
+        "placement_date": "?STR_TO_DATE('2021-05-25T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "36.38993",
+        "longitude": "-16.85865",
+        "status": "Active"
+    },
+    {
+        "id": "219",
+        "name": "SL-GS-E403",
+        "placement_date": "?STR_TO_DATE('2021-05-25T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "25.39633",
+        "longitude": "48.10240",
+        "status": "Active"
+    },
+    {
+        "id": "220",
+        "name": "SL-GS-3970",
+        "placement_date": "?STR_TO_DATE('2021-06-29T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-62.75876",
+        "longitude": "57.61045",
+        "status": "Active"
+    },
+    {
+        "id": "221",
+        "name": "SL-GS-A91E",
+        "placement_date": "?STR_TO_DATE('2021-06-29T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-46.58339",
+        "longitude": "27.36231",
+        "status": "Active"
+    },
+    {
+        "id": "222",
+        "name": "SL-GS-EABE",
+        "placement_date": "?STR_TO_DATE('2021-06-29T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "54.32569",
+        "longitude": "-121.96616",
+        "status": "Active"
+    },
+    {
+        "id": "223",
+        "name": "SL-GS-95B4",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "43.08432",
+        "longitude": "-68.86648",
+        "status": "Active"
+    },
+    {
+        "id": "224",
+        "name": "SL-GS-BA20",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "3.94794",
+        "longitude": "-56.71360",
+        "status": "Active"
+    },
+    {
+        "id": "225",
+        "name": "SL-GS-6F2C",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "41.17276",
+        "longitude": "-92.49116",
+        "status": "Active"
+    },
+    {
+        "id": "226",
+        "name": "SL-GS-F2A2",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-69.73661",
+        "longitude": "-99.85652",
+        "status": "Active"
+    },
+    {
+        "id": "227",
+        "name": "SL-GS-EEFC",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-50.61785",
+        "longitude": "-48.37863",
+        "status": "Active"
+    },
+    {
+        "id": "228",
+        "name": "SL-GS-A7FD",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-84.54786",
+        "longitude": "-39.35062",
+        "status": "Active"
+    },
+    {
+        "id": "229",
+        "name": "SL-GS-D05E",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-33.71517",
+        "longitude": "113.20840",
+        "status": "Active"
+    },
+    {
+        "id": "230",
+        "name": "SL-GS-6874",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "45.03886",
+        "longitude": "88.13055",
+        "status": "Active"
+    },
+    {
+        "id": "231",
+        "name": "SL-GS-5E6E",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-16.66527",
+        "longitude": "-21.96870",
+        "status": "Active"
+    },
+    {
+        "id": "232",
+        "name": "SL-GS-BE31",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "37.77096",
+        "longitude": "99.90001",
+        "status": "Active"
+    },
+    {
+        "id": "233",
+        "name": "SL-GS-9AC2",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-19.09191",
+        "longitude": "61.76854",
+        "status": "Active"
+    },
+    {
+        "id": "234",
+        "name": "SL-GS-CCC9",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-33.33728",
+        "longitude": "54.52246",
+        "status": "Active"
+    },
+    {
+        "id": "235",
+        "name": "SL-GS-2A4B",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-18.41019",
+        "longitude": "-4.23086",
+        "status": "Active"
+    },
+    {
+        "id": "236",
+        "name": "SL-GS-47B7",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "53.39635",
+        "longitude": "-131.90206",
+        "status": "Active"
+    },
+    {
+        "id": "237",
+        "name": "SL-GS-F18B",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-15.67866",
+        "longitude": "-40.46934",
+        "status": "Active"
+    },
+    {
+        "id": "238",
+        "name": "SL-GS-7AE9",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "85.71563",
+        "longitude": "-88.07499",
+        "status": "Active"
+    },
+    {
+        "id": "239",
+        "name": "SL-GS-4744",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "16.52509",
+        "longitude": "51.94507",
+        "status": "Active"
+    },
+    {
+        "id": "240",
+        "name": "SL-GS-7199",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "-84.91630",
+        "longitude": "177.96838",
+        "status": "Active"
+    },
+    {
+        "id": "241",
+        "name": "SL-GS-F949",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "67.64586",
+        "longitude": "63.50356",
+        "status": "Active"
+    },
+    {
+        "id": "242",
+        "name": "SL-GS-006C",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "1.07391",
+        "longitude": "52.93891",
+        "status": "Active"
+    },
+    {
+        "id": "244",
+        "name": "SL-GS-32F7",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "42.25336",
+        "longitude": "26.25316",
+        "status": "Active"
+    },
+    {
+        "id": "245",
+        "name": "SL-GS-ED05",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "15.52310",
+        "longitude": "-148.38776",
+        "status": "Active"
+    },
+    {
+        "id": "246",
+        "name": "SL-GS-857A",
+        "placement_date": "?STR_TO_DATE('2021-09-13T18:00:00.000Z','%Y-%m-%dT%T.%fZ')?",
+        "latitude": "50.51214",
+        "longitude": "-31.29961",
+        "status": "Active"
+    }
+]

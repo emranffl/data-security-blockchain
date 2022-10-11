@@ -1,0 +1,68 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model satellite_info {
+  NORAD       String                @id @db.Char(5)
+  name        String                @db.VarChar(255)
+  launch_date DateTime              @default(now()) @db.DateTime(0)
+  altitude    Decimal?              @db.Decimal(10, 2)
+  status      satellite_info_status @default(Positioned)
+}
+
+model ground_station_info {
+  id             String                     @id @db.Char(5)
+  name           String                     @db.VarChar(255)
+  placement_date DateTime                   @default(now()) @db.DateTime(0)
+  latitude       Decimal                    @db.Decimal(10, 5)
+  longitude      Decimal                    @db.Decimal(10, 5)
+  status         ground_station_info_status @default(Positioned)
+}
+
+model blockchain {
+  name                    String            @db.VarChar(100)
+  status                  blockchain_status
+  type                    blockchain_type
+  uuid                    String            @db.VarChar(100)
+  connectingNodePublicKey String            @db.VarChar(1000)
+  networkNodePublicKey    String            @db.VarChar(1000)
+  precedingBlockHash      String            @db.VarChar(512)
+  blockDepth              BigInt            @db.UnsignedBigInt
+  currentHash             String            @id @db.VarChar(512)
+  attempt                 Int               @db.UnsignedInt
+  transactionDate         DateTime          @db.Timestamp(0)
+  nonce                   Int               @db.UnsignedInt
+}
+
+enum satellite_info_status {
+  Positioned
+  Active
+  Inactive
+  Decommissioned
+}
+
+enum ground_station_info_status {
+  Positioned
+  Active
+  Inactive
+  Decommissioned
+}
+
+enum blockchain_status {
+  Positioned
+  Active
+  Inactive
+  Decommissioned
+}
+
+enum blockchain_type {
+  Satellite
+  Ground_Station       @map("Ground Station")
+  Phased_Array_Antenna @map("Phased Array Antenna")
+}
