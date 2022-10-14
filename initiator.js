@@ -1,6 +1,6 @@
 "use strict";
 var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
+    __assign = Object.assign || function (t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
             for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
@@ -10,10 +10,9 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-exports.__esModule = true;
-exports.Wallet = exports.Chain = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
 var crypto = require("crypto");
-var BLOCK_MINING_DIFFICULTY = 3;
+var BLOCK_MINING_DIFFICULTY = 0;
 /**
  * Data & connectivity details between two nodes.
  * @param transactionData JSON
@@ -89,7 +88,7 @@ var Chain = /** @class */ (function () {
         this.chain = [
             //* genesis block generation
             (function () {
-                var hash = crypto.createHash('MD5'), genesisBlock = new Block(new Transaction({ name: 'genesis', status: "Active", type: "genesis", uuid: "genesis" }, 'connecting_node_public_key_null', 'network_node_public_key_null'), 'proceeding_block_hash_null', 0, 'current_block_hash_genesis');
+                var hash = crypto.createHash('MD5'), genesisBlock = new Block(new Transaction({ name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" }, 'connecting_genesis_node_public_key_null', 'network_genesis_node_public_key_null'), 'proceeding_genesis_block_hash_null', 0, 'current_genesis_block_hash_null');
                 hash.update(genesisBlock.toString()).end();
                 genesisBlock.currentHash = hash.digest('hex');
                 return genesisBlock;
@@ -164,7 +163,6 @@ var Chain = /** @class */ (function () {
     Chain.instance = new Chain();
     return Chain;
 }());
-exports.Chain = Chain;
 /**
  * Wallet gives a linking & receiving nodes a public-private key pair.
  * It acts as a digital address for the nodes.
@@ -174,7 +172,7 @@ var Wallet = /** @class */ (function () {
         var keyPair = crypto.generateKeyPairSync('rsa', {
             modulusLength: 2048,
             publicKeyEncoding: { type: 'spki', format: 'pem' },
-            privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
+            privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
         });
         this.privateKey = keyPair.privateKey;
         this.publicKey = keyPair.publicKey;
@@ -189,4 +187,80 @@ var Wallet = /** @class */ (function () {
     };
     return Wallet;
 }());
-exports.Wallet = Wallet;
+
+
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+const sat = await prisma.satellite_info.findMany({ take: 2 }),
+    gs = await prisma.ground_station_info.findMany({ take: 2 })
+
+let nodes = [...sat, ...gs]
+
+// sort nodes by date-time in ascending order
+nodes = nodes.sort((firstElem, secondElem) => {
+    if (firstElem.launch_date && secondElem.launch_date) {
+        return firstElem.launch_date - secondElem.launch_date
+    } else if (firstElem.launch_date && secondElem.placement_date) {
+        return firstElem.launch_date - secondElem.placement_date
+    } else if (firstElem.placement_date && secondElem.launch_date) {
+        return firstElem.placement_date - secondElem.launch_date
+    } else if (firstElem.placement_date && secondElem.placement_date) {
+        return firstElem.placement_date - secondElem.placement_date
+    }
+})
+
+// create blocks from sorted nodes
+nodes.map((node, index) => {
+    // return
+
+    let networkNodePublicKey = ''
+
+    // console.log(Chain.instance.chain[0])
+
+
+    for (let status of ['Positioned', 'Active', 'Inactive', 'Decomissioned']) {
+
+        // network nodes public key randomization to connect to any node
+        let activeNodes = Chain.instance.chain.filter(
+            (block, index) => index != 0 && block.transaction.transactionData.status == 'Active'
+        ), nodeWallet = new Wallet()
+
+
+        networkNodePublicKey =
+            activeNodes.length == 0 ?
+                Chain.instance.chain[Chain.instance.chain.length - 1].transaction.networkNodePublicKey
+                : activeNodes[Math.floor(Math.random() * activeNodes.length)].transaction.connectingNodePublicKey
+
+
+
+        nodeWallet.createORupdateLink({
+            name: node.name,
+            type: node.NORAD ? "Satellite" : node.id ? "Ground Station" : "Unknown",
+            uuid: node.NORAD && node.NORAD.toString() || node.id && node.id.toString() || "Unknown",
+            status: status
+        }, networkNodePublicKey)
+
+        if (node.status == status) break
+
+    }
+
+
+})
+
+console.log(Object.values(Chain.instance.chain).flat())
+
+// if (await prisma.blockchain.count() != 0) {
+//     await prisma.blockchain.deleteMany()
+// }
+
+// try {
+//     await prisma.blockchain.createMany({
+//         data: Chain.instance.chain
+//     })
+// } catch (error) {
+//     console.log(error)
+// }
+
+console.log(true)

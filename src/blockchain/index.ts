@@ -94,13 +94,13 @@ class Chain {
                 const hash = crypto.createHash('MD5'),
                     genesisBlock = new Block(
                         new Transaction(
-                            { name: 'genesis', status: "Active", type: "genesis", uuid: "genesis" },
-                            'connecting_node_public_key_null',
-                            'network_node_public_key_null',
+                            { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
+                            'connecting_genesis_node_public_key_null',
+                            'network_genesis_node_public_key_null',
                         ),
-                        'proceeding_block_hash_null',
+                        'proceeding_genesis_block_hash_null',
                         0,
-                        'current_block_hash_genesis'
+                        'current_genesis_block_hash_null'
                     )
 
                 hash.update(genesisBlock.toString()).end()
