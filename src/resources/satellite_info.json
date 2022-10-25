@@ -2,764 +2,764 @@
     {
         "NORAD": "44238",
         "name": "STARLINK-24",
-        "launch_date": "24 May 2019",
-        "altitude": "469.2",
-        "status": "Active"
+        "launch_date": "2019-05-23 18:00:00",
+        "altitude": "469.20",
+        "status": "Positioned"
     },
     {
         "NORAD": "44239",
         "name": "STARLINK-225",
-        "launch_date": "24 May 2019",
-        "altitude": "550.1",
+        "launch_date": "2019-05-23 18:00:00",
+        "altitude": "550.10",
         "status": "Decommissioned"
     },
     {
         "NORAD": "44240",
         "name": "STARLINK-226",
-        "launch_date": "24 May 2019",
-        "altitude": "550.1",
+        "launch_date": "2019-05-23 18:00:00",
+        "altitude": "550.10",
         "status": "Decommissioned"
     },
     {
         "NORAD": "44241",
         "name": "STARLINK-227",
-        "launch_date": "24 May 2019",
-        "altitude": "550.1",
-        "status": "Decommissioned"
+        "launch_date": "2019-05-23 18:00:00",
+        "altitude": "550.10",
+        "status": "Inactive"
     },
     {
         "NORAD": "44242",
         "name": "STARLINK-228",
-        "launch_date": "24 May 2019",
-        "altitude": "550.1",
+        "launch_date": "2019-05-23 18:00:00",
+        "altitude": "550.10",
         "status": "Decommissioned"
     },
     {
         "NORAD": "44243",
         "name": "STARLINK-229",
-        "launch_date": "24 May 2019",
-        "altitude": "550.1",
+        "launch_date": "2019-05-23 18:00:00",
+        "altitude": "550.10",
         "status": "Decommissioned"
     },
     {
         "NORAD": "44244",
         "name": "STARLINK-230",
-        "launch_date": "24 May 2019",
-        "altitude": "550.1",
+        "launch_date": "2019-05-23 18:00:00",
+        "altitude": "550.10",
         "status": "Decommissioned"
     },
     {
         "NORAD": "44245",
         "name": "STARLINK-231",
-        "launch_date": "24 May 2019",
-        "altitude": "550.1",
-        "status": "Decommissioned"
+        "launch_date": "2019-05-23 18:00:00",
+        "altitude": "550.10",
+        "status": "Positioned"
     },
     {
         "NORAD": "44246",
         "name": "STARLINK-232",
-        "launch_date": "24 May 2019",
-        "altitude": "550.1",
+        "launch_date": "2019-05-23 18:00:00",
+        "altitude": "550.10",
         "status": "Decommissioned"
     },
     {
         "NORAD": "44247",
         "name": "STARLINK-233",
-        "launch_date": "24 May 2019",
-        "altitude": "550.1",
-        "status": "Decommissioned"
+        "launch_date": "2019-05-23 18:00:00",
+        "altitude": "550.10",
+        "status": "Active"
     },
     {
         "NORAD": "44248",
         "name": "STARLINK-234",
-        "launch_date": "24 May 2019",
-        "altitude": "550.1",
-        "status": "Decommissioned"
+        "launch_date": "2019-05-23 18:00:00",
+        "altitude": "550.10",
+        "status": "Active"
     },
     {
         "NORAD": "44714",
-        "name": "STARLINK 1008",
-        "launch_date": "11 November 2019",
-        "altitude": "549.9",
+        "name": "STARLINK-1008",
+        "launch_date": "2019-11-10 18:00:00",
+        "altitude": "549.90",
         "status": "Active"
     },
     {
         "NORAD": "44715",
-        "name": "STARLINK 1009",
-        "launch_date": "11 November 2019",
-        "altitude": "549",
+        "name": "STARLINK-1009",
+        "launch_date": "2019-11-10 18:00:00",
+        "altitude": "549.00",
         "status": "Active"
     },
     {
         "NORAD": "44716",
-        "name": "STARLINK 1010",
-        "launch_date": "11 November 2019",
-        "altitude": "560.8",
+        "name": "STARLINK-1010",
+        "launch_date": "2019-11-10 18:00:00",
+        "altitude": "560.80",
         "status": "Active"
     },
     {
         "NORAD": "44717",
-        "name": "STARLINK 1011",
-        "launch_date": "11 November 2019",
-        "altitude": "557.8",
+        "name": "STARLINK-1011",
+        "launch_date": "2019-11-10 18:00:00",
+        "altitude": "557.80",
         "status": "Active"
     },
     {
         "NORAD": "44718",
-        "name": "STARLINK 1012",
-        "launch_date": "11 November 2019",
-        "altitude": "552.2",
+        "name": "STARLINK-1012",
+        "launch_date": "2019-11-10 18:00:00",
+        "altitude": "552.20",
         "status": "Active"
     },
     {
         "NORAD": "44719",
-        "name": "STARLINK 1013",
-        "launch_date": "11 November 2019",
-        "altitude": "551.2",
+        "name": "STARLINK-1013",
+        "launch_date": "2019-11-10 18:00:00",
+        "altitude": "551.20",
         "status": "Active"
     },
     {
         "NORAD": "44720",
-        "name": "STARLINK 1014",
-        "launch_date": "11 November 2019",
-        "altitude": "553.6",
-        "status": "Active"
+        "name": "STARLINK-1014",
+        "launch_date": "2019-11-10 18:00:00",
+        "altitude": "553.60",
+        "status": "Decommissioned"
     },
     {
         "NORAD": "44721",
-        "name": "STARLINK 1015",
-        "launch_date": "11 November 2019",
-        "altitude": "546.8",
+        "name": "STARLINK-1015",
+        "launch_date": "2019-11-10 18:00:00",
+        "altitude": "546.80",
         "status": "Active"
     },
     {
         "NORAD": "44722",
-        "name": "STARLINK 1016",
-        "launch_date": "11 November 2019",
-        "altitude": "547.1",
+        "name": "STARLINK-1016",
+        "launch_date": "2019-11-10 18:00:00",
+        "altitude": "547.10",
         "status": "Active"
     },
     {
         "NORAD": "44723",
-        "name": "STARLINK 1017",
-        "launch_date": "11 November 2019",
-        "altitude": "565.3",
+        "name": "STARLINK-1017",
+        "launch_date": "2019-11-10 18:00:00",
+        "altitude": "565.30",
         "status": "Active"
     },
     {
         "NORAD": "44724",
-        "name": "STARLINK 1019",
-        "launch_date": "11 November 2019",
-        "altitude": "550.4",
+        "name": "STARLINK-1019",
+        "launch_date": "2019-11-10 18:00:00",
+        "altitude": "550.40",
         "status": "Active"
     },
     {
         "NORAD": "47630",
         "name": "STARLINK-1983",
-        "launch_date": "16 February 2021",
-        "altitude": "548.8",
+        "launch_date": "2021-02-15 18:00:00",
+        "altitude": "548.80",
         "status": "Active"
     },
     {
         "NORAD": "47631",
         "name": "STARLINK-1985",
-        "launch_date": "16 February 2021",
-        "altitude": "550.1",
+        "launch_date": "2021-02-15 18:00:00",
+        "altitude": "550.10",
         "status": "Decommissioned"
     },
     {
         "NORAD": "47632",
         "name": "STARLINK-1992",
-        "launch_date": "16 February 2021",
-        "altitude": "548",
+        "launch_date": "2021-02-15 18:00:00",
+        "altitude": "548.00",
         "status": "Active"
     },
     {
         "NORAD": "47633",
         "name": "STARLINK-2009",
-        "launch_date": "16 February 2021",
-        "altitude": "548",
+        "launch_date": "2021-02-15 18:00:00",
+        "altitude": "548.00",
         "status": "Active"
     },
     {
         "NORAD": "48695",
         "name": "STARLINK-2616",
-        "launch_date": "26 May 2021",
-        "altitude": "566.4",
+        "launch_date": "2021-05-25 18:00:00",
+        "altitude": "566.40",
         "status": "Active"
     },
     {
         "NORAD": "48696",
         "name": "STARLINK-2753",
-        "launch_date": "26 May 2021",
-        "altitude": "560.1",
+        "launch_date": "2021-05-25 18:00:00",
+        "altitude": "560.10",
         "status": "Active"
     },
     {
         "NORAD": "48697",
         "name": "STARLINK-2715",
-        "launch_date": "26 May 2021",
-        "altitude": "548",
+        "launch_date": "2021-05-25 18:00:00",
+        "altitude": "548.00",
         "status": "Active"
     },
     {
         "NORAD": "48879",
         "name": "STARLINK-3003",
-        "launch_date": "30 June 2021",
-        "altitude": "541.8",
+        "launch_date": "2021-06-29 18:00:00",
+        "altitude": "541.80",
         "status": "Active"
     },
     {
         "NORAD": "48880",
         "name": "STARLINK-3004",
-        "launch_date": "30 June 2021",
-        "altitude": "539.9",
+        "launch_date": "2021-06-29 18:00:00",
+        "altitude": "539.90",
         "status": "Active"
     },
     {
         "NORAD": "48881",
         "name": "STARLINK-3005",
-        "launch_date": "30 June 2021",
-        "altitude": "536",
+        "launch_date": "2021-06-29 18:00:00",
+        "altitude": "536.00",
         "status": "Active"
     },
     {
         "NORAD": "49131",
         "name": "STARLINK-3096",
-        "launch_date": "14 September 2021",
-        "altitude": "577.1",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "577.10",
         "status": "Active"
     },
     {
         "NORAD": "49132",
         "name": "STARLINK-3090",
-        "launch_date": "14 September 2021",
-        "altitude": "574.1",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "574.10",
         "status": "Active"
     },
     {
         "NORAD": "49133",
         "name": "STARLINK-3077",
-        "launch_date": "14 September 2021",
-        "altitude": "576.3",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "576.30",
         "status": "Active"
     },
     {
         "NORAD": "49134",
         "name": "STARLINK-3078",
-        "launch_date": "14 September 2021",
-        "altitude": "583.9",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "583.90",
         "status": "Active"
     },
     {
         "NORAD": "49135",
         "name": "STARLINK-3073",
-        "launch_date": "14 September 2021",
-        "altitude": "582.6",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "582.60",
         "status": "Active"
     },
     {
         "NORAD": "49136",
         "name": "STARLINK-3084",
-        "launch_date": "14 September 2021",
-        "altitude": "582.1",
-        "status": "Active"
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "582.10",
+        "status": "Decommissioned"
     },
     {
         "NORAD": "49137",
         "name": "STARLINK-3055",
-        "launch_date": "14 September 2021",
-        "altitude": "579.4",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "579.40",
         "status": "Active"
     },
     {
         "NORAD": "49138",
         "name": "STARLINK-3058",
-        "launch_date": "14 September 2021",
-        "altitude": "591.8",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "591.80",
         "status": "Active"
     },
     {
         "NORAD": "49139",
         "name": "STARLINK-3057",
-        "launch_date": "14 September 2021",
-        "altitude": "581.2",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "581.20",
         "status": "Active"
     },
     {
         "NORAD": "49140",
         "name": "STARLINK-3118",
-        "launch_date": "14 September 2021",
-        "altitude": "590.4",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "590.40",
         "status": "Active"
     },
     {
         "NORAD": "49141",
         "name": "STARLINK-3093",
-        "launch_date": "14 September 2021",
-        "altitude": "595.3",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "595.30",
         "status": "Active"
     },
     {
         "NORAD": "49142",
         "name": "STARLINK-3042",
-        "launch_date": "14 September 2021",
-        "altitude": "588.9",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "588.90",
         "status": "Active"
     },
     {
         "NORAD": "49143",
         "name": "STARLINK-3109",
-        "launch_date": "14 September 2021",
-        "altitude": "580.2",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "580.20",
         "status": "Active"
     },
     {
         "NORAD": "49144",
         "name": "STARLINK-3100",
-        "launch_date": "14 September 2021",
-        "altitude": "591.8",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "591.80",
         "status": "Active"
     },
     {
         "NORAD": "49145",
         "name": "STARLINK-3119",
-        "launch_date": "14 September 2021",
-        "altitude": "579.4",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "579.40",
         "status": "Active"
     },
     {
         "NORAD": "49146",
         "name": "STARLINK-3116",
-        "launch_date": "14 September 2021",
-        "altitude": "587.1",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "587.10",
         "status": "Active"
     },
     {
         "NORAD": "49147",
         "name": "STARLINK-3071",
-        "launch_date": "14 September 2021",
-        "altitude": "583.5",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "583.50",
         "status": "Active"
     },
     {
         "NORAD": "49148",
         "name": "STARLINK-3048",
-        "launch_date": "14 September 2021",
-        "altitude": "595.6",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "595.60",
         "status": "Active"
     },
     {
         "NORAD": "49149",
         "name": "STARLINK-3053",
-        "launch_date": "14 September 2021",
-        "altitude": "583.5",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "583.50",
         "status": "Active"
     },
     {
         "NORAD": "49150",
         "name": "STARLINK-3104",
-        "launch_date": "14 September 2021",
-        "altitude": "576",
-        "status": "Active"
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "576.00",
+        "status": "Positioned"
     },
     {
         "NORAD": "49151",
         "name": "STARLINK-3102",
-        "launch_date": "14 September 2021",
-        "altitude": "593.6",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "593.60",
         "status": "Active"
     },
     {
         "NORAD": "49152",
         "name": "STARLINK-3081",
-        "launch_date": "14 September 2021",
-        "altitude": "578.8",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "578.80",
         "status": "Active"
     },
     {
         "NORAD": "49153",
         "name": "STARLINK-3072",
-        "launch_date": "14 September 2021",
-        "altitude": "599.1",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "599.10",
         "status": "Active"
     },
     {
         "NORAD": "49154",
         "name": "STARLINK-3068",
-        "launch_date": "14 September 2021",
-        "altitude": "600.4",
+        "launch_date": "2021-09-13 18:00:00",
+        "altitude": "600.40",
         "status": "Active"
     },
     {
         "NORAD": "52656",
         "name": "STARLINK-4004",
-        "launch_date": "18 May 2022",
-        "altitude": "382.6",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "382.60",
         "status": "Active"
     },
     {
         "NORAD": "52657",
         "name": "STARLINK-4084",
-        "launch_date": "18 May 2022",
-        "altitude": "383",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "383.00",
         "status": "Active"
     },
     {
         "NORAD": "52658",
         "name": "STARLINK-4082",
-        "launch_date": "18 May 2022",
-        "altitude": "382.7",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "382.70",
         "status": "Active"
     },
     {
         "NORAD": "52659",
         "name": "STARLINK-3960",
-        "launch_date": "18 May 2022",
-        "altitude": "382.8",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "382.80",
         "status": "Active"
     },
     {
         "NORAD": "52660",
         "name": "STARLINK-4081",
-        "launch_date": "18 May 2022",
-        "altitude": "382.4",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "382.40",
         "status": "Active"
     },
     {
         "NORAD": "52661",
         "name": "STARLINK-4042",
-        "launch_date": "18 May 2022",
-        "altitude": "382.3",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "382.30",
         "status": "Active"
     },
     {
         "NORAD": "52662",
         "name": "STARLINK-4044",
-        "launch_date": "18 May 2022",
-        "altitude": "382.1",
-        "status": "Active"
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "382.10",
+        "status": "Positioned"
     },
     {
         "NORAD": "52663",
         "name": "STARLINK-4037",
-        "launch_date": "18 May 2022",
-        "altitude": "381.9",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "381.90",
         "status": "Active"
     },
     {
         "NORAD": "52664",
         "name": "STARLINK-4070",
-        "launch_date": "18 May 2022",
-        "altitude": "382.2",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "382.20",
         "status": "Active"
     },
     {
         "NORAD": "52665",
         "name": "STARLINK-4064",
-        "launch_date": "18 May 2022",
-        "altitude": "381.1",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "381.10",
         "status": "Active"
     },
     {
         "NORAD": "52666",
         "name": "STARLINK-4079",
-        "launch_date": "18 May 2022",
-        "altitude": "381.5",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "381.50",
         "status": "Active"
     },
     {
         "NORAD": "52667",
         "name": "STARLINK-4076",
-        "launch_date": "18 May 2022",
-        "altitude": "381.1",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "381.10",
         "status": "Active"
     },
     {
         "NORAD": "52668",
         "name": "STARLINK-4067",
-        "launch_date": "18 May 2022",
-        "altitude": "381.6",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "381.60",
         "status": "Active"
     },
     {
         "NORAD": "52669",
         "name": "STARLINK-3972",
-        "launch_date": "18 May 2022",
-        "altitude": "380.7",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "380.70",
         "status": "Active"
     },
     {
         "NORAD": "52670",
         "name": "STARLINK-4075",
-        "launch_date": "18 May 2022",
-        "altitude": "381.4",
-        "status": "Active"
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "381.40",
+        "status": "Positioned"
     },
     {
         "NORAD": "52671",
         "name": "STARLINK-4071",
-        "launch_date": "18 May 2022",
-        "altitude": "380.6",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "380.60",
         "status": "Active"
     },
     {
         "NORAD": "52672",
         "name": "STARLINK-4073",
-        "launch_date": "18 May 2022",
-        "altitude": "381",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "381.00",
         "status": "Active"
     },
     {
         "NORAD": "52673",
         "name": "STARLINK-3976",
-        "launch_date": "18 May 2022",
-        "altitude": "380.2",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "380.20",
         "status": "Active"
     },
     {
         "NORAD": "52674",
         "name": "STARLINK-3936",
-        "launch_date": "18 May 2022",
-        "altitude": "380.9",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "380.90",
         "status": "Active"
     },
     {
         "NORAD": "52675",
         "name": "STARLINK-3934",
-        "launch_date": "18 May 2022",
-        "altitude": "354",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "354.00",
         "status": "Active"
     },
     {
         "NORAD": "52676",
         "name": "STARLINK-4006",
-        "launch_date": "18 May 2022",
-        "altitude": "380.4",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "380.40",
         "status": "Active"
     },
     {
         "NORAD": "52677",
         "name": "STARLINK-4028",
-        "launch_date": "18 May 2022",
-        "altitude": "353.5",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "353.50",
         "status": "Active"
     },
     {
         "NORAD": "52678",
         "name": "STARLINK-4074",
-        "launch_date": "18 May 2022",
-        "altitude": "354",
-        "status": "Active"
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "354.00",
+        "status": "Inactive"
     },
     {
         "NORAD": "52679",
         "name": "STARLINK-4031",
-        "launch_date": "18 May 2022",
-        "altitude": "353.1",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "353.10",
         "status": "Active"
     },
     {
         "NORAD": "52680",
         "name": "STARLINK-3774",
-        "launch_date": "18 May 2022",
-        "altitude": "353.9",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "353.90",
         "status": "Active"
     },
     {
         "NORAD": "52681",
         "name": "STARLINK-4068",
-        "launch_date": "18 May 2022",
-        "altitude": "352.6",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "352.60",
         "status": "Active"
     },
     {
         "NORAD": "52682",
         "name": "STARLINK-4017",
-        "launch_date": "18 May 2022",
-        "altitude": "353.4",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "353.40",
         "status": "Active"
     },
     {
         "NORAD": "52683",
         "name": "STARLINK-4039",
-        "launch_date": "18 May 2022",
-        "altitude": "352.7",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "352.70",
         "status": "Active"
     },
     {
         "NORAD": "52684",
         "name": "STARLINK-4014",
-        "launch_date": "18 May 2022",
-        "altitude": "353.1",
-        "status": "Active"
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "353.10",
+        "status": "Inactive"
     },
     {
         "NORAD": "52685",
         "name": "STARLINK-4029",
-        "launch_date": "18 May 2022",
-        "altitude": "352.3",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "352.30",
         "status": "Active"
     },
     {
         "NORAD": "52686",
         "name": "STARLINK-4005",
-        "launch_date": "18 May 2022",
-        "altitude": "352.8",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "352.80",
         "status": "Active"
     },
     {
         "NORAD": "52687",
         "name": "STARLINK-3981",
-        "launch_date": "18 May 2022",
-        "altitude": "352.1",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "352.10",
         "status": "Active"
     },
     {
         "NORAD": "52688",
         "name": "STARLINK-4032",
-        "launch_date": "18 May 2022",
-        "altitude": "352.6",
-        "status": "Active"
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "352.60",
+        "status": "Positioned"
     },
     {
         "NORAD": "52689",
         "name": "STARLINK-4078",
-        "launch_date": "18 May 2022",
-        "altitude": "351.9",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "351.90",
         "status": "Active"
     },
     {
         "NORAD": "52690",
         "name": "STARLINK-4035",
-        "launch_date": "18 May 2022",
-        "altitude": "352.6",
-        "status": "Active"
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "352.60",
+        "status": "Inactive"
     },
     {
         "NORAD": "52691",
         "name": "STARLINK-3945",
-        "launch_date": "18 May 2022",
-        "altitude": "351.6",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "351.60",
         "status": "Active"
     },
     {
         "NORAD": "52692",
         "name": "STARLINK-3993",
-        "launch_date": "18 May 2022",
-        "altitude": "351.8",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "351.80",
         "status": "Active"
     },
     {
         "NORAD": "52693",
         "name": "STARLINK-3946",
-        "launch_date": "18 May 2022",
-        "altitude": "351.3",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "351.30",
         "status": "Active"
     },
     {
         "NORAD": "52694",
         "name": "STARLINK-4072",
-        "launch_date": "18 May 2022",
-        "altitude": "351.9",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "351.90",
         "status": "Active"
     },
     {
         "NORAD": "52695",
         "name": "STARLINK-4041",
-        "launch_date": "18 May 2022",
-        "altitude": "351.1",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "351.10",
         "status": "Active"
     },
     {
         "NORAD": "52696",
         "name": "STARLINK-4025",
-        "launch_date": "18 May 2022",
-        "altitude": "351.5",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "351.50",
         "status": "Active"
     },
     {
         "NORAD": "52697",
         "name": "STARLINK-4018",
-        "launch_date": "18 May 2022",
-        "altitude": "351",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "351.00",
         "status": "Active"
     },
     {
         "NORAD": "52698",
         "name": "STARLINK-4030",
-        "launch_date": "18 May 2022",
-        "altitude": "351.3",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "351.30",
         "status": "Active"
     },
     {
         "NORAD": "52699",
         "name": "STARLINK-3987",
-        "launch_date": "18 May 2022",
-        "altitude": "350.5",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "350.50",
         "status": "Active"
     },
     {
         "NORAD": "52700",
         "name": "STARLINK-4034",
-        "launch_date": "18 May 2022",
-        "altitude": "351",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "351.00",
         "status": "Active"
     },
     {
         "NORAD": "52701",
         "name": "STARLINK-4003",
-        "launch_date": "18 May 2022",
-        "altitude": "350.4",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "350.40",
         "status": "Active"
     },
     {
         "NORAD": "52702",
         "name": "STARLINK-4033",
-        "launch_date": "18 May 2022",
-        "altitude": "350.8",
-        "status": "Active"
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "350.80",
+        "status": "Decommissioned"
     },
     {
         "NORAD": "52703",
         "name": "STARLINK-4020",
-        "launch_date": "18 May 2022",
-        "altitude": "350.2",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "350.20",
         "status": "Active"
     },
     {
         "NORAD": "52704",
         "name": "STARLINK-3999",
-        "launch_date": "18 May 2022",
-        "altitude": "350.5",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "350.50",
         "status": "Active"
     },
     {
         "NORAD": "52705",
         "name": "STARLINK-3844",
-        "launch_date": "18 May 2022",
-        "altitude": "350.2",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "350.20",
         "status": "Active"
     },
     {
         "NORAD": "52706",
         "name": "STARLINK-3970",
-        "launch_date": "18 May 2022",
-        "altitude": "350.2",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "350.20",
         "status": "Active"
     },
     {
         "NORAD": "52707",
         "name": "STARLINK-4007",
-        "launch_date": "18 May 2022",
-        "altitude": "349.9",
-        "status": "Active"
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "349.90",
+        "status": "Inactive"
     },
     {
         "NORAD": "52708",
         "name": "STARLINK-3962",
-        "launch_date": "18 May 2022",
-        "altitude": "350",
+        "launch_date": "2022-05-17 18:00:00",
+        "altitude": "350.00",
         "status": "Active"
     }
 ]

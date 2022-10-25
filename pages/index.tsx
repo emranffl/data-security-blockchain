@@ -53,6 +53,9 @@ export interface NodeDataSet {
   id: string
   label: string
   shape: string
+  image?: { unselected: string }
+  imagePadding?: number
+  shapeProperties?: { useBorderWithImage: boolean }
   group: ground_station_info_status,
   color: { background: string }
 }
@@ -68,7 +71,7 @@ export interface EdgeDataSet {
   }
 }
 
-export async function getServerSideProps() {
+export const getServerSideProps = async () => {
   let nodes: NodeDataSet[] = [], edges: EdgeDataSet[] = [],
     satelliteNodeLimit = randomInRange(MIN_SATELLITE_NODE, MAX_SATELLITE_NODE),
     groundStationNodeLimit = randomInRange(MIN_GROUND_STATION_NODE, MAX_GROUND_STATION_NODE),
@@ -86,7 +89,14 @@ export async function getServerSideProps() {
     nodes.push({
       id: sat.NORAD,
       label: sat.name,
-      shape: "box",
+      shape: "image",
+      image: {
+        unselected: "/satellite.png",
+      },
+      imagePadding: 5,
+      shapeProperties: {
+        useBorderWithImage: true,
+      },
       group: sat.status,
       color: {
         background: NODE_COLOR[sat.status],
@@ -101,7 +111,12 @@ export async function getServerSideProps() {
     nodes.push({
       id: gs.id,
       label: gs.name,
-      shape: "circle",
+      shape: "circularImage",
+      image: { unselected: "/ground-station.png" },
+      imagePadding: 3,
+      shapeProperties: {
+        useBorderWithImage: true,
+      },
       group: gs.status,
       color: {
         background: NODE_COLOR[gs.status],
@@ -405,7 +420,10 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
 
                   </div>
 
-                </fieldset> :
+                </fieldset> : null}
+
+
+              {selectedNodeType == "GS" ?
                 <fieldset className="animate__animated animate__fadeIn animate__slow">
 
                   <div className="grid md:grid-cols-2 md:gap-x-3">
@@ -545,7 +563,7 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
 
                   </div>
 
-                </fieldset>}
+                </fieldset> : null}
 
               <fieldset>
 
@@ -602,16 +620,26 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
 
                   // node & edge data collection
                   let nodeData: NodeDataSet = {
-                    id: selectedNodeType == "Sat" ? dbData.satellite_info.NORAD : dbData.ground_station_info.id,
-                    label: selectedNodeType == "Sat" ? dbData.satellite_info.name : dbData.ground_station_info.name,
-                    shape: selectedNodeType == "Sat" ? "box" : "circle",
-                    group: selectedNodeType == "Sat" ? dbData.satellite_info.status : dbData.ground_station_info.status,
+                    id: selectedNodeType == "Sat" ?
+                      dbData.satellite_info.NORAD : dbData.ground_station_info.id,
+                    label: selectedNodeType == "Sat" ?
+                      dbData.satellite_info.name : dbData.ground_station_info.name,
+                    shape: selectedNodeType == "Sat" ?
+                      "image" : "circularImage",
+                    image: {
+                      unselected: selectedNodeType == "Sat" ?
+                        "/satellite.png" : "/ground-station.png"
+                    },
+                    imagePadding: selectedNodeType == "Sat" ? 5 : 3,
+                    group: selectedNodeType == "Sat" ?
+                      dbData.satellite_info.status : dbData.ground_station_info.status,
                     color: { background: "#7AB8BF" }
                   },
                     edgeData: EdgeDataSet = {
                       arrows: 'to',
                       dashes: true,
-                      from: selectedNodeType == "Sat" ? dbData.satellite_info.NORAD : dbData.ground_station_info.id,
+                      from: selectedNodeType == "Sat" ?
+                        dbData.satellite_info.NORAD : dbData.ground_station_info.id,
                       to: $('#selectNodeConnect').val() as string,
                       color: {
                         color: "#889C9B",
@@ -620,10 +648,8 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
                     }
 
                   //* add node & edge to the network
-                  // setNetworkNodes([...networkNodesState, nodeData])
-                  // setNetworkEdges([...networkEdgesState, edgeData])
-
-                  // console.log(dbData, nodeData, edgeData)
+                  setNetworkNodes([...networkNodesState, nodeData])
+                  setNetworkEdges([...networkEdgesState, edgeData])
 
                   // submit data to server
                   await fetch(Links.API.post.addnewnode, {
@@ -632,13 +658,19 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
                       'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                      nodeCategory: selectedNodeType == "Sat" ? "satellite" : "ground_station",
-                      nodeData: selectedNodeType == "Sat" ? dbData.satellite_info : dbData.ground_station_info
+                      nodeCategory: selectedNodeType == "Sat" ?
+                        "satellite" : selectedNodeType == "GS" ? "ground_station" : "Unknown",
+                      nodeData: selectedNodeType == "Sat" ?
+                        dbData.satellite_info : dbData.ground_station_info
                     })
                   })
                     .then(async serverResponse => {
                       let responseData = await serverResponse.json()
 
+
+                      // on connection success
+
+                      // on connection failure
                       console.log(serverResponse, responseData)
 
                       //* display errors on server side validation

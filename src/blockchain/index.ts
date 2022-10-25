@@ -1,15 +1,15 @@
 import * as crypto from 'crypto'
 
 
-const BLOCK_MINING_DIFFICULTY = 3
+const BLOCK_MINING_DIFFICULTY = 0
 
 
-type TransactionDataType = {
+interface TransactionDataType {
     name: string,
     type: 'Satellite' | 'Ground Station' | 'Phased Array Antenna' | string,
     uuid: string, // unique identifier for devices such as serial number/NORAD ID
     status: 'Positioned' | 'Active' | 'Inactive' | 'Decommissioned'
-} | string
+}
 
 /**
  * Data & connectivity details between two nodes.
@@ -19,7 +19,7 @@ type TransactionDataType = {
  */
 class Transaction {
     constructor(
-        public transactionData: TransactionDataType,
+        public transactionData: TransactionDataType | string,
         public connectingNodePublicKey: string,
         public networkNodePublicKey: string,
     ) { }
@@ -98,7 +98,7 @@ class Chain {
                             'connecting_genesis_node_public_key_null',
                             'network_genesis_node_public_key_null',
                         ),
-                        'proceeding_genesis_block_hash_null',
+                        'preceding_genesis_block_hash_null',
                         0,
                         'current_genesis_block_hash_null'
                     )
@@ -109,7 +109,7 @@ class Chain {
 
                 return genesisBlock
             })()
-        ]   
+        ]
     }
 
     /**

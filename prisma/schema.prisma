@@ -62,6 +62,7 @@ enum blockchain_status {
 }
 
 enum blockchain_type {
+  genesis_block        @map("genesis block")
   Satellite
   Ground_Station       @map("Ground Station")
   Phased_Array_Antenna @map("Phased Array Antenna")
