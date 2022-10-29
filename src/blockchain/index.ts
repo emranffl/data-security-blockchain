@@ -199,15 +199,15 @@ class Wallet {
     public publicKey: string
     public privateKey: string
 
-    constructor() {
+    constructor(private_key = null, public_key = null) {
         const keyPair = crypto.generateKeyPairSync('rsa', {
             modulusLength: 2048,
             publicKeyEncoding: { type: 'spki', format: 'pem' },
             privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
         })
 
-        this.privateKey = keyPair.privateKey
-        this.publicKey = keyPair.publicKey
+        this.privateKey = private_key ?? keyPair.privateKey
+        this.publicKey = public_key ?? keyPair.publicKey
     }
 
     createORupdateLink(linkData: TransactionDataType, networkNodePublicKey: typeof Wallet.prototype.publicKey) {

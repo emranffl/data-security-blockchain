@@ -5,10 +5,12 @@ import { Chain, Wallet } from './index.js'
 const prisma = new PrismaClient(),
     initiateBlockchain = async () => {
 
-        const sat = await prisma.satellite_info.findMany({}),
-            gs = await prisma.ground_station_info.findMany({})
+        const sat = await prisma.satellite_info.findMany({ take: 5 }),
+            gs = await prisma.ground_station_info.findMany({ take: 5 }),
+            dishy = await prisma.dishy_info.findMany({ take: 5 }),
+            mobile = await prisma.mobile_info.findMany({})
 
-        let nodes = [...sat, ...gs], blockchainDBFormat = []
+        let nodes = [...sat, ...gs, ...dishy], blockchainDBFormat = []
 
         // sort nodes by date-time in ascending order
         nodes = nodes.sort((firstElem, secondElem) => {
@@ -24,28 +26,64 @@ const prisma = new PrismaClient(),
         })
 
         // create blocks from sorted nodes
-        nodes.map((node, index) => {
+        nodes.map(async (node, index) => {
 
-            let networkNodePublicKey = '',
+            let networkNodePublicKey = Chain.instance.chain[0].transaction.networkNodePublicKey,
                 nodeWallet = new Wallet(), t = 1
+
+            if (node.device_type === 'Satellite') {
+                await prisma.satellite_info.update({
+                    where: {
+                        NORAD: node.NORAD
+                    },
+                    data: {
+                        private_key: nodeWallet.privateKey,
+                        public_key: nodeWallet.publicKey
+                    }
+                })
+            }
+
+            if (node.device_type === 'Ground_Station') {
+                await prisma.ground_station_info.update({
+                    where: {
+                        id: node.id
+                    },
+                    data: {
+                        private_key: nodeWallet.privateKey,
+                        public_key: nodeWallet.publicKey
+                    }
+                })
+            }
+
+            if (node.device_type === 'Phased_Array_Antenna') {
+                await prisma.dishy_info.update({
+                    where: {
+                        id: node.id
+                    },
+                    data: {
+                        private_key: nodeWallet.privateKey,
+                        public_key: nodeWallet.publicKey
+                    }
+                })
+            }
 
             for (let status of ['Positioned', 'Active', 'Inactive', 'Decommissioned']) {
 
                 // network nodes public key randomization to connect to any node
-                let activeNodes = Chain.instance.chain.filter(
-                    (block, index) => index != 0 && block.transaction.transactionData.status == 'Active'
-                )
+                // let activeNodes = Chain.instance.chain.filter(
+                //     (block, index) => index != 0 && block.transaction.transactionData.status == 'Active'
+                // )
 
-                networkNodePublicKey =
-                    activeNodes.length == 0 ?
-                        Chain.instance.chain[Chain.instance.chain.length - 1].transaction.connectingNodePublicKey + t++
-                        : activeNodes[Math.floor(Math.random() * activeNodes.length)].transaction.connectingNodePublicKey
+                // networkNodePublicKey =
+                //     activeNodes.length == 0 ?
+                //         Chain.instance.chain[Chain.instance.chain.length - 1].transaction.connectingNodePublicKey + t++
+                //         : activeNodes[Math.floor(Math.random() * activeNodes.length)].transaction.connectingNodePublicKey
 
 
 
                 nodeWallet.createORupdateLink({
-                    name: node.name,
-                    type: node.NORAD ? "Satellite" : node.id ? "Ground_Station" : "Unknown",
+                    name: node.name ?? node.id,
+                    type: node.device_type.replace(/ /g, '_'),
                     uuid: node.NORAD && node.NORAD.toString() || node.id && node.id.toString() || "Unknown",
                     status: status
                 }, networkNodePublicKey)
@@ -53,7 +91,6 @@ const prisma = new PrismaClient(),
                 if (node.status == status) break
 
             }
-
 
         })
 

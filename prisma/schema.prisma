@@ -14,6 +14,9 @@ model satellite_info {
   launch_date DateTime              @default(now()) @db.DateTime(0)
   altitude    Decimal?              @db.Decimal(10, 2)
   status      satellite_info_status @default(Positioned)
+  device_type String                @default("Satellite") @db.Char(15)
+  public_key  String?               @db.Text
+  private_key String?               @db.Text
 }
 
 model ground_station_info {
@@ -23,6 +26,9 @@ model ground_station_info {
   latitude       Decimal                    @db.Decimal(10, 5)
   longitude      Decimal                    @db.Decimal(10, 5)
   status         ground_station_info_status @default(Positioned)
+  device_type    String                     @default("Ground Station") @db.Char(15)
+  public_key     String?                    @db.Text
+  private_key    String?                    @db.Text
 }
 
 model blockchain {
@@ -38,6 +44,29 @@ model blockchain {
   attempt                 Int               @db.UnsignedInt
   transactionDate         DateTime          @db.Timestamp(0)
   nonce                   Int               @db.UnsignedInt
+}
+
+model dishy_info {
+  id             String            @id @db.Char(10)
+  type           dishy_info_type
+  placement_date DateTime          @default(now()) @db.DateTime(0)
+  latitude       Decimal           @db.Decimal(10, 5)
+  longitude      Decimal           @db.Decimal(10, 5)
+  status         dishy_info_status @default(Positioned)
+  device_type    String            @default("Phased Array Antenna") @db.Char(30)
+  public_key     String?           @db.Text
+  private_key    String?           @db.Text
+}
+
+model mobile_info {
+  IMEI              String             @id @db.Char(15)
+  name              String             @db.VarChar(255)
+  brand             String             @db.VarChar(255)
+  registration_date DateTime           @default(now()) @db.DateTime(0)
+  status            mobile_info_status @default(Registered)
+  device_type       String             @default("Mobile") @db.Char(15)
+  public_key        String?            @db.Text
+  private_key       String?            @db.Text
 }
 
 enum satellite_info_status {
@@ -66,4 +95,23 @@ enum blockchain_type {
   Satellite
   Ground_Station       @map("Ground Station")
   Phased_Array_Antenna @map("Phased Array Antenna")
+  Mobile
+}
+
+enum dishy_info_type {
+  Standard
+  High_Performance      @map("High Performance")
+  Flat_High_Performance @map("Flat High Performance")
+}
+
+enum dishy_info_status {
+  Positioned
+  Active
+  Inactive
+  Decommissioned
+}
+
+enum mobile_info_status {
+  Registered
+  Compromised
 }

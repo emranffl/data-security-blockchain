@@ -170,14 +170,16 @@ exports.Chain = Chain;
  * It acts as a digital address for the nodes.
  */
 var Wallet = /** @class */ (function () {
-    function Wallet() {
+    function Wallet(private_key, public_key) {
+        if (private_key === void 0) { private_key = null; }
+        if (public_key === void 0) { public_key = null; }
         var keyPair = crypto.generateKeyPairSync('rsa', {
             modulusLength: 2048,
             publicKeyEncoding: { type: 'spki', format: 'pem' },
             privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
         });
-        this.privateKey = keyPair.privateKey;
-        this.publicKey = keyPair.publicKey;
+        this.privateKey = private_key !== null && private_key !== void 0 ? private_key : keyPair.privateKey;
+        this.publicKey = public_key !== null && public_key !== void 0 ? public_key : keyPair.publicKey;
     }
     Wallet.prototype.createORupdateLink = function (linkData, networkNodePublicKey) {
         // throw error if linking to itself
