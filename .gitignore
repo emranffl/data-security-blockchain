@@ -20,6 +20,7 @@
 *.pem
 **/test.*
 .env
+/.vscode/
 
 # debug
 npm-debug.log*

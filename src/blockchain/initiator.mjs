@@ -1,37 +1,35 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, satellite_info_status, mobile_info_status } from '@prisma/client'
 import flatten from 'flat'
 import { Chain, Wallet } from './index.js'
 
 const prisma = new PrismaClient(),
     initiateBlockchain = async () => {
 
-        const sat = await prisma.satellite_info.findMany({ take: 5 }),
-            gs = await prisma.ground_station_info.findMany({ take: 5 }),
-            dishy = await prisma.dishy_info.findMany({ take: 5 }),
-            mobile = await prisma.mobile_info.findMany({})
+        const sat = await prisma.satellite_info.findMany({ orderBy: { launch_date: 'asc' }, /*take:5*/ }),
+            gs = await prisma.ground_station_info.findMany({ orderBy: { placement_date: 'asc' }, /*take:5*/ }),
+            dishy = await prisma.dishy_info.findMany({ orderBy: { placement_date: 'asc' }, /*take:5*/ }),
+            mobile = await prisma.mobile_info.findMany({ orderBy: { registration_date: 'asc' }, /*take:5*/ })
 
-        let nodes = [...sat, ...gs, ...dishy], blockchainDBFormat = []
+        let nodes = [...sat, ...gs, ...dishy, ...mobile],
+            blockchainDBFormat = [],
+            networkNodePublicKey = Chain.instance.chain[0].transaction.networkNodePublicKey
 
-        // sort nodes by date-time in ascending order
+        //* sort nodes by date-time in ascending order
         nodes = nodes.sort((firstElem, secondElem) => {
-            if (firstElem.launch_date && secondElem.launch_date) {
-                return firstElem.launch_date - secondElem.launch_date
-            } else if (firstElem.launch_date && secondElem.placement_date) {
-                return firstElem.launch_date - secondElem.placement_date
-            } else if (firstElem.placement_date && secondElem.launch_date) {
-                return firstElem.placement_date - secondElem.launch_date
-            } else if (firstElem.placement_date && secondElem.placement_date) {
-                return firstElem.placement_date - secondElem.placement_date
-            }
+            return firstElem[firstElem['launch_date'] ? 'launch_date' :
+                firstElem['placement_date'] ? 'placement_date' :
+                    'registration_date'] -
+                secondElem[secondElem['launch_date'] ? 'launch_date' :
+                    secondElem['placement_date'] ? 'placement_date' :
+                        'registration_date']
         })
 
-        // create blocks from sorted nodes
         nodes.map(async (node, index) => {
 
-            let networkNodePublicKey = Chain.instance.chain[0].transaction.networkNodePublicKey,
-                nodeWallet = new Wallet(), t = 1
+            let nodeWallet = new Wallet()
 
-            if (node.device_type === 'Satellite') {
+            // updating public-private keys
+            if (node.device_type == 'Satellite') {
                 await prisma.satellite_info.update({
                     where: {
                         NORAD: node.NORAD
@@ -43,7 +41,7 @@ const prisma = new PrismaClient(),
                 })
             }
 
-            if (node.device_type === 'Ground_Station') {
+            if (node.device_type == 'Ground_Station') {
                 await prisma.ground_station_info.update({
                     where: {
                         id: node.id
@@ -55,7 +53,7 @@ const prisma = new PrismaClient(),
                 })
             }
 
-            if (node.device_type === 'Phased_Array_Antenna') {
+            if (node.device_type == 'Phased_Array_Antenna') {
                 await prisma.dishy_info.update({
                     where: {
                         id: node.id
@@ -67,24 +65,25 @@ const prisma = new PrismaClient(),
                 })
             }
 
-            for (let status of ['Positioned', 'Active', 'Inactive', 'Decommissioned']) {
+            if (node.device_type == 'Mobile') {
+                await prisma.mobile_info.update({
+                    where: {
+                        IMEI: node.IMEI
+                    },
+                    data: {
+                        private_key: nodeWallet.privateKey,
+                        public_key: nodeWallet.publicKey
+                    }
+                })
+            }
 
-                // network nodes public key randomization to connect to any node
-                // let activeNodes = Chain.instance.chain.filter(
-                //     (block, index) => index != 0 && block.transaction.transactionData.status == 'Active'
-                // )
-
-                // networkNodePublicKey =
-                //     activeNodes.length == 0 ?
-                //         Chain.instance.chain[Chain.instance.chain.length - 1].transaction.connectingNodePublicKey + t++
-                //         : activeNodes[Math.floor(Math.random() * activeNodes.length)].transaction.connectingNodePublicKey
-
-
+            //* create blocks from sorted nodes
+            for (let status of Object.values(node.device_type != 'Mobile' ? satellite_info_status : mobile_info_status)) {
 
                 nodeWallet.createORupdateLink({
-                    name: node.name ?? node.id,
+                    name: node.name ?? node.id /* for dishy */,
                     type: node.device_type.replace(/ /g, '_'),
-                    uuid: node.NORAD && node.NORAD.toString() || node.id && node.id.toString() || "Unknown",
+                    uuid: node.NORAD && node.NORAD.toString() || node.IMEI && node.IMEI.toString() || node.id && node.id.toString(),
                     status: status
                 }, networkNodePublicKey)
 
@@ -94,6 +93,8 @@ const prisma = new PrismaClient(),
 
         })
 
+
+        //* format chain to DB storage format
         Chain.instance.chain.map((block, index) => {
 
             blockchainDBFormat.push(flatten(block, {
@@ -103,6 +104,7 @@ const prisma = new PrismaClient(),
             }))
         })
 
+        //* store blockchain in DB
         try {
             await prisma.blockchain.createMany({
                 data: blockchainDBFormat
@@ -114,9 +116,9 @@ const prisma = new PrismaClient(),
     resetBlockchain = async () => {
         Chain.instance.chain.length = 1
 
-        if (await prisma.blockchain.count() != 0) {
+        if (await prisma.blockchain.count() != 0)
             await prisma.blockchain.deleteMany()
-        }
+
     }
 
 await resetBlockchain()
