@@ -2,7 +2,7 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import { useEffect, useState } from "react"
 import prisma from "@functionalities/DB/prismainstance"
-import { satellite_info_status, ground_station_info_status } from "@prisma/client"
+import { satellite_info_status, ground_station_info_status, mobile_info_status } from "@prisma/client"
 import { shuffle } from "@functionalities/shufflearray"
 import $ from "jquery"
 import { Network } from "vis-network"
@@ -47,9 +47,14 @@ const
   MIN_SATELLITE_NODE = 20,
   MAX_SATELLITE_NODE = 70,
   MIN_GROUND_STATION_NODE = Math.ceil(MIN_SATELLITE_NODE * (7 / 30)),
-  MAX_GROUND_STATION_NODE = Math.ceil(MAX_SATELLITE_NODE * (7 / 30))
+  MAX_GROUND_STATION_NODE = Math.ceil(MAX_SATELLITE_NODE * (7 / 30)),
+  MIN_DISHY_NODE = Math.ceil(MIN_SATELLITE_NODE * (3 / 30)),
+  MAX_DISHY_NODE = Math.ceil(MAX_SATELLITE_NODE * (3 / 7)),
+  MIN_MOBILE_NODE = Math.ceil(MIN_SATELLITE_NODE * (20 / 30)),
+  MAX_MOBILE_NODE = Math.ceil(MAX_SATELLITE_NODE * (20 / 30))
 
 export interface NodeDataSet {
+  deviceType: 'satellite' | 'ground_station' | 'mobile' | 'dishy',
   id: string
   label: string
   shape: string
@@ -75,21 +80,26 @@ export const getServerSideProps = async () => {
   let nodes: NodeDataSet[] = [], edges: EdgeDataSet[] = [],
     satelliteNodeLimit = randomInRange(MIN_SATELLITE_NODE, MAX_SATELLITE_NODE),
     groundStationNodeLimit = randomInRange(MIN_GROUND_STATION_NODE, MAX_GROUND_STATION_NODE),
+    dishyNodeLimit = randomInRange(MIN_DISHY_NODE, MAX_DISHY_NODE),
+    mobileNodeLimit = randomInRange(MIN_MOBILE_NODE, MAX_MOBILE_NODE),
 
     //* data fetching from database 
-    [satelliteData, gs_data] = await prisma.$transaction([
+    [satelliteData, gs_data, dishy_data, mobile_data] = await prisma.$transaction([
       prisma.satellite_info.findMany({ take: satelliteNodeLimit, skip: randomInRange(0, 50) }),
-      prisma.ground_station_info.findMany({ take: groundStationNodeLimit, skip: randomInRange(0, 20) })
+      prisma.ground_station_info.findMany({ take: groundStationNodeLimit, skip: randomInRange(0, 20) }),
+      prisma.dishy_info.findMany({ take: dishyNodeLimit, skip: randomInRange(0, 50) }),
+      prisma.mobile_info.findMany({ take: mobileNodeLimit, skip: randomInRange(0, 20) })
     ])
 
 
-  //? satellite constellation data
+  //? satellite constellation node data
   satelliteData.forEach((sat, index) => {
 
     nodes.push({
+      deviceType: "satellite",
       id: sat.NORAD,
       label: sat.name,
-      shape: "image",
+      shape: "circularImage",
       image: {
         unselected: "/satellite.png",
       },
@@ -105,10 +115,11 @@ export const getServerSideProps = async () => {
 
   })
 
-  //? ground station data 
+  //? ground station node data 
   gs_data.forEach((gs, index) => {
 
     nodes.push({
+      deviceType: "ground_station",
       id: gs.id,
       label: gs.name,
       shape: "circularImage",
@@ -120,6 +131,51 @@ export const getServerSideProps = async () => {
       group: gs.status,
       color: {
         background: NODE_COLOR[gs.status],
+      },
+    })
+
+  })
+
+  //? dishy dnode ata
+  dishy_data.forEach((dishy, index) => {
+
+    nodes.push({
+      deviceType: "dishy",
+      id: dishy.id,
+      label: 'PAA-' + dishy.id,
+      shape: "image",
+      image: {
+        unselected: "/dishy.png",
+      },
+      imagePadding: 5,
+      shapeProperties: {
+        useBorderWithImage: true,
+      },
+      group: dishy.status,
+      color: {
+        background: NODE_COLOR[dishy.status],
+      },
+    })
+
+  })
+
+  mobile_data.forEach((mobile, index) => {
+
+    nodes.push({
+      deviceType: "mobile",
+      id: mobile.IMEI,
+      label: mobile.name,
+      shape: "image",
+      image: {
+        unselected: "/mobile.png",
+      },
+      imagePadding: 5,
+      shapeProperties: {
+        useBorderWithImage: true,
+      },
+      group: mobile.status == mobile_info_status.Registered ? 'Active' : 'Inactive',
+      color: {
+        background: mobile.status == mobile_info_status.Registered ? NODE_COLOR['Active'] : NODE_COLOR['Inactive'],
       },
     })
 
@@ -581,7 +637,7 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
                       <option value="" hidden>Select Node...</option>
                       {
                         Object.values(networkNodesState).map(
-                          (key, index) => <option key={index} value={key.id}>{key.label}</option>
+                          (key, index) => <option key={index} data-device-type={key.deviceType} value={key.id}>{key.label}</option>
                         )
                       }
                     </select>
@@ -600,7 +656,11 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
                     [key: string]: { [key: string]: any }
                   } = {
                     satellite_info: {},
-                    ground_station_info: {}
+                    ground_station_info: {},
+                    connect_to: {
+                      device_type: $('#selectNodeConnect').attr('data-device-type'),
+                      device_id: $('#selectNodeConnect').val(),
+                    }
                   }, dbDataTarget = $("input[data-category=satellite_info], select[data-category=satellite_info], input[data-category=ground_station_info], select[data-category=ground_station_info]")
 
                   //* db table data collection upon validation
@@ -620,6 +680,7 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
 
                   // node & edge data collection
                   let nodeData: NodeDataSet = {
+                    deviceType: selectedNodeType == "Sat" ? "satellite" : "ground_station",
                     id: selectedNodeType == "Sat" ?
                       dbData.satellite_info.NORAD : dbData.ground_station_info.id,
                     label: selectedNodeType == "Sat" ?
@@ -651,7 +712,7 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
                   setNetworkNodes([...networkNodesState, nodeData])
                   setNetworkEdges([...networkEdgesState, edgeData])
 
-                  // submit data to server
+                  //* submit data to server
                   await fetch(Links.API.post.addnewnode, {
                     method: 'POST',
                     headers: {
@@ -661,7 +722,8 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
                       nodeCategory: selectedNodeType == "Sat" ?
                         "satellite" : selectedNodeType == "GS" ? "ground_station" : "Unknown",
                       nodeData: selectedNodeType == "Sat" ?
-                        dbData.satellite_info : dbData.ground_station_info
+                        dbData.satellite_info : dbData.ground_station_info,
+                      connectToDevice: dbData.connect_to
                     })
                   })
                     .then(async serverResponse => {

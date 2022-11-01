@@ -183,7 +183,10 @@ class Chain {
             newBlock.currentHash = this.mine(newBlock.nonce, newBlock)
 
             this.chain.push(newBlock)
-        }
+
+            return newBlock
+        } else
+            throw new Error('Invalid signature!')
     }
 
     toString() {
@@ -199,7 +202,7 @@ class Wallet {
     public publicKey: string
     public privateKey: string
 
-    constructor(private_key = null, public_key = null) {
+    constructor(public_key: string | null = null, private_key: string | null = null) {
         const keyPair = crypto.generateKeyPairSync('rsa', {
             modulusLength: 2048,
             publicKeyEncoding: { type: 'spki', format: 'pem' },
@@ -212,34 +215,17 @@ class Wallet {
 
     createORupdateLink(linkData: TransactionDataType, networkNodePublicKey: typeof Wallet.prototype.publicKey) {
         // throw error if linking to itself
-        if (networkNodePublicKey == this.publicKey) throw new Error('Cannot link to self')
+        if (networkNodePublicKey == this.publicKey) throw new Error('Cannot link to self! Provided public key is of the same node.')
 
         const transaction = new Transaction(linkData, this.publicKey, networkNodePublicKey),
             signature = crypto.createSign('SHA256')
 
         signature.update(transaction.toString()).end()
 
-        Chain.instance.addBlock(transaction, this.publicKey, signature.sign(this.privateKey))
+        return Chain.instance.addBlock(transaction, this.publicKey, signature.sign(this.privateKey))
     }
 }
 
 
 export { Chain, Wallet }
 export type { TransactionDataType }
-
-// //* example usage
-
-// const john = new Wallet()
-// const wick = new Wallet()
-// const bob = new Wallet()
-// const alice = new Wallet()
-
-// try {
-
-//     john.createORupdateLink({ name: 'STARLINK-4586', status: 'Active', type: 'Satellite', uuid: '2022-104BA' }, bob.publicKey)
-//     bob.createORupdateLink({ name: 'STARLINK-4587', status: 'Active', type: 'Satellite', uuid: '2022-104AZ' }, alice.publicKey)
-//     alice.createORupdateLink({ name: 'STARLINK-4592', status: 'Active', type: 'Satellite', uuid: '2022-104AY' }, wick.publicKey)
-//     // wick.createORupdateLink({ name: 'STARLINK-4599', status: 'Active', type: 'Satellite', uuid: '2022-104AV' }, wick.publicKey)
-// } catch (error) {
-//     console.error(error)
-// }

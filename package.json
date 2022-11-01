@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "init": "node ./src/blockchain/initiator.mjs"
+    "init": "node ./src/blockchain/initiator.mjs",
+    "build-blockchain": "npx tsc ./src/blockchain/index.ts"
   },
   "dependencies": {
     "@prisma/client": "^4.3.1",

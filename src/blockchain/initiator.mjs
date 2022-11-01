@@ -10,7 +10,10 @@ const prisma = new PrismaClient(),
             dishy = await prisma.dishy_info.findMany({ orderBy: { placement_date: 'asc' }, /*take:5*/ }),
             mobile = await prisma.mobile_info.findMany({ orderBy: { registration_date: 'asc' }, /*take:5*/ })
 
-        let nodes = [...sat, ...gs, ...dishy, ...mobile],
+        let nodes = [
+            ...sat, ...mobile,
+            ...gs, ...dishy
+        ],
             blockchainDBFormat = [],
             networkNodePublicKey = Chain.instance.chain[0].transaction.networkNodePublicKey
 
@@ -23,7 +26,7 @@ const prisma = new PrismaClient(),
                     secondElem['placement_date'] ? 'placement_date' :
                         'registration_date']
         })
-
+        let c = 0
         nodes.map(async (node, index) => {
 
             let nodeWallet = new Wallet()
@@ -87,10 +90,11 @@ const prisma = new PrismaClient(),
                     status: status
                 }, networkNodePublicKey)
 
+                // console.log(Chain.instance.chain[++c].transaction.transactionData, c)
+
                 if (node.status == status) break
 
             }
-
         })
 
 
@@ -103,6 +107,8 @@ const prisma = new PrismaClient(),
                 }
             }))
         })
+
+        console.log(Chain.instance.chain.length, blockchainDBFormat.length)
 
         //* store blockchain in DB
         try {

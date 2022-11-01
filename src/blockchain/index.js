@@ -192,16 +192,3 @@ var Wallet = /** @class */ (function () {
     return Wallet;
 }());
 exports.Wallet = Wallet;
-// //* example usage
-// const john = new Wallet()
-// const wick = new Wallet()
-// const bob = new Wallet()
-// const alice = new Wallet()
-// try {
-//     john.createORupdateLink({ name: 'STARLINK-4586', status: 'Active', type: 'Satellite', uuid: '2022-104BA' }, bob.publicKey)
-//     bob.createORupdateLink({ name: 'STARLINK-4587', status: 'Active', type: 'Satellite', uuid: '2022-104AZ' }, alice.publicKey)
-//     alice.createORupdateLink({ name: 'STARLINK-4592', status: 'Active', type: 'Satellite', uuid: '2022-104AY' }, wick.publicKey)
-//     // wick.createORupdateLink({ name: 'STARLINK-4599', status: 'Active', type: 'Satellite', uuid: '2022-104AV' }, wick.publicKey)
-// } catch (error) {
-//     console.error(error)
-// }
