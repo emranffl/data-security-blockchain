@@ -45,7 +45,7 @@ const
   },
   GRAPH_DENSITY_LEVEL: number = 1,
   MIN_SATELLITE_NODE = 20,
-  MAX_SATELLITE_NODE = 70,
+  MAX_SATELLITE_NODE = 70 / 2,
   MIN_GROUND_STATION_NODE = Math.ceil(MIN_SATELLITE_NODE * (7 / 30)),
   MAX_GROUND_STATION_NODE = Math.ceil(MAX_SATELLITE_NODE * (7 / 30)),
   MIN_DISHY_NODE = Math.ceil(MIN_SATELLITE_NODE * (3 / 30)),
@@ -136,7 +136,7 @@ export const getServerSideProps = async () => {
 
   })
 
-  //? dishy dnode ata
+  //? dishy node data
   dishy_data.forEach((dishy, index) => {
 
     nodes.push({
@@ -191,61 +191,98 @@ export const getServerSideProps = async () => {
   //* connecting nodes based on groups 
   Object.values(ground_station_info_status).forEach((currentStatusInLoop) => {
 
-    //? filter nodes based on groups
-    let filteredNodes = shuffle(nodes.filter((node) => { return node.group == currentStatusInLoop }) as []) as typeof nodes
 
-    nodeCount[currentStatusInLoop] = filteredNodes.length
 
-    filteredNodes.forEach((node, index) => {
 
-      if (node.group == "Active") {
+    if (currentStatusInLoop == "Active") {
 
-        if (index != filteredNodes.length - 1) {
+      //? filter nodes based on device types
+      let [satelliteData, groundStationData, dishyData, mobileData] = [
+        shuffle(nodes.filter((node) => { return node.deviceType == 'satellite' && node.group == 'Active' }) as []) as typeof nodes,
+        shuffle(nodes.filter((node) => { return node.deviceType == 'ground_station' && node.group == 'Active' }) as []) as typeof nodes,
+        shuffle(nodes.filter((node) => { return node.deviceType == 'dishy' && node.group == 'Active' }) as []) as typeof nodes,
+        shuffle(nodes.filter((node) => { return node.deviceType == 'mobile' && node.group == 'Active' }) as []) as typeof nodes
+      ]
+      nodeCount[currentStatusInLoop] = satelliteData.length + groundStationData.length + dishyData.length + mobileData.length
 
+      for (let [index, node] of Object.entries(shuffle(dishyData))) {
+
+        edges.push({
+          from: node.id,
+          to: (() => {
+            const x = shuffle(satelliteData)
+            return x[randomInRange(0, x.length - 1)].id
+          })(),
+          color: {
+            color: "#D92525",
+            highlight: "#8C1F28",
+          },
+        })
+
+      }
+
+      for (let [index, node] of Object.entries(shuffle(mobileData))) {
+        const x = shuffle(Math.random() * 77 % 3 == 0 ? satelliteData : groundStationData)
+
+        // if (edges.some((edge) => { return edge.from != x.id || edge.to != node.id }))
+        edges.push({
+          from: node.id,
+          to: (() => {
+            return x[randomInRange(0, x.length - 1)].id
+          })(),
+          color: {
+            color: "#D92525",
+            highlight: "#8C1F28",
+          },
+        })
+
+      }
+
+      const y = shuffle([...satelliteData, ...groundStationData])
+
+      for (let node of y.length > 0 ? y : []) { // implement y.len=0
+        let index = randomInRange(0, y.length - 1),
+          z = y[index]
+
+        if (node.id != z.id && edges.some((edge) => { return edge.from != node.id || edge.to != z.id }))
           edges.push({
             from: node.id,
-            to: filteredNodes[index + 1].id,
+            to: z.id,
             color: {
-              color: "#0CABA8",
-              highlight: "#015958"
+              color: "#D92525",
+              highlight: "#8C1F28",
             },
           })
 
-          // if (node.label.match('SL-GS'))
-          for (let checkLoopCount = 0; checkLoopCount < index; checkLoopCount++) {
-            const checkLoopNode = filteredNodes[checkLoopCount]
+        // check cluster logic
+        // if (edges.some((edge) => { return edge.from == z.id || edge.to == z.id }))
+        //   y.splice(index, 1)
+        // console.log(y.length)
 
-            if (
-              // checkLoopNode.label.match('SL-GS') &&
-              edges.every((edge) => { if (edge.from == checkLoopNode.id && edge.to == node.id) return false; return true }) &&
-              (randomInRange(0, 99) % ACTIVE_GRAPH_DENSITY[GRAPH_DENSITY_LEVEL] == 0)
-            )
-              edges.push({
-                from: node.id,
-                to: checkLoopNode.id,
-                color: {
-                  color: "#0CABA8",
-                  highlight: "#015958"
-                },
-              })
+      }
 
-          }
-        }
+    } else {
+      //? filter nodes based on groups
+      let filteredNodesByStatus = shuffle(nodes.filter((node) => { return node.group == currentStatusInLoop }) as []) as typeof nodes
 
-      } else {
-        if (index != filteredNodes.length - 1)
+      nodeCount[currentStatusInLoop] = filteredNodesByStatus.length
+
+      filteredNodesByStatus.forEach((node, index) => {
+
+        if (index != filteredNodesByStatus.length - 1)
           edges.push({
             from: node.id,
-            to: filteredNodes[index + 1].id,
+            to: (filteredNodesByStatus[index + 1] as NodeDataSet).id,
             dashes: true,
             color: {
               color: "#D92525",
               highlight: "#8C1F28"
             }
           })
-      }
 
-    })
+      })
+
+    }
 
   })
 

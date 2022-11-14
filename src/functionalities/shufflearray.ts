@@ -1,4 +1,6 @@
-export const shuffle = (array: []) => {
+import { NodeDataSet } from "@pages/index"
+
+export const shuffle = (array: [] | NodeDataSet[]) => {
     let arrLen = array.length, swapElement, currentElement
 
     // while elements remaining to shuffle
