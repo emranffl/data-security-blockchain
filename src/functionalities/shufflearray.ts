@@ -1,4 +1,4 @@
-import { NodeDataSet } from "@pages/index"
+import { NodeDataSet } from "src/pages/index"
 
 export const shuffle = (array: [] | NodeDataSet[]) => {
     let arrLen = array.length, swapElement, currentElement

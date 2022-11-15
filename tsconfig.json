@@ -23,15 +23,16 @@
 		],
 		"baseUrl": "./",
 		"paths": {
-			"@pages/*": ["pages/*"],
-			"@api/*": ["pages/api/*"],
+			"@pages/*": ["src/pages/*"],
+			"@api/*": ["src/pages/api/*"],
 			"@blockchain/*": ["src/blockchain/*"],
+			"@components/*": ["src/components/*"],
 			"@functionalities/*": ["src/functionalities/*"],
 			"@lib/*": ["src/lib/*"],
 			"@resources/*": ["src/resources/*"],
 			"@styles/*": ["src/styles/*"]
 		}
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/.template.tsx"],
 	"exclude": ["node_modules"]
 }

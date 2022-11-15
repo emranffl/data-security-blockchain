@@ -21,6 +21,7 @@
 **/test.*
 .env
 /.vscode/
+**/.template.*
 
 # debug
 npm-debug.log*

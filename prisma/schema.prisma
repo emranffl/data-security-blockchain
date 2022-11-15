@@ -46,18 +46,6 @@ model blockchain {
   nonce                   Int               @db.UnsignedInt
 }
 
-model dishy_info {
-  id             String            @id @db.Char(10)
-  type           dishy_info_type
-  placement_date DateTime          @default(now()) @db.DateTime(0)
-  latitude       Decimal           @db.Decimal(10, 5)
-  longitude      Decimal           @db.Decimal(10, 5)
-  status         dishy_info_status @default(Positioned)
-  device_type    String            @default("Phased Array Antenna") @db.Char(30)
-  public_key     String?           @db.Text
-  private_key    String?           @db.Text
-}
-
 model mobile_info {
   IMEI              String             @id @db.Char(15)
   name              String             @db.VarChar(255)
@@ -67,6 +55,19 @@ model mobile_info {
   device_type       String             @default("Mobile") @db.Char(15)
   public_key        String?            @db.Text
   private_key       String?            @db.Text
+}
+
+model phased_array_antenna_info {
+  id             String                           @id @db.Char(10)
+  name           String                           @db.VarChar(255)
+  type           phased_array_antenna_info_type
+  placement_date DateTime                         @default(now()) @db.DateTime(0)
+  latitude       Decimal                          @db.Decimal(10, 5)
+  longitude      Decimal                          @db.Decimal(10, 5)
+  status         phased_array_antenna_info_status @default(Positioned)
+  device_type    String                           @default("Phased Array Antenna") @db.Char(30)
+  public_key     String?                          @db.Text
+  private_key    String?                          @db.Text
 }
 
 enum satellite_info_status {
@@ -98,20 +99,20 @@ enum blockchain_type {
   Mobile
 }
 
-enum dishy_info_type {
+enum mobile_info_status {
+  Registered
+  Compromised
+}
+
+enum phased_array_antenna_info_type {
   Standard
   High_Performance      @map("High Performance")
   Flat_High_Performance @map("Flat High Performance")
 }
 
-enum dishy_info_status {
+enum phased_array_antenna_info_status {
   Positioned
   Active
   Inactive
   Decommissioned
-}
-
-enum mobile_info_status {
-  Registered
-  Compromised
 }

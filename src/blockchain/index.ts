@@ -6,7 +6,7 @@ const BLOCK_MINING_DIFFICULTY = 0
 
 interface TransactionDataType {
     name: string,
-    type: 'Satellite' | 'Ground Station' | 'Phased Array Antenna' | string,
+    type: 'Satellite' | 'Ground_Station' | 'Phased_Array_Antenna' | 'Mobile' | string,
     uuid: string, // unique identifier for devices such as serial number/NORAD ID
     status: 'Positioned' | 'Active' | 'Inactive' | 'Decommissioned'
 }
@@ -214,7 +214,7 @@ class Wallet {
     }
 
     createORupdateLink(linkData: TransactionDataType, networkNodePublicKey: typeof Wallet.prototype.publicKey) {
-        // throw error if linking to itself
+        //* throw error if linking to itself
         if (networkNodePublicKey == this.publicKey) throw new Error('Cannot link to self! Provided public key is of the same node.')
 
         const transaction = new Transaction(linkData, this.publicKey, networkNodePublicKey),

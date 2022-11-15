@@ -130,14 +130,14 @@ var Chain = /** @class */ (function () {
      */
     Chain.prototype.mine = function (nonce, blockData) {
         var attempt = 1, difficultyString = ''.padEnd(BLOCK_MINING_DIFFICULTY, '0');
-        console.log('mining - ⛏️  ⛏️  ⛏️');
+        // console.log('mining - ⛏️  ⛏️  ⛏️')
         while (true) {
             var hash = crypto.createHash('MD5');
             blockData.attempt = attempt;
             hash.update((nonce + attempt + blockData.toString()).toString()).end();
             var blockHash = hash.digest('hex');
             if (blockHash.substring(0, BLOCK_MINING_DIFFICULTY) === difficultyString) {
-                console.log("Solved '".concat(blockHash, "' on ").concat(attempt, " attempt\n\n"));
+                // console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
                 return blockHash;
             }
             attempt++;
@@ -155,7 +155,10 @@ var Chain = /** @class */ (function () {
             var newBlock = new Block(transaction, this.previousBlock.hash, this.previousBlock.blockDepth + 1);
             newBlock.currentHash = this.mine(newBlock.nonce, newBlock);
             this.chain.push(newBlock);
+            return newBlock;
         }
+        else
+            throw new Error('Invalid signature!');
     };
     Chain.prototype.toString = function () {
         return JSON.stringify(this);
@@ -170,9 +173,9 @@ exports.Chain = Chain;
  * It acts as a digital address for the nodes.
  */
 var Wallet = /** @class */ (function () {
-    function Wallet(private_key, public_key) {
-        if (private_key === void 0) { private_key = null; }
+    function Wallet(public_key, private_key) {
         if (public_key === void 0) { public_key = null; }
+        if (private_key === void 0) { private_key = null; }
         var keyPair = crypto.generateKeyPairSync('rsa', {
             modulusLength: 2048,
             publicKeyEncoding: { type: 'spki', format: 'pem' },
@@ -184,10 +187,10 @@ var Wallet = /** @class */ (function () {
     Wallet.prototype.createORupdateLink = function (linkData, networkNodePublicKey) {
         // throw error if linking to itself
         if (networkNodePublicKey == this.publicKey)
-            throw new Error('Cannot link to self');
+            throw new Error('Cannot link to self! Provided public key is of the same node.');
         var transaction = new Transaction(linkData, this.publicKey, networkNodePublicKey), signature = crypto.createSign('SHA256');
         signature.update(transaction.toString()).end();
-        Chain.instance.addBlock(transaction, this.publicKey, signature.sign(this.privateKey));
+        return Chain.instance.addBlock(transaction, this.publicKey, signature.sign(this.privateKey));
     };
     return Wallet;
 }());

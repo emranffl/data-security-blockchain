@@ -7,14 +7,23 @@ const prisma = new PrismaClient(),
 
         const sat = await prisma.satellite_info.findMany({ orderBy: { launch_date: 'asc' }, /*take:5*/ }),
             gs = await prisma.ground_station_info.findMany({ orderBy: { placement_date: 'asc' }, /*take:5*/ }),
-            dishy = await prisma.dishy_info.findMany({ orderBy: { placement_date: 'asc' }, /*take:5*/ }),
+            paa = await prisma.phased_array_antenna_info.findMany({ orderBy: { placement_date: 'asc' }, /*take:5*/ }),
             mobile = await prisma.mobile_info.findMany({ orderBy: { registration_date: 'asc' }, /*take:5*/ })
 
         let nodes = [
-            ...sat, ...mobile,
-            ...gs, ...dishy
+            // ...sat,
+            // ...mobile,
+            ...gs, 
+            ...paa
         ],
             blockchainDBFormat = [],
+            formatBlockToDBFormat = block => {
+                return flatten(block, {
+                    transformKey: function (key) {
+                        return key.replace(/transaction|data/gi, '').replace('Date', 'transactionDate')
+                    }
+                })
+            },
             networkNodePublicKey = Chain.instance.chain[0].transaction.networkNodePublicKey
 
         //* sort nodes by date-time in ascending order
@@ -26,7 +35,8 @@ const prisma = new PrismaClient(),
                     secondElem['placement_date'] ? 'placement_date' :
                         'registration_date']
         })
-        let c = 0
+
+        //*
         nodes.map(async (node, index) => {
 
             let nodeWallet = new Wallet()
@@ -57,7 +67,7 @@ const prisma = new PrismaClient(),
             }
 
             if (node.device_type == 'Phased_Array_Antenna') {
-                await prisma.dishy_info.update({
+                await prisma.phased_array_antenna_info.update({
                     where: {
                         id: node.id
                     },
@@ -83,31 +93,23 @@ const prisma = new PrismaClient(),
             //* create blocks from sorted nodes
             for (let status of Object.values(node.device_type != 'Mobile' ? satellite_info_status : mobile_info_status)) {
 
-                nodeWallet.createORupdateLink({
-                    name: node.name ?? node.id /* for dishy */,
-                    type: node.device_type.replace(/ /g, '_'),
-                    uuid: node.NORAD && node.NORAD.toString() || node.IMEI && node.IMEI.toString() || node.id && node.id.toString(),
-                    status: status
-                }, networkNodePublicKey)
-
-                // console.log(Chain.instance.chain[++c].transaction.transactionData, c)
+                blockchainDBFormat.push(
+                    formatBlockToDBFormat(
+                        nodeWallet.createORupdateLink({
+                            name: node.name && node.name || node.id && `PAA-${node.id.toString()}` /* for phased array antenna */,
+                            type: node.device_type.replace(/ /g, '_'),
+                            uuid: node.NORAD && node.NORAD.toString() || node.IMEI && node.IMEI.toString() || node.id && node.id.toString(),
+                            status: status
+                        }, networkNodePublicKey)
+                    )
+                )
 
                 if (node.status == status) break
-
             }
         })
+        // console.log(Chain.instance.chain.length)
 
-
-        //* format chain to DB storage format
-        Chain.instance.chain.map((block, index) => {
-
-            blockchainDBFormat.push(flatten(block, {
-                transformKey: function (key) {
-                    return key.replace(/transaction|data/gi, '').replace('Date', 'transactionDate')
-                }
-            }))
-        })
-
+        blockchainDBFormat.unshift(formatBlockToDBFormat(Chain.instance.chain[0]))
         console.log(Chain.instance.chain.length, blockchainDBFormat.length)
 
         //* store blockchain in DB
