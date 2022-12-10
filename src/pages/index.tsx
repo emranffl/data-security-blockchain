@@ -8,7 +8,7 @@ import $ from "jquery"
 import { Network } from "vis-network"
 import { Links, Device } from "@pages/_app"
 import { randomInRange } from "@functionalities/helper"
-import AddNodesTab from "@components/add/addNodesTab"
+import AddNodesTab from "@components/add/NodesTab"
 
 const
   NODE_COLOR = {
@@ -55,7 +55,7 @@ const
   MAX_MOBILE_NODE = Math.ceil(MAX_SATELLITE_NODE * (20 / 30))
 
 export interface NodeDataSet {
-  deviceType: typeof Device.Types.Satellite | typeof Device.Types.GroundStation | typeof Device.Types.PhasedArrayAntenna | typeof Device.Types.Mobile,
+  deviceType: typeof Device.Type.Satellite | typeof Device.Type.GroundStation | typeof Device.Type.PhasedArrayAntenna | typeof Device.Type.Mobile,
   id: string
   label: string
   shape: string
@@ -97,7 +97,7 @@ export const getServerSideProps = async () => {
   satelliteData.forEach((sat, index) => {
 
     nodes.push({
-      deviceType: Device.Types.Satellite,
+      deviceType: Device.Type.Satellite,
       id: sat.NORAD,
       label: sat.name,
       shape: "circularImage",
@@ -120,7 +120,7 @@ export const getServerSideProps = async () => {
   gs_data.forEach((gs, index) => {
 
     nodes.push({
-      deviceType: Device.Types.GroundStation,
+      deviceType: Device.Type.GroundStation,
       id: gs.id,
       label: gs.name,
       shape: "circularImage",
@@ -141,7 +141,7 @@ export const getServerSideProps = async () => {
   phased_array_antenna_data.forEach((paa, index) => {
 
     nodes.push({
-      deviceType: Device.Types.PhasedArrayAntenna,
+      deviceType: Device.Type.PhasedArrayAntenna,
       id: paa.id,
       label: paa.name,
       shape: "image",
@@ -164,7 +164,7 @@ export const getServerSideProps = async () => {
   mobile_data.forEach((mobile, index) => {
 
     nodes.push({
-      deviceType: Device.Types.Mobile,
+      deviceType: Device.Type.Mobile,
       id: mobile.IMEI,
       label: mobile.name,
       shape: "image",
@@ -197,10 +197,10 @@ export const getServerSideProps = async () => {
 
       //? filter nodes based on device types
       let [satelliteData, groundStationData, phasedArrayAntennaData, mobileData] = [
-        shuffle(nodes.filter((node) => { return node.deviceType == Device.Types.Satellite && node.group == "Active" }) as []) as typeof nodes,
-        shuffle(nodes.filter((node) => { return node.deviceType == Device.Types.GroundStation && node.group == "Active" }) as []) as typeof nodes,
-        shuffle(nodes.filter((node) => { return node.deviceType == Device.Types.PhasedArrayAntenna && node.group == "Active" }) as []) as typeof nodes,
-        shuffle(nodes.filter((node) => { return node.deviceType == Device.Types.Mobile && node.group == "Active" }) as []) as typeof nodes
+        shuffle(nodes.filter((node) => { return node.deviceType == Device.Type.Satellite && node.group == "Active" }) as []) as typeof nodes,
+        shuffle(nodes.filter((node) => { return node.deviceType == Device.Type.GroundStation && node.group == "Active" }) as []) as typeof nodes,
+        shuffle(nodes.filter((node) => { return node.deviceType == Device.Type.PhasedArrayAntenna && node.group == "Active" }) as []) as typeof nodes,
+        shuffle(nodes.filter((node) => { return node.deviceType == Device.Type.Mobile && node.group == "Active" }) as []) as typeof nodes
       ]
       nodeCount[currentStatusInLoop] = satelliteData.length + groundStationData.length + phasedArrayAntennaData.length + mobileData.length
 
@@ -417,7 +417,12 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
                       <option value="" hidden>Select Node...</option>
                       {
                         Object.values(networkNodesState).map(
-                          (key, index) => <option key={index} data-device-type={key.deviceType} value={key.id}>{key.label}</option>
+                          (nodes, index) => <option
+                            key={index}
+                            data-device-type={nodes.deviceType}
+                            value={nodes.id}>
+                            {nodes.label}
+                          </option>
                         )
                       }
                     </select>
@@ -436,11 +441,7 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
                     [key: string]: { [key: string]: any }
                   } = {
                     satellite_info: {},
-                    ground_station_info: {},
-                    connect_to: {
-                      device_type: $("#selectNodeConnect").attr("data-device-type"),
-                      device_id: $("#selectNodeConnect").val(),
-                    }
+                    ground_station_info: {}
                   }, dbDataTarget = $("input[data-category=satellite_info], select[data-category=satellite_info], input[data-category=ground_station_info], select[data-category=ground_station_info]")
 
                   //* db table data collection upon validation
@@ -461,25 +462,25 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
                   // node & edge data collection
                   let nodeData: NodeDataSet = {
                     deviceType: selectedNodeType!,
-                    id: selectedNodeType == Device.Types.Satellite ?
+                    id: selectedNodeType == Device.Type.Satellite ?
                       dbData.satellite_info.NORAD : dbData.ground_station_info.id,
-                    label: selectedNodeType == Device.Types.Satellite ?
+                    label: selectedNodeType == Device.Type.Satellite ?
                       dbData.satellite_info.name : dbData.ground_station_info.name,
-                    shape: selectedNodeType == Device.Types.Satellite ?
+                    shape: selectedNodeType == Device.Type.Satellite ?
                       "image" : "circularImage",
                     image: {
-                      unselected: selectedNodeType == Device.Types.Satellite ?
+                      unselected: selectedNodeType == Device.Type.Satellite ?
                         "/satellite.png" : "/ground-station.png"
                     },
-                    imagePadding: selectedNodeType == Device.Types.Satellite ? 5 : 3,
-                    group: selectedNodeType == Device.Types.Satellite ?
+                    imagePadding: selectedNodeType == Device.Type.Satellite ? 5 : 3,
+                    group: selectedNodeType == Device.Type.Satellite ?
                       dbData.satellite_info.status : dbData.ground_station_info.status,
                     color: { background: "#7AB8BF" }
                   },
                     edgeData: EdgeDataSet = {
                       arrows: "to",
                       dashes: true,
-                      from: selectedNodeType == Device.Types.Satellite ?
+                      from: selectedNodeType == Device.Type.Satellite ?
                         dbData.satellite_info.NORAD : dbData.ground_station_info.id,
                       to: $("#selectNodeConnect").val() as string,
                       color: {
@@ -499,10 +500,13 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
                       "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                      nodeType: selectedNodeType,
-                      nodeData: selectedNodeType == Device.Types.Satellite ?
+                      deviceType: selectedNodeType,
+                      deviceData: selectedNodeType == Device.Type.Satellite ?
                         dbData.satellite_info : dbData.ground_station_info,
-                      connectToDevice: dbData.connect_to
+                      connectToNode: {
+                        device_type: $("#selectNodeConnect option:selected").attr("data-device-type"),
+                        device_id: $("#selectNodeConnect").val(),
+                      }
                     })
                   })
                     .then(async serverResponse => {

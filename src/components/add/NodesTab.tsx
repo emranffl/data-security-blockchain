@@ -1,6 +1,6 @@
 import { NextPage } from "next"
 import Link from "next/link"
-import AddProviderNodes from "./addProviderNodes"
+import AddProviderNodes from "./ProviderNodes"
 
 interface AddNodesTabProps {
     selectedAddNodeCategory: string | null

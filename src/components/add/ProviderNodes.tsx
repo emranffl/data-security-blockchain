@@ -19,7 +19,7 @@ const AddProviderNodes: NextPage<ProviderNodesProps> = ({ selectedNodeType, setS
                         id="radioNodeSatellite"
                         type="radio"
                         name="radioNodeType"
-                        value={Device.Types.Satellite}
+                        value={Device.Type.Satellite}
                         onChange={(e) => setSelectedNodeType(e.currentTarget.value)}
                     />
                     <label htmlFor="radioNodeSatellite" className="block ml-2 text-sm font-medium text-gray-900 py-1 cursor-pointer">
@@ -33,7 +33,7 @@ const AddProviderNodes: NextPage<ProviderNodesProps> = ({ selectedNodeType, setS
                         id="radioNodeGS"
                         type="radio"
                         name="radioNodeType"
-                        value={Device.Types.GroundStation}
+                        value={Device.Type.GroundStation}
                         onChange={(e) => setSelectedNodeType(e.currentTarget.value)}
                     />
                     <label htmlFor="radioNodeGS" className="block ml-2 text-sm font-medium text-gray-900 py-1 cursor-pointer">
@@ -43,7 +43,7 @@ const AddProviderNodes: NextPage<ProviderNodesProps> = ({ selectedNodeType, setS
             </div>
         </fieldset>
 
-        {selectedNodeType == Device.Types.Satellite ?
+        {selectedNodeType == Device.Type.Satellite ?
             <fieldset className="animate__animated animate__fadeIn animate__slow">
 
                 <div className="grid md:grid-cols-2 md:gap-x-3">
@@ -134,7 +134,7 @@ const AddProviderNodes: NextPage<ProviderNodesProps> = ({ selectedNodeType, setS
             </fieldset> : null}
 
 
-        {selectedNodeType == Device.Types.GroundStation ?
+        {selectedNodeType == Device.Type.GroundStation ?
             <fieldset className="animate__animated animate__fadeIn animate__slow">
 
                 <div className="grid md:grid-cols-2 md:gap-x-3">

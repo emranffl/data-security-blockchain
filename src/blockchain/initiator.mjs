@@ -7,24 +7,24 @@ const prisma = new PrismaClient(),
 
         const sat = await prisma.satellite_info.findMany({ orderBy: { launch_date: 'asc' }, /*take:5*/ }),
             gs = await prisma.ground_station_info.findMany({ orderBy: { placement_date: 'asc' }, /*take:5*/ }),
-            paa = await prisma.phased_array_antenna_info.findMany({ orderBy: { placement_date: 'asc' }, /*take:5*/ }),
+            paa = await prisma.phased_array_antenna_info.findMany({ orderBy: { placement_date: 'asc' }, take: 1 }),
             mobile = await prisma.mobile_info.findMany({ orderBy: { registration_date: 'asc' }, /*take:5*/ })
 
         let nodes = [
             // ...sat,
             // ...mobile,
-            ...gs, 
+            // ...gs,
             ...paa
         ],
-            blockchainDBFormat = [],
-            formatBlockToDBFormat = block => {
-                return flatten(block, {
-                    transformKey: function (key) {
-                        return key.replace(/transaction|data/gi, '').replace('Date', 'transactionDate')
-                    }
-                })
-            },
-            networkNodePublicKey = Chain.instance.chain[0].transaction.networkNodePublicKey
+            // blockchainDBFormat = [],
+            // formatBlockToDBFormat = block => {
+            //     return flatten(block, {
+            //         transformKey: function (key) {
+            //             return key.replace(/transaction|data/gi, '').replace('Date', 'transactionDate')
+            //         }
+            //     })
+            // },
+            networkNodePublicKey = Chain.instance.chain[0].networkNodePublicKey
 
         //* sort nodes by date-time in ascending order
         nodes = nodes.sort((firstElem, secondElem) => {
@@ -41,7 +41,7 @@ const prisma = new PrismaClient(),
 
             let nodeWallet = new Wallet()
 
-            // updating public-private keys
+            // updating device public-private keys
             if (node.device_type == 'Satellite') {
                 await prisma.satellite_info.update({
                     where: {
@@ -90,32 +90,32 @@ const prisma = new PrismaClient(),
                 })
             }
 
+            // if (index == 0) blockchainDBFormat.push(Chain.instance.chain[0])
+
             //* create blocks from sorted nodes
             for (let status of Object.values(node.device_type != 'Mobile' ? satellite_info_status : mobile_info_status)) {
 
-                blockchainDBFormat.push(
-                    formatBlockToDBFormat(
-                        nodeWallet.createORupdateLink({
-                            name: node.name && node.name || node.id && `PAA-${node.id.toString()}` /* for phased array antenna */,
-                            type: node.device_type.replace(/ /g, '_'),
-                            uuid: node.NORAD && node.NORAD.toString() || node.IMEI && node.IMEI.toString() || node.id && node.id.toString(),
-                            status: status
-                        }, networkNodePublicKey)
-                    )
-                )
+                // blockchainDBFormat.push(
+                // formatBlockToDBFormat(
+                nodeWallet.createORupdateLink({
+                    name: node.name && node.name || node.id && `PAA-${node.id.toString()}` /* for phased array antenna */,
+                    type: node.device_type.replace(/ /g, '_'),
+                    uuid: node.NORAD && node.NORAD.toString() || node.IMEI && node.IMEI.toString() || node.id && node.id.toString(),
+                    status: status
+                }, networkNodePublicKey)
+                // )
+                // )
 
                 if (node.status == status) break
             }
         })
-        // console.log(Chain.instance.chain.length)
 
-        blockchainDBFormat.unshift(formatBlockToDBFormat(Chain.instance.chain[0]))
-        console.log(Chain.instance.chain.length, blockchainDBFormat.length)
+        console.log(Chain.instance.chain.length)
 
         //* store blockchain in DB
         try {
             await prisma.blockchain.createMany({
-                data: blockchainDBFormat
+                data: Chain.instance.chain
             })
         } catch (error) {
             console.log(error)

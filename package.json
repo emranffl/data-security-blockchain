@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@types/cytoscape": "^3.19.8",
+    "@types/flat": "^5.0.2",
     "@types/jquery": "^3.5.14",
     "@types/node": "18.7.18",
     "@types/react": "18.0.20",

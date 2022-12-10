@@ -21,7 +21,7 @@ export const Device = {
     Provider: 'provider',
     Consumer: 'consumer',
   },
-  Types: {
+  Type: {
     Satellite: 'satellite',
     GroundStation: 'ground_station',
     PhasedArrayAntenna: 'phased_array_antenna',

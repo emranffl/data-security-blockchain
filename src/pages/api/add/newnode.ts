@@ -2,6 +2,7 @@ import prisma from '@functionalities/DB/prismainstance'
 import { satellite_info, ground_station_info } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Chain, TransactionDataType, Wallet } from '@blockchain/index'
+import { Device } from '@pages/_app'
 
 type Data = {
   [key: string]: satellite_info | ground_station_info | unknown
@@ -12,28 +13,29 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
 
-  const { nodeType, nodeData, connectToDevice } = req.body
+  const { deviceType, deviceData, connectToNode } = req.body
   try {
-    console.log(req.body)
+    // console.log(req.body, Device.Type.GroundStation == deviceType)
+    // return res.status(400).json({ foreground: true, error: 'Not implemented' })
 
-    if (nodeType == 'satellite')
-      if (!await prisma.satellite_info.findUnique({ where: { NORAD: nodeData.NORAD } })) {
+    if (deviceType == Device.Type.Satellite)
+      if (!await prisma.satellite_info.findUnique({ where: { NORAD: deviceData.NORAD } })) {
 
         // check if the connection request node is active
         return res.status(200).json({
           chain:
-            await prisma.blockchain.findFirst({ where: { uuid: connectToDevice['device_id'], status: 'Active' }, orderBy: { transactionDate: 'desc' } })
+            await prisma.blockchain.findFirst({ where: { uuid: connectToNode['device_id'], status: 'Active' }, orderBy: { transactionDate: 'desc' } })
         })
 
         if ((await prisma.blockchain.findFirst({
           where: {
-            uuid: connectToDevice['device_id'],
+            uuid: connectToNode['device_id'],
           }, orderBy: { transactionDate: 'desc' }
         }))?.status == 'Active') {
           // get active node public & private key of connection request node
           const networkSatellite = await prisma.satellite_info.findUnique({
             where: {
-              NORAD: connectToDevice['device_id']
+              NORAD: connectToNode['device_id']
             }
           }),
             publicKey = networkSatellite!.public_key as string,
@@ -41,29 +43,31 @@ export default async function handler(
             // mine the block
             nodeWallet = new Wallet()
 
-          nodeWallet.createORupdateLink(nodeData.NORAD, publicKey)
+          nodeWallet.createORupdateLink(deviceData.NORAD, publicKey)
         } else
           return res.status(400).json(
             { name: "NORAD", category: "satellite_info", error: 'satellite status not active, refused to connect' }
           )
 
-        return res.status(200).json({ data: await prisma.satellite_info.create({ data: nodeData }) })
+        return res.status(200).json({ data: await prisma.satellite_info.create({ data: deviceData }) })
       } else return res.status(400).json(
         { name: "NORAD", category: "satellite_info", error: 'satellite with same NORAD already exists' }
       )
 
-    if (nodeType == 'ground_station')
-      // check if node exists
-      if (!await prisma.ground_station_info.findUnique({ where: { id: nodeData.id } }))
-        return res.status(400).json(
-          { name: "id", category: "ground_station_info", error: 'ground station with same ID already exists' }
-        )
+    // * Ground Station
+    if (deviceType == Device.Type.GroundStation) {
+      // check if node already exists
+      if (await prisma.ground_station_info.findUnique({ where: { id: deviceData.id } }))
+        return res.status(400).json({
+          name: "id", category: "ground_station_info", error: 'ground station with same ID already exists'
+        })
 
-    if (await validateNetworkNode(nodeType)) {
-      await createBlock()
-      await prisma.ground_station_info.create({ data: nodeData })
+      // * device connection policy checker
+      // if (await validateNetworkNode(deviceType, connectToNode)) {
+      //   await createNodeAndMineBlock(deviceData, connectToNode)
+      // }
+
     }
-
     return res.status(200).json({ data: Chain.instance.chain })
   }
 
@@ -73,35 +77,62 @@ export default async function handler(
 
 }
 
-async function validateNetworkNode(nodeType: string, nodeData: TransactionDataType, connectToDevice: any,) {
+async function validateNetworkNode(deviceType: string, connectToDevice: any) {
+
+  // TODO: implement device connection policy checker
+
+  // check if the connection request node is active
+  if ((await prisma.blockchain.findFirst({
+    where: {
+      uuid: connectToDevice['device_id'],
+    }, orderBy: { transactionDate: 'desc' }
+  }))?.status == 'Active')
+    return true
+  else
+    return false
+
+}
+
+async function createNodeAndMineBlock(nodeData: any, connectToDevice: any) {
+  // throw new Error('Function not implemented.')
+
   const nodeWallet = new Wallet(),
-    networkNodePublicKey = (await prisma.ground_station_info.findUnique({ where: { id: connectToDevice['device_id'] } }))!.public_key as string,
+  // get active node public & private key of connection request node
+  networkNodePublicKey = (await prisma.ground_station_info.findUnique({
+      where: { id: connectToDevice['device_id'] }
+    }))!.public_key as string,
+    // mine & add the block
     newBlock = nodeWallet.createORupdateLink(
       nodeData,
       networkNodePublicKey
     )
 
-  await prisma.ground_station_info.create({ data: { ...nodeData, public_key: nodeWallet.publicKey, private_key: nodeWallet.privateKey } })
-
-  await prisma.blockchain.create({
-    data: {
-      attempt: newBlock.attempt,
-      blockDepth: newBlock.depth,
-      nonce: newBlock.nonce,
-      transactionDate: newBlock.transactionDate,
-      currentHash: newBlock.hash,
-      precedingBlockHash: newBlock.precedingBlockHash,
-      connectingNodePublicKey: nodeWallet.publicKey,
-      networkNodePublicKey,
-      name: nodeData.name,
-      uuid: nodeData.id,
-      status: nodeData.status,
-      type: 'Ground_Station',
-    }
-  })
-
-}
-
-async function createBlock() {
-  throw new Error('Function not implemented.')
+  return await prisma.$transaction([
+    // connectToDevice.device_type == Device.Type.GroundStation && 
+    prisma.ground_station_info.create({
+      data: {
+        ...nodeData,
+        device_type: nodeData.device_type,
+        placement_date: nodeData.placement_date,
+        public_key: nodeWallet.publicKey,
+        private_key: nodeWallet.privateKey
+      }
+    }),
+    prisma.blockchain.create({
+      data: {
+        attempt: newBlock.attempt,
+        blockDepth: newBlock.depth,
+        nonce: newBlock.nonce,
+        transactionDate: newBlock.transactionDate,
+        currentHash: newBlock.hash,
+        precedingBlockHash: newBlock.precedingBlockHash,
+        connectingNodePublicKey: nodeWallet.publicKey,
+        networkNodePublicKey,
+        name: nodeData.name,
+        uuid: nodeData.uuid,
+        status: nodeData.status,
+        type: 'Ground_Station',
+      }
+    })
+  ])
 }

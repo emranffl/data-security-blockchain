@@ -19,7 +19,7 @@ interface TransactionDataType {
  */
 class Transaction {
     constructor(
-        public transactionData: TransactionDataType | string,
+        public transactionData: TransactionDataType,
         public connectingNodePublicKey: string,
         public networkNodePublicKey: string,
     ) { }
@@ -43,7 +43,13 @@ class Block {
     public nonce = Math.round(Math.random() * 999999999)
 
     constructor(
-        public transaction: Transaction,
+        // public transactionData: TransactionDataType | string,
+        public name: TransactionDataType['name'],
+        public type: TransactionDataType['type'],
+        public uuid: TransactionDataType['uuid'],
+        public status: TransactionDataType['status'],
+        public connectingNodePublicKey: Transaction['connectingNodePublicKey'],
+        public networkNodePublicKey: Transaction['networkNodePublicKey'],
         public precedingBlockHash: string,
         public blockDepth: number,
         public currentHash: string = '',
@@ -92,12 +98,18 @@ class Chain {
             //* genesis block generation
             (() => {
                 const hash = crypto.createHash('MD5'),
+                    transaction = new Transaction(
+                        { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
+                        'connecting_genesis_node_public_key_null',
+                        'network_genesis_node_public_key_null',
+                    ),
                     genesisBlock = new Block(
-                        new Transaction(
-                            { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
-                            'connecting_genesis_node_public_key_null',
-                            'network_genesis_node_public_key_null',
-                        ),
+                        transaction.transactionData.name,
+                        transaction.transactionData.type,
+                        transaction.transactionData.uuid,
+                        transaction.transactionData.status,
+                        transaction.connectingNodePublicKey,
+                        transaction.networkNodePublicKey,
                         'preceding_genesis_block_hash_null',
                         0,
                         'current_genesis_block_hash_null'
@@ -111,6 +123,32 @@ class Chain {
             })()
         ]
     }
+
+    // static async init() {
+    //     const chain = await prisma.blockchain.findMany()
+    //     if (chain.length > 1)
+    //         return chain
+
+    //     const hash = crypto.createHash('MD5'),
+    //         genesisBlock = new Block(
+    //             new Transaction(
+    //                 { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
+    //                 'connecting_genesis_node_public_key_null',
+    //                 'network_genesis_node_public_key_null',
+    //             ),
+    //             'preceding_genesis_block_hash_null',
+    //             0,
+    //             'current_genesis_block_hash_null'
+    //         )
+
+    //     hash.update(genesisBlock.toString()).end()
+
+    //     genesisBlock.currentHash = hash.digest('hex')
+
+    //     return [genesisBlock]
+
+    // }
+
 
     /**
      * Retrieves the previous block of the chain.
@@ -178,7 +216,17 @@ class Chain {
             isValid = verifyTransaction.verify(connectingNodePublicKey, signature)
 
         if (isValid) {
-            const newBlock = new Block(transaction, this.previousBlock.hash, this.previousBlock.blockDepth + 1)
+            const newBlock = new Block(
+                transaction.transactionData.name,
+                transaction.transactionData.type,
+                transaction.transactionData.uuid,
+                transaction.transactionData.status,
+                transaction.connectingNodePublicKey,
+                transaction.networkNodePublicKey,
+                // transaction,
+                this.previousBlock.hash,
+                this.previousBlock.blockDepth + 1
+            )
 
             newBlock.currentHash = this.mine(newBlock.nonce, newBlock)
 
@@ -190,7 +238,7 @@ class Chain {
     }
 
     toString() {
-        return JSON.stringify(this)
+        return JSON.stringify(this.chain)
     }
 }
 

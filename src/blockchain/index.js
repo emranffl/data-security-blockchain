@@ -41,11 +41,18 @@ var Transaction = /** @class */ (function () {
  * @param transactionDate timestamp of block creation
  */
 var Block = /** @class */ (function () {
-    function Block(transaction, precedingBlockHash, blockDepth, currentHash, attempt, transactionDate) {
+    function Block(
+    // public transactionData: TransactionDataType | string,
+    name, type, uuid, status, connectingNodePublicKey, networkNodePublicKey, precedingBlockHash, blockDepth, currentHash, attempt, transactionDate) {
         if (currentHash === void 0) { currentHash = ''; }
         if (attempt === void 0) { attempt = 0; }
         if (transactionDate === void 0) { transactionDate = new Date(); }
-        this.transaction = transaction;
+        this.name = name;
+        this.type = type;
+        this.uuid = uuid;
+        this.status = status;
+        this.connectingNodePublicKey = connectingNodePublicKey;
+        this.networkNodePublicKey = networkNodePublicKey;
         this.precedingBlockHash = precedingBlockHash;
         this.blockDepth = blockDepth;
         this.currentHash = currentHash;
@@ -89,7 +96,7 @@ var Chain = /** @class */ (function () {
         this.chain = [
             //* genesis block generation
             (function () {
-                var hash = crypto.createHash('MD5'), genesisBlock = new Block(new Transaction({ name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" }, 'connecting_genesis_node_public_key_null', 'network_genesis_node_public_key_null'), 'preceding_genesis_block_hash_null', 0, 'current_genesis_block_hash_null');
+                var hash = crypto.createHash('MD5'), transaction = new Transaction({ name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" }, 'connecting_genesis_node_public_key_null', 'network_genesis_node_public_key_null'), genesisBlock = new Block(transaction.transactionData.name, transaction.transactionData.type, transaction.transactionData.uuid, transaction.transactionData.status, transaction.connectingNodePublicKey, transaction.networkNodePublicKey, 'preceding_genesis_block_hash_null', 0, 'current_genesis_block_hash_null');
                 hash.update(genesisBlock.toString()).end();
                 genesisBlock.currentHash = hash.digest('hex');
                 return genesisBlock;
@@ -97,6 +104,25 @@ var Chain = /** @class */ (function () {
         ];
     }
     Object.defineProperty(Chain.prototype, "previousBlock", {
+        // static async init() {
+        //     const chain = await prisma.blockchain.findMany()
+        //     if (chain.length > 1)
+        //         return chain
+        //     const hash = crypto.createHash('MD5'),
+        //         genesisBlock = new Block(
+        //             new Transaction(
+        //                 { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
+        //                 'connecting_genesis_node_public_key_null',
+        //                 'network_genesis_node_public_key_null',
+        //             ),
+        //             'preceding_genesis_block_hash_null',
+        //             0,
+        //             'current_genesis_block_hash_null'
+        //         )
+        //     hash.update(genesisBlock.toString()).end()
+        //     genesisBlock.currentHash = hash.digest('hex')
+        //     return [genesisBlock]
+        // }
         /**
          * Retrieves the previous block of the chain.
          */
@@ -130,14 +156,14 @@ var Chain = /** @class */ (function () {
      */
     Chain.prototype.mine = function (nonce, blockData) {
         var attempt = 1, difficultyString = ''.padEnd(BLOCK_MINING_DIFFICULTY, '0');
-        // console.log('mining - ⛏️  ⛏️  ⛏️')
+        console.log('mining - ⛏️  ⛏️  ⛏️');
         while (true) {
             var hash = crypto.createHash('MD5');
             blockData.attempt = attempt;
             hash.update((nonce + attempt + blockData.toString()).toString()).end();
             var blockHash = hash.digest('hex');
             if (blockHash.substring(0, BLOCK_MINING_DIFFICULTY) === difficultyString) {
-                // console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
+                console.log("Solved '".concat(blockHash, "' on ").concat(attempt, " attempt\n\n"));
                 return blockHash;
             }
             attempt++;
@@ -152,7 +178,9 @@ var Chain = /** @class */ (function () {
     Chain.prototype.addBlock = function (transaction, connectingNodePublicKey, signature) {
         var verifyTransaction = crypto.createVerify('SHA256').update(transaction.toString()), isValid = verifyTransaction.verify(connectingNodePublicKey, signature);
         if (isValid) {
-            var newBlock = new Block(transaction, this.previousBlock.hash, this.previousBlock.blockDepth + 1);
+            var newBlock = new Block(transaction.transactionData.name, transaction.transactionData.type, transaction.transactionData.uuid, transaction.transactionData.status, transaction.connectingNodePublicKey, transaction.networkNodePublicKey, 
+            // transaction,
+            this.previousBlock.hash, this.previousBlock.blockDepth + 1);
             newBlock.currentHash = this.mine(newBlock.nonce, newBlock);
             this.chain.push(newBlock);
             return newBlock;
@@ -161,7 +189,7 @@ var Chain = /** @class */ (function () {
             throw new Error('Invalid signature!');
     };
     Chain.prototype.toString = function () {
-        return JSON.stringify(this);
+        return JSON.stringify(this.chain);
     };
     //* singleton instance
     Chain.instance = new Chain();
@@ -185,7 +213,7 @@ var Wallet = /** @class */ (function () {
         this.publicKey = public_key !== null && public_key !== void 0 ? public_key : keyPair.publicKey;
     }
     Wallet.prototype.createORupdateLink = function (linkData, networkNodePublicKey) {
-        // throw error if linking to itself
+        //* throw error if linking to itself
         if (networkNodePublicKey == this.publicKey)
             throw new Error('Cannot link to self! Provided public key is of the same node.');
         var transaction = new Transaction(linkData, this.publicKey, networkNodePublicKey), signature = crypto.createSign('SHA256');
