@@ -1,7 +1,8 @@
+import { blockchain } from '@prisma/client'
 import * as crypto from 'crypto'
 
 
-const BLOCK_MINING_DIFFICULTY = 0
+const BLOCK_MINING_DIFFICULTY = 0, prisma = require('@prisma/client')
 
 
 interface TransactionDataType {
@@ -91,64 +92,111 @@ class Chain {
     //* singleton instance
     public static instance = new Chain()
 
-    chain: Block[]
+    chain: Block[] | blockchain[]
 
     constructor() {
-        this.chain = [
-            //* genesis block generation
-            (() => {
-                const hash = crypto.createHash('MD5'),
-                    transaction = new Transaction(
-                        { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
-                        'connecting_genesis_node_public_key_null',
-                        'network_genesis_node_public_key_null',
-                    ),
-                    genesisBlock = new Block(
-                        transaction.transactionData.name,
-                        transaction.transactionData.type,
-                        transaction.transactionData.uuid,
-                        transaction.transactionData.status,
-                        transaction.connectingNodePublicKey,
-                        transaction.networkNodePublicKey,
-                        'preceding_genesis_block_hash_null',
-                        0,
-                        'current_genesis_block_hash_null'
-                    )
+        // this.chain = [
+        //     //* genesis block generation
+        //     (() => {
+        //         const hash = crypto.createHash('MD5'),
+        //             transaction = new Transaction(
+        //                 { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
+        //                 'connecting_genesis_node_public_key_null',
+        //                 'network_genesis_node_public_key_null',
+        //             ),
+        //             genesisBlock = new Block(
+        //                 transaction.transactionData.name,
+        //                 transaction.transactionData.type,
+        //                 transaction.transactionData.uuid,
+        //                 transaction.transactionData.status,
+        //                 transaction.connectingNodePublicKey,
+        //                 transaction.networkNodePublicKey,
+        //                 'preceding_genesis_block_hash_null',
+        //                 0,
+        //                 'current_genesis_block_hash_null'
+        //             )
 
-                hash.update(genesisBlock.toString()).end()
+        //         hash.update(genesisBlock.toString()).end()
 
-                genesisBlock.currentHash = hash.digest('hex')
+        //         genesisBlock.currentHash = hash.digest('hex')
 
-                return genesisBlock
-            })()
-        ]
+        //         return genesisBlock
+        //     })()
+        // ]
+
+        return (async (): Promise<Chain> => {
+            const chain = await prisma.blockchain.findMany()
+            if (chain.length != Chain.instance.chain.length) {
+                console.log('chain length mismatch')
+                return this.chain = chain
+            }
+            else
+                this.chain = [
+                    //* genesis block generation
+                    (() => {
+                        const hash = crypto.createHash('MD5'),
+                            transaction = new Transaction(
+                                { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
+                                'connecting_genesis_node_public_key_null',
+                                'network_genesis_node_public_key_null',
+                            ),
+                            genesisBlock = new Block(
+                                transaction.transactionData.name,
+                                transaction.transactionData.type,
+                                transaction.transactionData.uuid,
+                                transaction.transactionData.status,
+                                transaction.connectingNodePublicKey,
+                                transaction.networkNodePublicKey,
+                                'preceding_genesis_block_hash_null',
+                                0,
+                                'current_genesis_block_hash_null'
+                            )
+
+                        hash.update(genesisBlock.toString()).end()
+
+                        genesisBlock.currentHash = hash.digest('hex')
+
+                        return genesisBlock
+                    })()
+                ]
+            return this
+        })() as unknown as Chain
     }
 
     // static async init() {
     //     const chain = await prisma.blockchain.findMany()
-    //     if (chain.length > 1)
-    //         return chain
+    //     if (chain.length != Chain.instance.chain.length)
+    //         return this.instance.setChain = chain
 
-    //     const hash = crypto.createHash('MD5'),
-    //         genesisBlock = new Block(
-    //             new Transaction(
-    //                 { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
-    //                 'connecting_genesis_node_public_key_null',
-    //                 'network_genesis_node_public_key_null',
-    //             ),
-    //             'preceding_genesis_block_hash_null',
-    //             0,
-    //             'current_genesis_block_hash_null'
-    //         )
+    // const hash = crypto.createHash('MD5'),
+    //     transaction = new Transaction(
+    //         { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
+    //         'connecting_genesis_node_public_key_null',
+    //         'network_genesis_node_public_key_null',
+    //     ),
+    //     genesisBlock = new Block(
+    //         transaction.transactionData.name,
+    //         transaction.transactionData.type,
+    //         transaction.transactionData.uuid,
+    //         transaction.transactionData.status,
+    //         transaction.connectingNodePublicKey,
+    //         transaction.networkNodePublicKey,
+    //         'preceding_genesis_block_hash_null',
+    //         0,
+    //         'current_genesis_block_hash_null'
+    //     )
 
-    //     hash.update(genesisBlock.toString()).end()
+    // hash.update(genesisBlock.toString()).end()
 
-    //     genesisBlock.currentHash = hash.digest('hex')
+    // genesisBlock.currentHash = hash.digest('hex')
 
-    //     return [genesisBlock]
+    // return [genesisBlock]
 
     // }
 
+    // private set setChain(chain: blockchain[]) {
+    //     this.chain = chain
+    // }
 
     /**
      * Retrieves the previous block of the chain.
@@ -162,8 +210,8 @@ class Chain {
      */
     get chainIsValid() {
         for (let i = 1; i < this.chain.length; i++) {
-            const currentBlock = this.chain[i],
-                precedingBlock = this.chain[i - 1]
+            const currentBlock = this.chain[i] as Block,
+                precedingBlock = this.chain[i - 1] as Block
 
             if (currentBlock.precedingBlockHash !== precedingBlock.calculateHash() &&
                 currentBlock.hash !== currentBlock.calculateHash()) return false
@@ -224,8 +272,8 @@ class Chain {
                 transaction.connectingNodePublicKey,
                 transaction.networkNodePublicKey,
                 // transaction,
-                this.previousBlock.hash,
-                this.previousBlock.blockDepth + 1
+                (this.previousBlock as Block).hash,
+                (this.previousBlock as Block).blockDepth + 1
             )
 
             newBlock.currentHash = this.mine(newBlock.nonce, newBlock)

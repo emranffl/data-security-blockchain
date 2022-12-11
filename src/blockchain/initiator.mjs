@@ -117,6 +117,8 @@ const prisma = new PrismaClient(),
             await prisma.blockchain.createMany({
                 data: Chain.instance.chain
             })
+
+            // await Chain.init()
         } catch (error) {
             console.log(error)
         }

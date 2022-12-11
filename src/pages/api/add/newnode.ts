@@ -68,7 +68,7 @@ export default async function handler(
       // }
 
     }
-    return res.status(200).json({ data: Chain.instance.chain })
+    return res.status(200).json({ data: Chain.  instance.chain })
   }
 
   catch (error) {
