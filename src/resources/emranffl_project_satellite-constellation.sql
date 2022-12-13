@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 11, 2022 at 06:46 AM
+-- Generation Time: Dec 13, 2022 at 09:19 PM
 -- Server version: 8.0.31-0ubuntu0.22.04.1
 -- PHP Version: 8.1.2-1ubuntu2.9
 
@@ -485,6 +485,197 @@ INSERT INTO `satellite_info` (`NORAD`, `name`, `launch_date`, `altitude`, `statu
 ('52707', 'SL-4007', '2022-05-17 18:00:00', '349.90', 'Inactive', 'Satellite', '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3NMFU63iwUHyMe43Wjqo\nUsKo6m2UOGETS1DZkAMEgSL3tMoUzA/GzEUWq2lxecWpPh2Z8CYCu+xpiMd29xa6\nw4NupJv3FbxjSVoKUFnswDDVsOX3pWl10/60xrpzOmxWxV9E9jOwTsqsLuqN2Xcv\n+I86fbO/JRvho5piewr8NELQ4oi/jLi1U96qX9n+N63+SZQHvGDqrrKSIpfYbuBb\ngMkLc+2vv6qL8Qz92LLcqWi6lQzkFl5R4H4lhEsSAUwKSmLRdWYVUy0e8baiKY1x\nTzFadbtLfwyCCFgbTlh2H1ZWNn1f4PtE2IhGbgd5ETsy3uz5QPL9fX2/yi35S/Ry\nAQIDAQAB\n-----END PUBLIC KEY-----\n', '-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDc0wVTreLBQfIx\n7jdaOqhSwqjqbZQ4YRNLUNmQAwSBIve0yhTMD8bMRRaraXF5xak+HZnwJgK77GmI\nx3b3FrrDg26km/cVvGNJWgpQWezAMNWw5felaXXT/rTGunM6bFbFX0T2M7BOyqwu\n6o3Zdy/4jzp9s78lG+GjmmJ7Cvw0QtDiiL+MuLVT3qpf2f43rf5JlAe8YOquspIi\nl9hu4FuAyQtz7a+/qovxDP3YstypaLqVDOQWXlHgfiWESxIBTApKYtF1ZhVTLR7x\ntqIpjXFPMVp1u0t/DIIIWBtOWHYfVlY2fV/g+0TYiEZuB3kROzLe7PlA8v19fb/K\nLflL9HIBAgMBAAECggEBALa++/2QPcPpq2Ge3rgRKxOyfM/k93DhBXKi6inAFY45\nPf2j7yohNEgANQ6OKJa5+aGqJacUDdcvgvbq+4zoho8eygX3/LdEPHaLyVVN1hwH\nThEjf5qoeBaFB14fFxUWa4jTmuKVTCcomu4ItnNtq4lsHt/ATUOMm2MldLKXGLi1\nuF89lHThJ9te1SBrMaLkW2KaOjF5T57BOISXA7rxMQKOSSq7cQMwUKn/ZODitHpw\n1M66ITDJZnce9zIRul7sF6qhw8lWU9veEI4oJr0AfyRUhtEfN8tFXIkp9OJivmfM\nxDLUDmcna0qjGDFsxDCcFQzVlyk/S2Xc9h5TZalqxAECgYEA/xIW4br9wtp6+ytK\nBt2Ai81/NOhj+UO4qE4yqcZFvwPLdy+O7BCHb7mBhyuDgTnAVf04m7ovOVVB2x8F\nMumVWHLXQqqLqt+xmFv7HuhFQfZ6HIKGESbvw+zamGKVDwcATDzYJo4/k27/G/eN\nSKdrM1aEfEhr84WjkCf/axzO4rECgYEA3aD9L84xJ3gXw4YzLZEqt7llvcvyhA/f\nxHTrRQqlURS3lzUmUCRqjfX0LgrG/515da6VzsGY9krT2hb9gCiecKKKfTM23iPf\nm+ZeFokzgpr827UQER3N0sAsM9kXn+nH41kCZKN+wReaLsPdHXNr3gjbty9Jv/02\nb59rDGVoOFECgYEA73C6vCH97vmLctabQkCSWCqLHE5+8tJouM3Xb1opxPs59+NU\nJjQJ/45DknD9nMRq0g3IIx+vDwICtUC0b6uoP4RmoDVasQgWPfEyljvyL87BqJu6\nYMWNU/224k/An3+x/t8rBV6JPcx3fHhxT1+iGWpBKi4N8GdmOH/jnFhJubECgYBO\n2hlaqdy5MzQZP6TzwGNXbKHzLh3BuLgfeI3ASbJZr6pGJQXVm69BhNF0lCcLCOcO\n5KeuIRkf/61yOZ3FvC3q2xm0w8Twsgi7ufGdyQDHpgby0G+/9z+kjPTtGX8bSRzy\nGVgNoFHXt2MG4m7ILKmjHLm3ah6uLRPyEOEQTwAOkQKBgFl2qqFvNkyZLbeLKMVC\n0gj50Qe2VYA+V78qndYfBrlm6vqkqssOpxgDv90hBd49410fTT6AW8ebyoRAjwrU\nSqqNOVBQ83ZsaBbtIZ/Ae1PiigWPpuXT0wjzJPldxLLzsW3m7D6yudzDye+Ad1L+\n0Cpfh5B5JbE4FTklRYlDl7kk\n-----END PRIVATE KEY-----\n'),
 ('52708', 'SL-3962', '2022-05-17 18:00:00', '350.00', 'Active', 'Satellite', '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwVOfXhed8AgHap5b3LNM\n1laqy5EVgYAmXmyp0qjXELW9B4l8b4Xe6rLiZxcki1KoGko7JeniW3f76iC7JabR\nX4ZfhjvBlaTJP1hu57cF/Ffdy1gSImT8a+53gMptblD24r1US+wIvYKveR9/IiG0\n07ncWTDJv3JLiNWDe0rLe/CVeJe/Mw1hTWF/9pFmoe1r0Uj3Qv9TjxRPEMjKD4SC\nFDr5ktGp3QaylQzWmLSV+0P+H752NT2Zpiw8rEnaPJI3fpH9RKGBhIdIh9hdLih9\nRSvaibidRFwlrOVzGxh+1YD1CtiPO0QapedxZf4dEpnfA6kyL7qLmgvU5DeitYfp\nkQIDAQAB\n-----END PUBLIC KEY-----\n', '-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDBU59eF53wCAdq\nnlvcs0zWVqrLkRWBgCZebKnSqNcQtb0HiXxvhd7qsuJnFySLUqgaSjsl6eJbd/vq\nILslptFfhl+GO8GVpMk/WG7ntwX8V93LWBIiZPxr7neAym1uUPbivVRL7Ai9gq95\nH38iIbTTudxZMMm/ckuI1YN7Sst78JV4l78zDWFNYX/2kWah7WvRSPdC/1OPFE8Q\nyMoPhIIUOvmS0andBrKVDNaYtJX7Q/4fvnY1PZmmLDysSdo8kjd+kf1EoYGEh0iH\n2F0uKH1FK9qJuJ1EXCWs5XMbGH7VgPUK2I87RBql53Fl/h0Smd8DqTIvuouaC9Tk\nN6K1h+mRAgMBAAECggEBAJzf+mYjy+lG2p3NusUwSZ1z3kwpgsX+8yOUEYn7r+jD\nUIyZJ/xnKShR2B3HTcQwYnBS5AQz8ZY/mo+116cJ4sQdCc6nFsMTYKqiW/xzK8xE\nkJm88ZovUBVVAGvl1z65PF1pPMoO0ljVfwZOZJ+RsmZMX12QlWVgnaJ/f53AZ7Y9\nbPNbcm+P9ZDLgl13JjtweOhlTidDG4vpBQaj5izn0RzL4fHBZCWEUeW94THTTcym\njcCcmrvO9dlYtGKpzUBZxLwDqrt7kAJpt/cvx99NSJg6l170UlMuOCAE8pjFsSCg\nR3jsYQx4nX7EP6ACzSkopFPXT+kihBMLJRLoRUGHoDECgYEA8i5Q07YzoPEtloME\nQ1vgNtKRRpFNEW6axkfm9TwCDyQYBMKLglnXLmvgMxnwS8+N8cgUucjcuPwOJ5bA\n2YFdadVh7Q0LkLgRRVef/SvGtw5VydQrAeW0l8IL+dLb2KLP3w0nYkHmHA7D5loG\nxx4lnup6HusOUhHn+uIdJn3BBKMCgYEAzFuppxjxN9/ij+PXXmAIhrrU7UTNGyO0\n+JoqCPdB1miEKdW+6jB7SfYSXDaYY6pBcgi0aBomXzCkdQlf37KuTKkgx9cf43H4\nw58/cj+grpmP9VvwsFdaptyOjs0nv30HqFNv2h07XSgL2PjQjMF+6SOLhX0oAvlO\nu5Mqt3oqSDsCgYEApiCXWWM270QB3alqFzrDB1hSR3IMx9RzX2ibScYsM26y+zDo\nujYeob1mQiec6qQp3p09emQK5OoiW43SJGHVTnANiKrWMCPT1RlSqjyJR7ERsC1W\ngyqrQx7dUDYQkP6+UWeYiJJj4wNN5ooC9Dv92pFFzEe5vxqBY1wQWwMQkLkCgYAg\nucEWWEEwwHKotkTkAR78bGjywiTSZspxUUbP/sCVVFFt3aPgHvlvY6+XAssukrI+\nT7SMQzvH3KNJdsHaseOFtUPhnMqngrXipdrkMdpKe575HMsTgjmrJQDTT3lBCgWy\n6AGufSXniiUzjsze7ZGkRiPusZc5urDoCu45SaABxwKBgQC5M1TM9LrpuI5Po4EG\nsZo6VfUNLZExmEYI6hNUttWlKWB2W98rsg0YVOVsSeokhGB88i6G7Qa1xJfgAvPR\nTbEYfREvoOM0Of4UxbLTq/pIEdUW6MbExqv0+ROcPnnKizbgjP/kjMc6ITxmC3dp\nntUlvjIiElNWlPi4w5NJVr0zvA==\n-----END PRIVATE KEY-----\n');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicle_info`
+--
+
+CREATE TABLE `vehicle_info` (
+  `VIN` varchar(17) NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `brand` varchar(255) NOT NULL,
+  `make_year` year NOT NULL,
+  `color` varchar(50) NOT NULL,
+  `status` enum('Active','Inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `device_type` char(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Vehicle',
+  `type` enum('sedan','truck','suv','van') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `purchase_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `public_key` text,
+  `private_key` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `vehicle_info`
+--
+
+INSERT INTO `vehicle_info` (`VIN`, `model`, `brand`, `make_year`, `color`, `status`, `device_type`, `type`, `purchase_date`, `public_key`, `private_key`) VALUES
+('003FEE0488C816B1C', 'Tesla Semi', 'Tesla', 2021, 'red', 'Inactive', 'Vehicle', 'truck', '2021-04-17 00:00:00', 'null', 'null'),
+('01333988D63BEB509', 'Model Y', 'Tesla', 2022, 'black', 'Active', 'Vehicle', 'sedan', '2021-07-09 00:00:00', 'null', 'null'),
+('0137EE686FEFD4E42', 'Model 3', 'Tesla', 2013, 'white', 'Active', 'Vehicle', 'sedan', '2020-10-10 00:00:00', 'null', 'null'),
+('01E93CC03AB0F2B97', 'Model X', 'Tesla', 2014, 'gold', 'Inactive', 'Vehicle', 'sedan', '2016-05-12 00:00:00', 'null', 'null'),
+('026BAACE1DEAC4167', 'Model Y', 'Tesla', 2019, 'green', 'Inactive', 'Vehicle', 'sedan', '2020-07-06 00:00:00', 'null', 'null'),
+('0331FDBB5710CC4DF', 'Model 3', 'Tesla', 2020, 'green', 'Inactive', 'Vehicle', 'sedan', '2018-07-17 00:00:00', 'null', 'null'),
+('05D974716A9427AE9', 'Model X', 'Tesla', 2022, 'black', 'Inactive', 'Vehicle', 'sedan', '2020-03-14 00:00:00', 'null', 'null'),
+('06DB8AF18113ACB9A', 'Tesla Semi', 'Tesla', 2012, 'red', 'Inactive', 'Vehicle', 'truck', '2022-06-06 00:00:00', 'null', 'null'),
+('08A650812B87DDD8C', 'Model Y', 'Tesla', 2020, 'white', 'Inactive', 'Vehicle', 'sedan', '2016-08-08 00:00:00', 'null', 'null'),
+('0AB2A2E2B7FCBC0A4', 'Tesla Semi', 'Tesla', 2020, 'white', 'Active', 'Vehicle', 'truck', '2016-10-04 00:00:00', 'null', 'null'),
+('0C5BD221E0CFBD018', 'Model 3', 'Tesla', 2015, 'white', 'Active', 'Vehicle', 'sedan', '2011-01-12 00:00:00', 'null', 'null'),
+('0CC755BC4BD64AFBC', 'Model 3', 'Tesla', 2016, 'gold', 'Inactive', 'Vehicle', 'sedan', '2017-11-25 00:00:00', 'null', 'null'),
+('0EA6E8355FB0FFF1B', 'Model 3', 'Tesla', 2014, 'green', 'Active', 'Vehicle', 'sedan', '2021-06-18 00:00:00', 'null', 'null'),
+('0EDE21A187D34C8A6', 'Model 3', 'Tesla', 2021, 'gold', 'Inactive', 'Vehicle', 'sedan', '2018-09-03 00:00:00', 'null', 'null'),
+('0F16E14789F2BAC90', 'Model S', 'Tesla', 2019, 'red', 'Inactive', 'Vehicle', 'sedan', '2018-01-07 00:00:00', 'null', 'null'),
+('11302B1F81432FF75', 'Model S', 'Tesla', 2022, 'yellow', 'Active', 'Vehicle', 'sedan', '2011-02-14 00:00:00', 'null', 'null'),
+('177EE82A752FF7654', 'Model X', 'Tesla', 2019, 'yellow', 'Inactive', 'Vehicle', 'sedan', '2014-07-31 00:00:00', 'null', 'null'),
+('18545EB985D7A1374', 'Model S', 'Tesla', 2016, 'blue', 'Inactive', 'Vehicle', 'sedan', '2016-07-29 00:00:00', 'null', 'null'),
+('18829803DBE5ED96C', 'Model Y', 'Tesla', 2014, 'blue', 'Inactive', 'Vehicle', 'sedan', '2016-03-08 00:00:00', 'null', 'null'),
+('19B2B6F2AF99C9C40', 'Model 3', 'Tesla', 2013, 'yellow', 'Active', 'Vehicle', 'sedan', '2020-03-27 00:00:00', 'null', 'null'),
+('1C45B203D62D032E9', 'Tesla Semi', 'Tesla', 2014, 'blue', 'Active', 'Vehicle', 'truck', '2017-09-08 00:00:00', 'null', 'null'),
+('1E76D0FA3BEBB2E88', 'Model X', 'Tesla', 2017, 'blue', 'Inactive', 'Vehicle', 'sedan', '2016-10-07 00:00:00', 'null', 'null'),
+('1ED738A47E7FFAFB3', 'Model S', 'Tesla', 2021, 'yellow', 'Inactive', 'Vehicle', 'sedan', '2019-10-26 00:00:00', 'null', 'null'),
+('1FB1FCB67CF5D9988', 'Model X', 'Tesla', 2018, 'yellow', 'Inactive', 'Vehicle', 'sedan', '2013-11-01 00:00:00', 'null', 'null'),
+('202AF246A6024BAA7', 'Model X', 'Tesla', 2019, 'white', 'Active', 'Vehicle', 'sedan', '2022-09-30 00:00:00', 'null', 'null'),
+('21AC29E2C10838298', 'Model Y', 'Tesla', 2018, 'yellow', 'Inactive', 'Vehicle', 'sedan', '2013-04-20 00:00:00', 'null', 'null'),
+('223A231E4737727AE', 'Model Y', 'Tesla', 2021, 'red', 'Inactive', 'Vehicle', 'sedan', '2011-04-15 00:00:00', 'null', 'null'),
+('22D47D5FD193E31F7', 'Tesla Semi', 'Tesla', 2019, 'yellow', 'Inactive', 'Vehicle', 'truck', '2017-07-23 00:00:00', 'null', 'null'),
+('22F5F56CD658C6317', 'Model S', 'Tesla', 2021, 'gold', 'Active', 'Vehicle', 'sedan', '2018-12-28 00:00:00', 'null', 'null'),
+('22F6AFD1B5CA62EC9', 'Model S', 'Tesla', 2011, 'yellow', 'Active', 'Vehicle', 'sedan', '2019-04-28 00:00:00', 'null', 'null'),
+('230B6A7808A721E8D', 'Tesla Semi', 'Tesla', 2021, 'white', 'Inactive', 'Vehicle', 'truck', '2016-09-10 00:00:00', 'null', 'null'),
+('247DF738237902A07', 'Model 3', 'Tesla', 2011, 'blue', 'Inactive', 'Vehicle', 'sedan', '2014-07-15 00:00:00', 'null', 'null'),
+('248D3FDD992584676', 'Tesla Semi', 'Tesla', 2017, 'red', 'Inactive', 'Vehicle', 'truck', '2011-08-23 00:00:00', 'null', 'null'),
+('2519FEF2BED28505E', 'Tesla Semi', 'Tesla', 2020, 'gold', 'Inactive', 'Vehicle', 'truck', '2015-08-20 00:00:00', 'null', 'null'),
+('2573C59810DC4A362', 'Model S', 'Tesla', 2012, 'white', 'Active', 'Vehicle', 'sedan', '2020-04-14 00:00:00', 'null', 'null'),
+('25906C4387F857A1A', 'Tesla Semi', 'Tesla', 2013, 'red', 'Inactive', 'Vehicle', 'truck', '2019-08-02 00:00:00', 'null', 'null'),
+('26995E8F93685C0F6', 'Tesla Semi', 'Tesla', 2019, 'white', 'Inactive', 'Vehicle', 'truck', '2014-02-10 00:00:00', 'null', 'null'),
+('2A61905BBCAE7D848', 'Model 3', 'Tesla', 2011, 'yellow', 'Inactive', 'Vehicle', 'sedan', '2012-11-03 00:00:00', 'null', 'null'),
+('2A73FF1435EE3B8E1', 'Model X', 'Tesla', 2021, 'green', 'Inactive', 'Vehicle', 'sedan', '2022-11-27 00:00:00', 'null', 'null'),
+('2A92FAEEA83AF0DAD', 'Tesla Semi', 'Tesla', 2014, 'green', 'Inactive', 'Vehicle', 'truck', '2017-01-26 00:00:00', 'null', 'null'),
+('2AB9A956997D1A07D', 'Model 3', 'Tesla', 2021, 'silver', 'Active', 'Vehicle', 'sedan', '2017-09-01 00:00:00', 'null', 'null'),
+('2AFD73485427180F3', 'Model Y', 'Tesla', 2017, 'yellow', 'Active', 'Vehicle', 'sedan', '2014-03-06 00:00:00', 'null', 'null'),
+('2B0CDD57A262ED89C', 'Model S', 'Tesla', 2022, 'blue', 'Active', 'Vehicle', 'sedan', '2018-11-29 00:00:00', 'null', 'null'),
+('2C824A7153E4E9007', 'Model X', 'Tesla', 2014, 'gold', 'Inactive', 'Vehicle', 'sedan', '2017-01-30 00:00:00', 'null', 'null'),
+('2F2A5EEE8C7272C9E', 'Model S', 'Tesla', 2018, 'silver', 'Inactive', 'Vehicle', 'sedan', '2017-09-20 00:00:00', 'null', 'null'),
+('300B0F88EA242736B', 'Tesla Semi', 'Tesla', 2014, 'yellow', 'Active', 'Vehicle', 'truck', '2014-05-28 00:00:00', 'null', 'null'),
+('3039AC1CD122B5E4D', 'Model 3', 'Tesla', 2019, 'silver', 'Inactive', 'Vehicle', 'sedan', '2019-11-22 00:00:00', 'null', 'null'),
+('30D2A8CFFA6B772ED', 'Model S', 'Tesla', 2015, 'blue', 'Inactive', 'Vehicle', 'sedan', '2021-04-20 00:00:00', 'null', 'null'),
+('324ADA8B84018640C', 'Tesla Semi', 'Tesla', 2021, 'red', 'Inactive', 'Vehicle', 'truck', '2011-11-21 00:00:00', 'null', 'null'),
+('339471FC74F516373', 'Tesla Semi', 'Tesla', 2013, 'white', 'Inactive', 'Vehicle', 'truck', '2020-07-19 00:00:00', 'null', 'null'),
+('34B01647852CBCFC0', 'Model S', 'Tesla', 2014, 'white', 'Active', 'Vehicle', 'sedan', '2020-02-20 00:00:00', 'null', 'null'),
+('371457C954E4D5C6D', 'Tesla Semi', 'Tesla', 2022, 'blue', 'Active', 'Vehicle', 'truck', '2016-02-06 00:00:00', 'null', 'null'),
+('37272A948AA4879CE', 'Tesla Semi', 'Tesla', 2019, 'white', 'Inactive', 'Vehicle', 'truck', '2021-02-08 00:00:00', 'null', 'null'),
+('3C33391AA5AA06153', 'Model S', 'Tesla', 2022, 'gold', 'Active', 'Vehicle', 'sedan', '2022-04-19 00:00:00', 'null', 'null'),
+('4162ED8B5B78F0A9C', 'Model 3', 'Tesla', 2016, 'black', 'Inactive', 'Vehicle', 'sedan', '2013-03-24 00:00:00', 'null', 'null'),
+('4A54132CA787C71DA', 'Model S', 'Tesla', 2018, 'black', 'Active', 'Vehicle', 'sedan', '2012-04-05 00:00:00', 'null', 'null'),
+('4BE88BF45EB14220F', 'Model X', 'Tesla', 2019, 'silver', 'Inactive', 'Vehicle', 'sedan', '2022-08-29 00:00:00', 'null', 'null'),
+('51119CACE60A757B3', 'Model S', 'Tesla', 2017, 'green', 'Inactive', 'Vehicle', 'sedan', '2017-08-01 00:00:00', 'null', 'null'),
+('52F7466D8C7BF31B1', 'Model Y', 'Tesla', 2018, 'white', 'Inactive', 'Vehicle', 'sedan', '2020-12-20 00:00:00', 'null', 'null'),
+('5442849AA054AEDD5', 'Model Y', 'Tesla', 2019, 'gold', 'Inactive', 'Vehicle', 'sedan', '2017-02-27 00:00:00', 'null', 'null'),
+('54BC058AB7981FAC4', 'Model 3', 'Tesla', 2017, 'red', 'Active', 'Vehicle', 'sedan', '2011-12-05 00:00:00', 'null', 'null'),
+('5527DC84489BAE983', 'Model X', 'Tesla', 2015, 'green', 'Inactive', 'Vehicle', 'sedan', '2021-03-07 00:00:00', 'null', 'null'),
+('55511956B3BD3EAAA', 'Model S', 'Tesla', 2017, 'red', 'Active', 'Vehicle', 'sedan', '2011-03-13 00:00:00', 'null', 'null'),
+('574C4216BD2608F56', 'Model 3', 'Tesla', 2018, 'silver', 'Active', 'Vehicle', 'sedan', '2017-06-12 00:00:00', 'null', 'null'),
+('588DB5480D68D3E51', 'Tesla Semi', 'Tesla', 2016, 'black', 'Active', 'Vehicle', 'truck', '2018-09-14 00:00:00', 'null', 'null'),
+('5975B532F5D656D04', 'Model Y', 'Tesla', 2016, 'yellow', 'Inactive', 'Vehicle', 'sedan', '2018-03-21 00:00:00', 'null', 'null'),
+('5B23DC1C3A4DECBDB', 'Model S', 'Tesla', 2019, 'black', 'Inactive', 'Vehicle', 'sedan', '2012-01-13 00:00:00', 'null', 'null'),
+('5E9B96CC5A2286F18', 'Tesla Semi', 'Tesla', 2016, 'red', 'Active', 'Vehicle', 'truck', '2018-07-17 00:00:00', 'null', 'null'),
+('5EB3F59E6E929ACB3', 'Tesla Semi', 'Tesla', 2021, 'green', 'Active', 'Vehicle', 'truck', '2021-08-30 00:00:00', 'null', 'null'),
+('601FCAF949AD993E5', 'Tesla Semi', 'Tesla', 2013, 'silver', 'Inactive', 'Vehicle', 'truck', '2017-09-26 00:00:00', 'null', 'null'),
+('611AE7E1954931CBE', 'Model X', 'Tesla', 2013, 'black', 'Inactive', 'Vehicle', 'sedan', '2012-09-27 00:00:00', 'null', 'null'),
+('61542504390175FD7', 'Tesla Semi', 'Tesla', 2016, 'red', 'Active', 'Vehicle', 'truck', '2011-07-11 00:00:00', 'null', 'null'),
+('63565A2BA6DD11521', 'Tesla Semi', 'Tesla', 2018, 'black', 'Inactive', 'Vehicle', 'truck', '2020-06-08 00:00:00', 'null', 'null'),
+('646CA9D1E99D63FAD', 'Tesla Semi', 'Tesla', 2022, 'white', 'Inactive', 'Vehicle', 'truck', '2020-08-30 00:00:00', 'null', 'null'),
+('649559FFC7D6AF691', 'Model X', 'Tesla', 2019, 'silver', 'Active', 'Vehicle', 'sedan', '2019-01-23 00:00:00', 'null', 'null'),
+('67B13B56C34D0EDEB', 'Model X', 'Tesla', 2020, 'silver', 'Inactive', 'Vehicle', 'sedan', '2022-05-10 00:00:00', 'null', 'null'),
+('67ED6DC56A794EEB1', 'Tesla Semi', 'Tesla', 2021, 'red', 'Active', 'Vehicle', 'truck', '2019-08-27 00:00:00', 'null', 'null'),
+('68B1F8DBEBE49A805', 'Model S', 'Tesla', 2022, 'red', 'Inactive', 'Vehicle', 'sedan', '2020-03-25 00:00:00', 'null', 'null'),
+('6E02C28CD01195D8A', 'Tesla Semi', 'Tesla', 2013, 'green', 'Inactive', 'Vehicle', 'truck', '2019-03-30 00:00:00', 'null', 'null'),
+('6E433F45D5D0A695C', 'Model X', 'Tesla', 2011, 'black', 'Inactive', 'Vehicle', 'sedan', '2012-07-29 00:00:00', 'null', 'null'),
+('71FEC0BE59E798219', 'Model S', 'Tesla', 2018, 'green', 'Active', 'Vehicle', 'sedan', '2018-03-02 00:00:00', 'null', 'null'),
+('726218CC2DC00C213', 'Tesla Semi', 'Tesla', 2011, 'red', 'Inactive', 'Vehicle', 'truck', '2018-03-03 00:00:00', 'null', 'null'),
+('72A652EB2A6ABC511', 'Model S', 'Tesla', 2016, 'yellow', 'Active', 'Vehicle', 'sedan', '2013-05-22 00:00:00', 'null', 'null'),
+('7406E08BF52652E1F', 'Tesla Semi', 'Tesla', 2011, 'blue', 'Inactive', 'Vehicle', 'truck', '2013-06-21 00:00:00', 'null', 'null'),
+('7407981CFFB7AE381', 'Model 3', 'Tesla', 2022, 'white', 'Inactive', 'Vehicle', 'sedan', '2016-03-25 00:00:00', 'null', 'null'),
+('7694451A25EFEF265', 'Tesla Semi', 'Tesla', 2019, 'white', 'Active', 'Vehicle', 'truck', '2017-10-15 00:00:00', 'null', 'null'),
+('774A5FF2BD156F47E', 'Model Y', 'Tesla', 2018, 'red', 'Inactive', 'Vehicle', 'sedan', '2017-04-17 00:00:00', 'null', 'null'),
+('77A4B4FC10AEA1D2B', 'Model S', 'Tesla', 2021, 'yellow', 'Inactive', 'Vehicle', 'sedan', '2022-02-20 00:00:00', 'null', 'null'),
+('781D5A86937816794', 'Tesla Semi', 'Tesla', 2017, 'white', 'Inactive', 'Vehicle', 'truck', '2011-11-19 00:00:00', 'null', 'null'),
+('7908CA03AA79C7E89', 'Model 3', 'Tesla', 2022, 'silver', 'Active', 'Vehicle', 'sedan', '2018-01-07 00:00:00', 'null', 'null'),
+('79628CB815F742FE9', 'Tesla Semi', 'Tesla', 2013, 'yellow', 'Inactive', 'Vehicle', 'truck', '2019-06-29 00:00:00', 'null', 'null'),
+('7CC388CEF2CB1613D', 'Model Y', 'Tesla', 2013, 'green', 'Active', 'Vehicle', 'sedan', '2020-06-15 00:00:00', 'null', 'null'),
+('7E03A8534E270F851', 'Model Y', 'Tesla', 2017, 'black', 'Inactive', 'Vehicle', 'sedan', '2020-11-06 00:00:00', 'null', 'null'),
+('7FB325F3C28A2BDD4', 'Model Y', 'Tesla', 2022, 'white', 'Inactive', 'Vehicle', 'sedan', '2019-12-05 00:00:00', 'null', 'null'),
+('80084FDF29AB92C7D', 'Model Y', 'Tesla', 2015, 'red', 'Active', 'Vehicle', 'sedan', '2014-02-16 00:00:00', 'null', 'null'),
+('81F3DD75C9016E31C', 'Model Y', 'Tesla', 2020, 'silver', 'Inactive', 'Vehicle', 'sedan', '2011-11-25 00:00:00', 'null', 'null'),
+('820F224D1F6C1926B', 'Model Y', 'Tesla', 2020, 'white', 'Inactive', 'Vehicle', 'sedan', '2018-02-21 00:00:00', 'null', 'null'),
+('82D93D4E0054150D9', 'Model 3', 'Tesla', 2020, 'green', 'Active', 'Vehicle', 'sedan', '2020-01-27 00:00:00', 'null', 'null'),
+('83C655BA56894ED1E', 'Model X', 'Tesla', 2019, 'black', 'Active', 'Vehicle', 'sedan', '2010-12-26 00:00:00', 'null', 'null'),
+('8437CEC22EDF206B3', 'Tesla Semi', 'Tesla', 2021, 'green', 'Inactive', 'Vehicle', 'truck', '2019-09-21 00:00:00', 'null', 'null'),
+('84D2D49C2E7798151', 'Model 3', 'Tesla', 2015, 'green', 'Inactive', 'Vehicle', 'sedan', '2018-09-20 00:00:00', 'null', 'null'),
+('884CF6F4060FFC4B2', 'Tesla Semi', 'Tesla', 2013, 'gold', 'Active', 'Vehicle', 'truck', '2011-06-24 00:00:00', 'null', 'null'),
+('897223BC91F47D5A8', 'Tesla Semi', 'Tesla', 2021, 'gold', 'Active', 'Vehicle', 'truck', '2014-04-04 00:00:00', 'null', 'null'),
+('8ACE0BF84A8C9956D', 'Model S', 'Tesla', 2020, 'silver', 'Inactive', 'Vehicle', 'sedan', '2013-11-24 00:00:00', 'null', 'null'),
+('8AE4AA97B8C7694CC', 'Model 3', 'Tesla', 2015, 'yellow', 'Inactive', 'Vehicle', 'sedan', '2015-10-04 00:00:00', 'null', 'null'),
+('8B44C4928BD7CA4DD', 'Tesla Semi', 'Tesla', 2016, 'yellow', 'Active', 'Vehicle', 'truck', '2014-02-19 00:00:00', 'null', 'null'),
+('8F01842FE1CA70601', 'Tesla Semi', 'Tesla', 2011, 'silver', 'Inactive', 'Vehicle', 'truck', '2012-06-15 00:00:00', 'null', 'null'),
+('927A1BA2CBDFB3FB5', 'Model 3', 'Tesla', 2022, 'white', 'Inactive', 'Vehicle', 'sedan', '2020-11-24 00:00:00', 'null', 'null'),
+('932A8DDBEDA793BDB', 'Tesla Semi', 'Tesla', 2019, 'green', 'Active', 'Vehicle', 'truck', '2020-03-09 00:00:00', 'null', 'null'),
+('9437CB3CA8C352510', 'Tesla Semi', 'Tesla', 2017, 'red', 'Inactive', 'Vehicle', 'truck', '2015-04-14 00:00:00', 'null', 'null'),
+('95D17006B56129ACF', 'Tesla Semi', 'Tesla', 2016, 'blue', 'Inactive', 'Vehicle', 'truck', '2016-11-23 00:00:00', 'null', 'null'),
+('961562AEB46E69817', 'Model Y', 'Tesla', 2022, 'red', 'Inactive', 'Vehicle', 'sedan', '2015-09-06 00:00:00', 'null', 'null'),
+('96AAA2814F8EC75E1', 'Model X', 'Tesla', 2014, 'silver', 'Inactive', 'Vehicle', 'sedan', '2016-09-29 00:00:00', 'null', 'null'),
+('9790B43C9D0B8A6DF', 'Model S', 'Tesla', 2017, 'gold', 'Active', 'Vehicle', 'sedan', '2013-09-27 00:00:00', 'null', 'null'),
+('9FD5407597576163F', 'Model Y', 'Tesla', 2021, 'green', 'Active', 'Vehicle', 'sedan', '2019-06-27 00:00:00', 'null', 'null'),
+('A2ACAC44CDD05C4BB', 'Tesla Semi', 'Tesla', 2018, 'blue', 'Active', 'Vehicle', 'truck', '2021-04-07 00:00:00', 'null', 'null'),
+('A452868F3A23B9FAE', 'Model 3', 'Tesla', 2017, 'white', 'Inactive', 'Vehicle', 'sedan', '2012-12-07 00:00:00', 'null', 'null'),
+('A47D49A48F5BB1C0F', 'Model Y', 'Tesla', 2011, 'silver', 'Inactive', 'Vehicle', 'sedan', '2013-11-25 00:00:00', 'null', 'null'),
+('A4E612D404BA049DC', 'Tesla Semi', 'Tesla', 2016, 'green', 'Inactive', 'Vehicle', 'truck', '2019-09-25 00:00:00', 'null', 'null'),
+('ABBC4556295FC654B', 'Model X', 'Tesla', 2011, 'yellow', 'Active', 'Vehicle', 'sedan', '2022-01-09 00:00:00', 'null', 'null'),
+('ABC70ACA2FEEE2CC4', 'Tesla Semi', 'Tesla', 2022, 'green', 'Inactive', 'Vehicle', 'truck', '2015-12-22 00:00:00', 'null', 'null'),
+('AC029F496AF89CC60', 'Model 3', 'Tesla', 2018, 'silver', 'Inactive', 'Vehicle', 'sedan', '2014-10-29 00:00:00', 'null', 'null'),
+('AC392499CF3BC5D99', 'Model Y', 'Tesla', 2015, 'red', 'Inactive', 'Vehicle', 'sedan', '2015-04-01 00:00:00', 'null', 'null'),
+('AC8804EEAEA019D19', 'Tesla Semi', 'Tesla', 2011, 'white', 'Active', 'Vehicle', 'truck', '2020-10-19 00:00:00', 'null', 'null'),
+('AD17ACFDFABA2DCD4', 'Tesla Semi', 'Tesla', 2012, 'blue', 'Inactive', 'Vehicle', 'truck', '2011-04-27 00:00:00', 'null', 'null'),
+('AE4A67415715C2BE3', 'Model X', 'Tesla', 2016, 'blue', 'Inactive', 'Vehicle', 'sedan', '2019-03-18 00:00:00', 'null', 'null'),
+('B105757E8664D6A5C', 'Tesla Semi', 'Tesla', 2021, 'gold', 'Active', 'Vehicle', 'truck', '2015-02-28 00:00:00', 'null', 'null'),
+('B12CCE14A3F6D19A6', 'Model X', 'Tesla', 2012, 'black', 'Inactive', 'Vehicle', 'sedan', '2019-03-15 00:00:00', 'null', 'null'),
+('B4BAE5C6D60A51F66', 'Model S', 'Tesla', 2011, 'yellow', 'Active', 'Vehicle', 'sedan', '2015-07-31 00:00:00', 'null', 'null'),
+('B65B57B0B2EC36F17', 'Model X', 'Tesla', 2020, 'yellow', 'Active', 'Vehicle', 'sedan', '2021-04-29 00:00:00', 'null', 'null'),
+('BB919BD2B1F100274', 'Model 3', 'Tesla', 2021, 'gold', 'Inactive', 'Vehicle', 'sedan', '2012-12-15 00:00:00', 'null', 'null'),
+('BCDBE58081E60E8A9', 'Model S', 'Tesla', 2011, 'gold', 'Inactive', 'Vehicle', 'sedan', '2013-10-29 00:00:00', 'null', 'null'),
+('BCE01396D44CCE3B5', 'Tesla Semi', 'Tesla', 2018, 'gold', 'Inactive', 'Vehicle', 'truck', '2019-04-21 00:00:00', 'null', 'null'),
+('BDFC461DDCA394D2F', 'Model 3', 'Tesla', 2020, 'blue', 'Inactive', 'Vehicle', 'sedan', '2020-02-05 00:00:00', 'null', 'null'),
+('C0446CFEDE41261AB', 'Model 3', 'Tesla', 2013, 'blue', 'Inactive', 'Vehicle', 'sedan', '2019-08-12 00:00:00', 'null', 'null'),
+('C1AA0968C962D4F2A', 'Model S', 'Tesla', 2016, 'red', 'Active', 'Vehicle', 'sedan', '2014-10-29 00:00:00', 'null', 'null'),
+('C310EA2C8F04DAD28', 'Model X', 'Tesla', 2022, 'blue', 'Active', 'Vehicle', 'sedan', '2016-04-29 00:00:00', 'null', 'null'),
+('C369BA68E1A35BD69', 'Model X', 'Tesla', 2015, 'white', 'Inactive', 'Vehicle', 'sedan', '2014-03-13 00:00:00', 'null', 'null'),
+('C68377574B1FD251D', 'Model X', 'Tesla', 2012, 'white', 'Inactive', 'Vehicle', 'sedan', '2011-01-19 00:00:00', 'null', 'null'),
+('C7EBE439CCB3D408B', 'Model 3', 'Tesla', 2015, 'green', 'Inactive', 'Vehicle', 'sedan', '2013-09-09 00:00:00', 'null', 'null'),
+('C7FE806879FF2CC88', 'Model Y', 'Tesla', 2018, 'white', 'Active', 'Vehicle', 'sedan', '2012-05-06 00:00:00', 'null', 'null'),
+('C89EC2E99E1CF032D', 'Model Y', 'Tesla', 2022, 'green', 'Inactive', 'Vehicle', 'sedan', '2021-09-10 00:00:00', 'null', 'null'),
+('CAECF41388C2B91EA', 'Tesla Semi', 'Tesla', 2011, 'gold', 'Inactive', 'Vehicle', 'truck', '2012-06-30 00:00:00', 'null', 'null'),
+('CAF71463283E37CA2', 'Tesla Semi', 'Tesla', 2012, 'white', 'Active', 'Vehicle', 'truck', '2022-06-03 00:00:00', 'null', 'null'),
+('CDA166342E62CB266', 'Tesla Semi', 'Tesla', 2016, 'yellow', 'Inactive', 'Vehicle', 'truck', '2015-09-07 00:00:00', 'null', 'null'),
+('CF450477894EA4074', 'Tesla Semi', 'Tesla', 2012, 'green', 'Active', 'Vehicle', 'truck', '2012-03-07 00:00:00', 'null', 'null'),
+('D00178F84E2580CFF', 'Tesla Semi', 'Tesla', 2011, 'black', 'Active', 'Vehicle', 'truck', '2014-11-24 00:00:00', 'null', 'null'),
+('D1CD17DD9AF8D8C9A', 'Tesla Semi', 'Tesla', 2011, 'yellow', 'Inactive', 'Vehicle', 'truck', '2014-12-26 00:00:00', 'null', 'null'),
+('D655386983FDB2492', 'Model Y', 'Tesla', 2022, 'black', 'Inactive', 'Vehicle', 'sedan', '2019-04-09 00:00:00', 'null', 'null'),
+('D6D78E8B4255DD860', 'Model 3', 'Tesla', 2019, 'white', 'Active', 'Vehicle', 'sedan', '2016-06-15 00:00:00', 'null', 'null'),
+('D706DDEFD0328EAA7', 'Model 3', 'Tesla', 2018, 'white', 'Inactive', 'Vehicle', 'sedan', '2013-07-02 00:00:00', 'null', 'null'),
+('D84A369C9484A0256', 'Model Y', 'Tesla', 2011, 'green', 'Active', 'Vehicle', 'sedan', '2019-03-04 00:00:00', 'null', 'null'),
+('DB770ADD3969A1640', 'Tesla Semi', 'Tesla', 2013, 'white', 'Active', 'Vehicle', 'truck', '2020-05-28 00:00:00', 'null', 'null'),
+('E053912B280497F89', 'Model X', 'Tesla', 2021, 'silver', 'Inactive', 'Vehicle', 'sedan', '2021-07-27 00:00:00', 'null', 'null'),
+('E62FE7DDE6C4948D0', 'Model X', 'Tesla', 2021, 'yellow', 'Inactive', 'Vehicle', 'sedan', '2011-09-06 00:00:00', 'null', 'null'),
+('EA8D297871B37178D', 'Model X', 'Tesla', 2018, 'blue', 'Inactive', 'Vehicle', 'sedan', '2018-09-18 00:00:00', 'null', 'null'),
+('EC7B9E5DA7576A82C', 'Model X', 'Tesla', 2017, 'silver', 'Inactive', 'Vehicle', 'sedan', '2011-08-02 00:00:00', 'null', 'null'),
+('ED6C1295CC48EA946', 'Model X', 'Tesla', 2021, 'yellow', 'Active', 'Vehicle', 'sedan', '2014-10-24 00:00:00', 'null', 'null'),
+('EDBB75E594A2E7030', 'Tesla Semi', 'Tesla', 2021, 'blue', 'Inactive', 'Vehicle', 'truck', '2016-05-11 00:00:00', 'null', 'null'),
+('F02C3DD59896AF6C2', 'Tesla Semi', 'Tesla', 2018, 'silver', 'Active', 'Vehicle', 'truck', '2014-05-27 00:00:00', 'null', 'null'),
+('F4F223B46BB381C57', 'Model X', 'Tesla', 2017, 'yellow', 'Inactive', 'Vehicle', 'sedan', '2011-12-22 00:00:00', 'null', 'null'),
+('F8B8237A50F9B7496', 'Model Y', 'Tesla', 2021, 'white', 'Inactive', 'Vehicle', 'sedan', '2017-09-08 00:00:00', 'null', 'null'),
+('FAE9B69272FEE31DF', 'Model X', 'Tesla', 2018, 'silver', 'Active', 'Vehicle', 'sedan', '2017-07-28 00:00:00', 'null', 'null'),
+('FD07FB17F2DC38551', 'Tesla Semi', 'Tesla', 2017, 'gold', 'Inactive', 'Vehicle', 'truck', '2011-11-06 00:00:00', 'null', 'null'),
+('FDAF6A356F6E3ADB2', 'Model 3', 'Tesla', 2022, 'blue', 'Active', 'Vehicle', 'sedan', '2019-07-17 00:00:00', 'null', 'null');
+
 --
 -- Indexes for dumped tables
 --
@@ -518,6 +709,12 @@ ALTER TABLE `phased_array_antenna_info`
 --
 ALTER TABLE `satellite_info`
   ADD PRIMARY KEY (`NORAD`);
+
+--
+-- Indexes for table `vehicle_info`
+--
+ALTER TABLE `vehicle_info`
+  ADD PRIMARY KEY (`VIN`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
