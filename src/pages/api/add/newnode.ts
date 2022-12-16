@@ -68,10 +68,11 @@ export default async function handler(
       // }
 
     }
-    return res.status(200).json({ data: Chain.  instance.chain })
+    return res.status(200).json({ data: (Chain.instance.chain) })
   }
 
   catch (error) {
+    console.error(error)
     return res.status(400).json({ foreground: true, error })
   }
 
@@ -97,8 +98,8 @@ async function createNodeAndMineBlock(nodeData: any, connectToDevice: any) {
   // throw new Error('Function not implemented.')
 
   const nodeWallet = new Wallet(),
-  // get active node public & private key of connection request node
-  networkNodePublicKey = (await prisma.ground_station_info.findUnique({
+    // get active node public & private key of connection request node
+    networkNodePublicKey = (await prisma.ground_station_info.findUnique({
       where: { id: connectToDevice['device_id'] }
     }))!.public_key as string,
     // mine & add the block
