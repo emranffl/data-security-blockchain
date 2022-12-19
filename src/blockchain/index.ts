@@ -1,15 +1,16 @@
 import * as crypto from 'crypto'
 import prisma from '@functionalities/DB/prismainstance'
-import { blockchain } from '@prisma/client'
+import { blockchain, blockchain_status, blockchain_type } from '@prisma/client'
+import { initiateBlockchain, resetBlockchain } from './blockchain-initiator'
 
 
 const BLOCK_MINING_DIFFICULTY = 0
 
 interface TransactionDataType {
     name: string,
-    type: 'Satellite' | 'Ground_Station' | 'Phased_Array_Antenna' | 'Mobile' | string,
+    type: blockchain_type,
     uuid: string, // unique identifier for devices such as serial number/NORAD ID
-    status: 'Positioned' | 'Active' | 'Inactive' | 'Decommissioned'
+    status: blockchain_status
 }
 
 /**
@@ -92,7 +93,34 @@ class Chain {
     //* singleton instance
     public static instance = (new Chain())
 
-    chain: Block[] = []
+    chain: Block[] = [
+        //* genesis block generation
+        (() => {
+            const hash = crypto.createHash('MD5'),
+                transaction = new Transaction(
+                    { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
+                    'connecting_genesis_node_public_key_null',
+                    'network_genesis_node_public_key_null',
+                ),
+                genesisBlock = new Block(
+                    transaction.transactionData.name,
+                    transaction.transactionData.status,
+                    transaction.transactionData.type,
+                    transaction.transactionData.uuid,
+                    transaction.connectingNodePublicKey,
+                    transaction.networkNodePublicKey,
+                    'genesis_preceding_block_hash_null',
+                    0,
+                    'genesis_current_block_hash_null'
+                )
+
+            hash.update(genesisBlock.toString()).end()
+
+            genesisBlock.currentHash = hash.digest('hex')
+
+            return genesisBlock
+        })()
+    ]
 
     constructor() {
         // this.chain = [
@@ -125,13 +153,26 @@ class Chain {
         // ]
 
         (async () => {
-            const chain = await prisma.blockchain.findMany()
-            if (chain.length != this.chain.length) {
-                console.log('chain length mismatch', chain.length, this.chain.length)
+
+            // await resetBlockchain()
+            await initiateBlockchain()
+            console.log('Blockchain initiated')
+            
+            return
+
+            // validating with peer to peer network
+            const DB_CHAIN = await prisma.blockchain.findMany()
+
+            if (DB_CHAIN.length != this.chain.length) {
+                console.log(
+                    'Chain length mismatch! Initializing chain on class instance initialization. DB chain: ',
+                    DB_CHAIN.length,
+                    'Chain instance: ', this.chain.length
+                )
 
                 return this.chain = (() => {
-                    return JSON.parse(
-                        JSON.stringify(chain, (key, value) =>
+                    return JSON.parse( // workaround to convert bigint to number
+                        JSON.stringify(DB_CHAIN, (key, value) =>
                             typeof value === 'bigint'
                                 ? value.toString()
                                 : value // return everything else unchanged
@@ -170,10 +211,6 @@ class Chain {
 
             // return this
         })()
-        // .then(chain => {
-        //     console.log(chain)
-        //     this.chain = chain
-        // })
     }
 
     // async init() {
@@ -241,7 +278,7 @@ class Chain {
         let attempt = 1,
             difficultyString = ''.padEnd(BLOCK_MINING_DIFFICULTY, '0')
 
-        console.log('mining - ⛏️  ⛏️  ⛏️')
+        // console.log('mining - ⛏️  ⛏️  ⛏️')
 
         while (true) {
             const hash = crypto.createHash('MD5')
@@ -252,7 +289,7 @@ class Chain {
             const blockHash = hash.digest('hex')
 
             if (blockHash.substring(0, BLOCK_MINING_DIFFICULTY) === difficultyString) {
-                console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
+                // console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
                 return blockHash
             }
 

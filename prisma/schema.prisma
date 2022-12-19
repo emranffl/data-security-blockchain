@@ -103,6 +103,8 @@ enum blockchain_status {
   Active
   Inactive
   Decommissioned
+  Registered
+  Compromised
 }
 
 enum blockchain_type {
