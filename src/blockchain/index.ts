@@ -156,7 +156,7 @@ class Chain {
 
             // await resetBlockchain()
             await initiateBlockchain()
-            console.log('Blockchain initiated')
+            // console.log('Blockchain initiated')
             
             return
 
@@ -278,7 +278,7 @@ class Chain {
         let attempt = 1,
             difficultyString = ''.padEnd(BLOCK_MINING_DIFFICULTY, '0')
 
-        // console.log('mining - ⛏️  ⛏️  ⛏️')
+        console.log('mining - ⛏️  ⛏️  ⛏️')
 
         while (true) {
             const hash = crypto.createHash('MD5')
@@ -289,7 +289,7 @@ class Chain {
             const blockHash = hash.digest('hex')
 
             if (blockHash.substring(0, BLOCK_MINING_DIFFICULTY) === difficultyString) {
-                // console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
+                console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
                 return blockHash
             }
 
@@ -321,7 +321,7 @@ class Chain {
                 transaction.networkNodePublicKey,
                 // transaction,
                 (this.previousBlock as Block).hash,
-                (this.previousBlock as Block).blockDepth + 1
+                (this.previousBlock as Block).depth + 1
             )
 
             newBlock.currentHash = this.mine(newBlock.nonce, newBlock)
