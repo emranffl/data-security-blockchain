@@ -9,6 +9,8 @@ import { Network } from "vis-network"
 import { Links, Device } from "@pages/_app"
 import { randomInRange } from "@functionalities/helper"
 import AddNodesTab from "@components/add/NodesTab"
+// @ts-ignore
+import Graph from 'vis-react'
 
 const
   NODE_COLOR = {
@@ -121,7 +123,7 @@ export const getServerSideProps = async () => {
 
     nodes.push({
       deviceType: Device.Type.GroundStation,
-      id: gs.id,
+      id: gs.id.toString(),
       label: gs.name,
       shape: "circularImage",
       image: { unselected: "/ground-station.png" },
@@ -142,7 +144,7 @@ export const getServerSideProps = async () => {
 
     nodes.push({
       deviceType: Device.Type.PhasedArrayAntenna,
-      id: paa.id,
+      id: paa.id.toString(),
       label: paa.name,
       shape: "image",
       image: {
@@ -332,7 +334,7 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
   return (
     <>
       <Head>
-        <title>Data Security | Blockchain</title>
+        <title>Home | Blockchain</title>
       </Head>
 
       <main className="">
@@ -380,7 +382,23 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
               </div>
             </div>
 
-            <div className="h-[92vh]" id="network-graph"></div>
+            <div className="h-[92vh]" id="network-graph">
+              {/* <Graph
+                graph={{ nodes: networkNodesState, edges: networkEdgesState }}
+                options={{
+                  interaction: {
+                    hover: true,
+                  },
+                  physics: { enabled: true },
+                }}
+              // events={events}
+              // style={style}
+              // getNetwork={this.getNetwork}
+              // getEdges={this.getEdges}
+              // getNodes={this.getNodes}
+              // vis={vis => (this.vis = vis)}
+              /> */}
+            </div>
           </div>
 
           <div className="col-span-1 border border-1">

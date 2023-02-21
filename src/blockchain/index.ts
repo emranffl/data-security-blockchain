@@ -4,7 +4,7 @@ import { blockchain, blockchain_status, blockchain_type } from '@prisma/client'
 import { initiateBlockchain, resetBlockchain } from './blockchain-initiator'
 
 
-const BLOCK_MINING_DIFFICULTY = 0
+export const BLOCK_MINING_DIFFICULTY = 0
 
 interface TransactionDataType {
     name: string,
@@ -154,10 +154,13 @@ class Chain {
 
         (async () => {
 
+            console.log('Initializing blockchain!');
+
+
             // await resetBlockchain()
             await initiateBlockchain()
             // console.log('Blockchain initiated')
-            
+
             return
 
             // validating with peer to peer network
@@ -278,7 +281,7 @@ class Chain {
         let attempt = 1,
             difficultyString = ''.padEnd(BLOCK_MINING_DIFFICULTY, '0')
 
-        console.log('mining - ⛏️  ⛏️  ⛏️')
+        // console.log('mining - ⛏️  ⛏️  ⛏️')
 
         while (true) {
             const hash = crypto.createHash('MD5')
@@ -289,7 +292,7 @@ class Chain {
             const blockHash = hash.digest('hex')
 
             if (blockHash.substring(0, BLOCK_MINING_DIFFICULTY) === difficultyString) {
-                console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
+                // console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
                 return blockHash
             }
 
