@@ -117,6 +117,14 @@ model watercraft_info {
   private_key        String?                @db.Text
 }
 
+model metrics {
+  id                   Int      @id
+  consumed_mining_time Json
+  cpu_mining_usage     Json
+  mem_mining_usage     Json
+  added_on             DateTime @default(now()) @db.Timestamp(0)
+}
+
 enum satellite_info_status {
   Positioned
   Active

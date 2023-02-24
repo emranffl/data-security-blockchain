@@ -3,14 +3,13 @@ import prisma from '@functionalities/DB/prismainstance'
 import { blockchain, blockchain_status, blockchain_type } from '@prisma/client'
 import { initiateBlockchain, resetBlockchain } from './blockchain-initiator'
 
-
 export const BLOCK_MINING_DIFFICULTY = 0
 
 interface TransactionDataType {
-    name: string,
-    type: blockchain_type,
-    uuid: string, // unique identifier for devices such as serial number/NORAD ID
-    status: blockchain_status
+	name: string
+	type: blockchain_type
+	uuid: string // unique identifier for devices such as serial number/NORAD ID
+	status: blockchain_status
 }
 
 /**
@@ -20,17 +19,16 @@ interface TransactionDataType {
  * @param networkNodePublicKey receiving node's public key
  */
 class Transaction {
-    constructor(
-        public transactionData: TransactionDataType,
-        public connectingNodePublicKey: string,
-        public networkNodePublicKey: string,
-    ) { }
+	constructor(
+		public transactionData: TransactionDataType,
+		public connectingNodePublicKey: string,
+		public networkNodePublicKey: string
+	) {}
 
-    toString() {
-        return JSON.stringify(this)
-    }
+	toString() {
+		return JSON.stringify(this)
+	}
 }
-
 
 /**
  * Individual block on the chain. Similar to an element on a linked list.
@@ -42,303 +40,352 @@ class Transaction {
  * @param transactionDate timestamp of block creation
  */
 class Block {
+	constructor(
+		// public transactionData: TransactionDataType | string,
+		public name: TransactionDataType['name'],
+		public status: TransactionDataType['status'],
+		public type: TransactionDataType['type'],
+		public uuid: TransactionDataType['uuid'],
+		public connectingNodePublicKey: Transaction['connectingNodePublicKey'],
+		public networkNodePublicKey: Transaction['networkNodePublicKey'],
+		public precedingBlockHash: string,
+		public blockDepth: number,
+		public currentHash: string = '',
+		public attempt: number = 0,
+		public transactionDate: Date = new Date(),
+		public nonce: number = Math.round(Math.random() * 999999999)
+	) {}
 
-    constructor(
-        // public transactionData: TransactionDataType | string,
-        public name: TransactionDataType['name'],
-        public status: TransactionDataType['status'],
-        public type: TransactionDataType['type'],
-        public uuid: TransactionDataType['uuid'],
-        public connectingNodePublicKey: Transaction['connectingNodePublicKey'],
-        public networkNodePublicKey: Transaction['networkNodePublicKey'],
-        public precedingBlockHash: string,
-        public blockDepth: number,
-        public currentHash: string = '',
-        public attempt: number = 0,
-        public transactionDate: Date = new Date(),
-        public nonce: number = Math.round(Math.random() * 999999999)
-    ) { }
+	/**
+	 * Hashes the block data and returns the hash.
+	 */
+	calculateHash() {
+		const hash = crypto.createHash('MD5'),
+			blockClone = { ...this }
 
-    /**
-     * Hashes the block data and returns the hash.
-    */
-    calculateHash() {
-        const hash = crypto.createHash('MD5'),
-            blockClone = { ...this }
+		blockClone.currentHash = ''
 
-        blockClone.currentHash = ''
+		hash.update(
+			blockClone.nonce + blockClone.attempt + JSON.stringify(blockClone)
+		).end()
+		return hash.digest('hex')
+	}
 
-        hash.update((blockClone.nonce + blockClone.attempt) + JSON.stringify(blockClone)).end()
-        return hash.digest('hex')
-    }
+	get hash() {
+		return this.currentHash
+	}
 
-    get hash() {
-        return this.currentHash
-    }
+	get depth() {
+		return this.blockDepth
+	}
 
-    get depth() {
-        return this.blockDepth
-    }
-
-    toString() {
-        return JSON.stringify(this)
-    }
+	toString() {
+		return JSON.stringify(this)
+	}
 }
-
 
 /**
  * The blockchain that holds all the blocks.
  */
 class Chain {
-    //* singleton instance
-    public static instance = (new Chain())
+	//* singleton instance
+	public static instance = new Chain()
 
-    chain: Block[] = [
-        //* genesis block generation
-        (() => {
-            const hash = crypto.createHash('MD5'),
-                transaction = new Transaction(
-                    { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
-                    'connecting_genesis_node_public_key_null',
-                    'network_genesis_node_public_key_null',
-                ),
-                genesisBlock = new Block(
-                    transaction.transactionData.name,
-                    transaction.transactionData.status,
-                    transaction.transactionData.type,
-                    transaction.transactionData.uuid,
-                    transaction.connectingNodePublicKey,
-                    transaction.networkNodePublicKey,
-                    'genesis_preceding_block_hash_null',
-                    0,
-                    'genesis_current_block_hash_null'
-                )
+	chain: Block[] = [
+		//* genesis block generation
+		(() => {
+			const hash = crypto.createHash('MD5'),
+				transaction = new Transaction(
+					{
+						name: 'genesis',
+						status: 'Active',
+						type: 'genesis_block',
+						uuid: 'genesis_uuid',
+					},
+					'connecting_genesis_node_public_key_null',
+					'network_genesis_node_public_key_null'
+				),
+				genesisBlock = new Block(
+					transaction.transactionData.name,
+					transaction.transactionData.status,
+					transaction.transactionData.type,
+					transaction.transactionData.uuid,
+					transaction.connectingNodePublicKey,
+					transaction.networkNodePublicKey,
+					'genesis_preceding_block_hash_null',
+					0,
+					'genesis_current_block_hash_null'
+				)
 
-            hash.update(genesisBlock.toString()).end()
+			hash.update(genesisBlock.toString()).end()
 
-            genesisBlock.currentHash = hash.digest('hex')
+			genesisBlock.currentHash = hash.digest('hex')
 
-            return genesisBlock
-        })()
-    ]
+			return genesisBlock
+		})(),
+	]
 
-    constructor() {
-        // this.chain = [
-        //     //* genesis block generation
-        //     (() => {
-        //         const hash = crypto.createHash('MD5'),
-        //             transaction = new Transaction(
-        //                 { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
-        //                 'connecting_genesis_node_public_key_null',
-        //                 'network_genesis_node_public_key_null',
-        //             ),
-        //             genesisBlock = new Block(
-        //                 transaction.transactionData.name,
-        //                 transaction.transactionData.type,
-        //                 transaction.transactionData.uuid,
-        //                 transaction.transactionData.status,
-        //                 transaction.connectingNodePublicKey,
-        //                 transaction.networkNodePublicKey,
-        //                 'genesis_preceding_block_hash_null',
-        //                 0,
-        //                 'genesis_current_block_hash_null'
-        //             )
+	constructor() {
+		// this.chain = [
+		//     //* genesis block generation
+		//     (() => {
+		//         const hash = crypto.createHash('MD5'),
+		//             transaction = new Transaction(
+		//                 { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
+		//                 'connecting_genesis_node_public_key_null',
+		//                 'network_genesis_node_public_key_null',
+		//             ),
+		//             genesisBlock = new Block(
+		//                 transaction.transactionData.name,
+		//                 transaction.transactionData.type,
+		//                 transaction.transactionData.uuid,
+		//                 transaction.transactionData.status,
+		//                 transaction.connectingNodePublicKey,
+		//                 transaction.networkNodePublicKey,
+		//                 'genesis_preceding_block_hash_null',
+		//                 0,
+		//                 'genesis_current_block_hash_null'
+		//             )
 
-        //         hash.update(genesisBlock.toString()).end()
+		//         hash.update(genesisBlock.toString()).end()
 
-        //         genesisBlock.currentHash = hash.digest('hex')
+		//         genesisBlock.currentHash = hash.digest('hex')
 
-        //         return genesisBlock
-        //     })()
-        // ]
+		//         return genesisBlock
+		//     })()
+		// ]
 
-        (async () => {
+		;(async () => {
+			console.log('Initializing blockchain!')
 
-            console.log('Initializing blockchain!');
+			// await resetBlockchain()
+			await initiateBlockchain()
+			// console.log('Blockchain initiated')
 
+			return
 
-            // await resetBlockchain()
-            await initiateBlockchain()
-            // console.log('Blockchain initiated')
+			// validating with peer to peer network
+			const DB_CHAIN = await prisma.blockchain.findMany()
 
-            return
+			if (DB_CHAIN.length != this.chain.length) {
+				console.log(
+					'Chain length mismatch! Initializing chain on class instance initialization. DB chain: ',
+					DB_CHAIN.length,
+					'Chain instance: ',
+					this.chain.length
+				)
 
-            // validating with peer to peer network
-            const DB_CHAIN = await prisma.blockchain.findMany()
+				return (this.chain = (() => {
+					return JSON.parse(
+						// workaround to convert bigint to number
+						JSON.stringify(
+							DB_CHAIN,
+							(key, value) =>
+								typeof value === 'bigint'
+									? value.toString()
+									: value // return everything else unchanged
+						)
+					)
+				})())
+			}
 
-            if (DB_CHAIN.length != this.chain.length) {
-                console.log(
-                    'Chain length mismatch! Initializing chain on class instance initialization. DB chain: ',
-                    DB_CHAIN.length,
-                    'Chain instance: ', this.chain.length
-                )
+			this.chain = [
+				//* genesis block generation
+				(() => {
+					const hash = crypto.createHash('MD5'),
+						transaction = new Transaction(
+							{
+								name: 'genesis',
+								status: 'Active',
+								type: 'genesis_block',
+								uuid: 'genesis_uuid',
+							},
+							'connecting_genesis_node_public_key_null',
+							'network_genesis_node_public_key_null'
+						),
+						genesisBlock = new Block(
+							transaction.transactionData.name,
+							transaction.transactionData.status,
+							transaction.transactionData.type,
+							transaction.transactionData.uuid,
+							transaction.connectingNodePublicKey,
+							transaction.networkNodePublicKey,
+							'genesis_preceding_block_hash_null',
+							0,
+							'genesis_current_block_hash_null'
+						)
 
-                return this.chain = (() => {
-                    return JSON.parse( // workaround to convert bigint to number
-                        JSON.stringify(DB_CHAIN, (key, value) =>
-                            typeof value === 'bigint'
-                                ? value.toString()
-                                : value // return everything else unchanged
-                        ))
-                })()
-            }
+					hash.update(genesisBlock.toString()).end()
 
-            this.chain = [
-                //* genesis block generation
-                (() => {
-                    const hash = crypto.createHash('MD5'),
-                        transaction = new Transaction(
-                            { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
-                            'connecting_genesis_node_public_key_null',
-                            'network_genesis_node_public_key_null',
-                        ),
-                        genesisBlock = new Block(
-                            transaction.transactionData.name,
-                            transaction.transactionData.status,
-                            transaction.transactionData.type,
-                            transaction.transactionData.uuid,
-                            transaction.connectingNodePublicKey,
-                            transaction.networkNodePublicKey,
-                            'genesis_preceding_block_hash_null',
-                            0,
-                            'genesis_current_block_hash_null'
-                        )
+					genesisBlock.currentHash = hash.digest('hex')
 
-                    hash.update(genesisBlock.toString()).end()
+					return genesisBlock
+				})(),
+			]
 
-                    genesisBlock.currentHash = hash.digest('hex')
+			// return this
+		})()
+	}
 
-                    return genesisBlock
-                })()
-            ]
+	// async init() {
 
-            // return this
-        })()
-    }
+	//     const hash = crypto.createHash('MD5'),
+	//         transaction = new Transaction(
+	//             { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
+	//             'connecting_genesis_node_public_key_null',
+	//             'network_genesis_node_public_key_null',
+	//         ),
+	//         genesisBlock = new Block(
+	//             transaction.transactionData.name,
+	//             transaction.transactionData.type,
+	//             transaction.transactionData.uuid,
+	//             transaction.transactionData.status,
+	//             transaction.connectingNodePublicKey,
+	//             transaction.networkNodePublicKey,
+	//             'genesis_preceding_block_hash_null',
+	//             0,
+	//             'genesis_current_block_hash_null'
+	//         )
 
-    // async init() {
+	//     hash.update(genesisBlock.toString()).end()
 
-    //     const hash = crypto.createHash('MD5'),
-    //         transaction = new Transaction(
-    //             { name: 'genesis', status: "Active", type: "genesis_block", uuid: "genesis_uuid" },
-    //             'connecting_genesis_node_public_key_null',
-    //             'network_genesis_node_public_key_null',
-    //         ),
-    //         genesisBlock = new Block(
-    //             transaction.transactionData.name,
-    //             transaction.transactionData.type,
-    //             transaction.transactionData.uuid,
-    //             transaction.transactionData.status,
-    //             transaction.connectingNodePublicKey,
-    //             transaction.networkNodePublicKey,
-    //             'genesis_preceding_block_hash_null',
-    //             0,
-    //             'genesis_current_block_hash_null'
-    //         )
+	//     genesisBlock.currentHash = hash.digest('hex')
 
-    //     hash.update(genesisBlock.toString()).end()
+	//     const chain = await prisma.blockchain.findMany()
+	//     if (chain.length != this.chain.length)
+	//         this.chain = chain
+	//     else
+	//         this.chain = [genesisBlock]
 
-    //     genesisBlock.currentHash = hash.digest('hex')
+	//     return this
+	// }
 
-    //     const chain = await prisma.blockchain.findMany()
-    //     if (chain.length != this.chain.length)
-    //         this.chain = chain
-    //     else
-    //         this.chain = [genesisBlock]
+	/**
+	 * Retrieves the previous block of the chain.
+	 */
+	get previousBlock() {
+		return this.chain[this.chain.length - 1]
+	}
 
-    //     return this
-    // }
+	/**
+	 * Validate the chain by checking the hash of each block.
+	 */
+	get chainIsValid() {
+		for (let i = 1; i < this.chain.length; i++) {
+			const currentBlock = this.chain[i] as Block,
+				precedingBlock = this.chain[i - 1] as Block
 
-    /**
-     * Retrieves the previous block of the chain.
-     */
-    get previousBlock() {
-        return this.chain[this.chain.length - 1]
-    }
+			if (
+				currentBlock.precedingBlockHash !==
+					precedingBlock.calculateHash() &&
+				currentBlock.hash !== currentBlock.calculateHash()
+			)
+				return false
+		}
 
-    /**
-     * Validate the chain by checking the hash of each block.
-     */
-    get chainIsValid() {
-        for (let i = 1; i < this.chain.length; i++) {
-            const currentBlock = this.chain[i] as Block,
-                precedingBlock = this.chain[i - 1] as Block
+		return true
+	}
 
-            if (currentBlock.precedingBlockHash !== precedingBlock.calculateHash() &&
-                currentBlock.hash !== currentBlock.calculateHash()) return false
-        }
+	/**
+	 * Implementation of proof-of-work.
+	 * @param nonce a 9 digit random number
+	 * @param blockData an object of Block class
+	 * @returns hash string of block
+	 */
+	// mine(nonce: number, blockData: Block) {
+	//     let attempt = 1,
+	//         difficultyString = ''.padEnd(BLOCK_MINING_DIFFICULTY, '0')
 
-        return true
-    }
+	//     // console.log('mining - ⛏️  ⛏️  ⛏️')
 
-    /**
-     * Implementation of proof-of-work.
-     * @param nonce a 9 digit random number
-     * @param blockData an object of Block class
-     * @returns hash string of block
-     */
-    mine(nonce: number, blockData: Block) {
-        let attempt = 1,
-            difficultyString = ''.padEnd(BLOCK_MINING_DIFFICULTY, '0')
+	//     while (true) {
+	//         const hash = crypto.createHash('MD5')
 
-        // console.log('mining - ⛏️  ⛏️  ⛏️')
+	//         blockData.attempt = attempt
+	//         hash.update((nonce + attempt + blockData.toString()).toString()).end()
 
-        while (true) {
-            const hash = crypto.createHash('MD5')
+	//         const blockHash = hash.digest('hex')
 
-            blockData.attempt = attempt
-            hash.update((nonce + attempt + blockData.toString()).toString()).end()
+	//         if (blockHash.substring(0, BLOCK_MINING_DIFFICULTY) === difficultyString) {
+	//             // console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
+	//             return blockHash
+	//         }
 
-            const blockHash = hash.digest('hex')
+	//         attempt++
+	//     }
+	// }
 
-            if (blockHash.substring(0, BLOCK_MINING_DIFFICULTY) === difficultyString) {
-                // console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
-                return blockHash
-            }
+	mine(nonce: number, blockData: Block): Promise<string> {
+		let attempt = 1
+		const difficultyString = ''.padEnd(BLOCK_MINING_DIFFICULTY, '0')
 
-            attempt++
-        }
-    }
+		return new Promise<string>((resolve, reject) => {
+			while (true) {
+				const hash = crypto.createHash('MD5')
 
-    /**
-     * Add a new block to the chain on valid signature & completing proof-of-work
-     * @param transaction an instance of Transaction class
-     * @param connectingNodePublicKey linking node's public key
-     * @param signature digital signature using linking node's key pairs
-     */
-    addBlock(
-        transaction: Transaction,
-        connectingNodePublicKey: string,
-        signature: Buffer,
-    ) {
-        const verifyTransaction = crypto.createVerify('SHA256').update(transaction.toString()),
-            isValid = verifyTransaction.verify(connectingNodePublicKey, signature)
+				blockData.attempt = attempt
+				hash.update(
+					(nonce + attempt + blockData.toString()).toString()
+				).end()
 
-        if (isValid) {
-            const newBlock = new Block(
-                transaction.transactionData.name,
-                transaction.transactionData.status,
-                transaction.transactionData.type,
-                transaction.transactionData.uuid,
-                transaction.connectingNodePublicKey,
-                transaction.networkNodePublicKey,
-                // transaction,
-                (this.previousBlock as Block).hash,
-                (this.previousBlock as Block).depth + 1
-            )
+				const blockHash = hash.digest('hex')
 
-            newBlock.currentHash = this.mine(newBlock.nonce, newBlock)
+				if (
+					blockHash.substring(0, BLOCK_MINING_DIFFICULTY) ===
+					difficultyString
+				) {
+					resolve(blockHash)
+					break
+				} else {
+					attempt++
+				}
+			}
+		})
+	}
 
-            this.chain.push(newBlock)
+	/**
+	 * Add a new block to the chain on valid signature & completing proof-of-work
+	 * @param transaction an instance of Transaction class
+	 * @param connectingNodePublicKey linking node's public key
+	 * @param signature digital signature using linking node's key pairs
+	 */
+	async addBlock(
+		transaction: Transaction,
+		connectingNodePublicKey: string,
+		signature: Buffer
+	): Promise<Block> {
+		const verifyTransaction = crypto
+				.createVerify('SHA256')
+				.update(transaction.toString()),
+			isValid = verifyTransaction.verify(
+				connectingNodePublicKey,
+				signature
+			)
 
-            return newBlock
-        } else
-            throw new Error('Invalid signature!')
-    }
+		if (isValid) {
+			const newBlock = new Block(
+				transaction.transactionData.name,
+				transaction.transactionData.status,
+				transaction.transactionData.type,
+				transaction.transactionData.uuid,
+				transaction.connectingNodePublicKey,
+				transaction.networkNodePublicKey,
+				// transaction,
+				(this.previousBlock as Block).hash,
+				(this.previousBlock as Block).depth + 1
+			)
 
-    toString() {
-        return JSON.stringify(this.chain)
-    }
+			newBlock.currentHash = await this.mine(newBlock.nonce, newBlock)
+
+			this.chain.push(newBlock)
+
+			return newBlock
+		} else throw new Error('Invalid signature!')
+	}
+
+	toString() {
+		return JSON.stringify(this.chain)
+	}
 }
 
 /**
@@ -346,33 +393,49 @@ class Chain {
  * It acts as a digital address for the nodes.
  */
 class Wallet {
-    public publicKey: string
-    public privateKey: string
+	public publicKey: string
+	public privateKey: string
 
-    constructor(public_key: string | null = null, private_key: string | null = null) {
-        const keyPair = crypto.generateKeyPairSync('rsa', {
-            modulusLength: 2048,
-            publicKeyEncoding: { type: 'spki', format: 'pem' },
-            privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
-        })
+	constructor(
+		public_key: string | null = null,
+		private_key: string | null = null
+	) {
+		const keyPair = crypto.generateKeyPairSync('rsa', {
+			modulusLength: 2048,
+			publicKeyEncoding: { type: 'spki', format: 'pem' },
+			privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
+		})
 
-        this.privateKey = private_key ?? keyPair.privateKey
-        this.publicKey = public_key ?? keyPair.publicKey
-    }
+		this.privateKey = private_key ?? keyPair.privateKey
+		this.publicKey = public_key ?? keyPair.publicKey
+	}
 
-    createORupdateLink(linkData: TransactionDataType, networkNodePublicKey: typeof Wallet.prototype.publicKey) {
-        //* throw error if linking to itself
-        if (networkNodePublicKey == this.publicKey) throw new Error('Cannot link to self! Provided public key is of the same node.')
+	createORupdateLink(
+		linkData: TransactionDataType,
+		networkNodePublicKey: typeof Wallet.prototype.publicKey
+	) {
+		//* throw error if linking to itself
+		if (networkNodePublicKey == this.publicKey)
+			throw new Error(
+				'Cannot link to self! Provided public key is of the same node.'
+			)
 
-        const transaction = new Transaction(linkData, this.publicKey, networkNodePublicKey),
-            signature = crypto.createSign('SHA256')
+		const transaction = new Transaction(
+				linkData,
+				this.publicKey,
+				networkNodePublicKey
+			),
+			signature = crypto.createSign('SHA256')
 
-        signature.update(transaction.toString()).end()
+		signature.update(transaction.toString()).end()
 
-        return Chain.instance.addBlock(transaction, this.publicKey, signature.sign(this.privateKey))
-    }
+		return Chain.instance.addBlock(
+			transaction,
+			this.publicKey,
+			signature.sign(this.privateKey)
+		)
+	}
 }
-
 
 export { Chain, Wallet }
 export type { TransactionDataType }
