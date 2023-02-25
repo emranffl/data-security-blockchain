@@ -21,8 +21,9 @@ import { cpuUsage, memoryUsage } from 'process'
 import { BLOCK_MINING_DIFFICULTY, Chain, Wallet } from './index'
 import prisma from '@functionalities/DB/prismainstance'
 import { arrayBuffer } from 'stream/consumers'
+import { Device } from '@pages/_app'
 
-const createBlock = ({
+const mineBlock = ({
 	node,
 	status,
 	nodeWallet,
@@ -241,9 +242,21 @@ const initiateBlockchain = async () => {
 			)
 		})
 
-		let timeConsumedToCreateNodes: number[] = [],
-			CPUUsageToCreateNodes: NodeJS.CpuUsage[] = [],
-			memUsageToCreateNodes: NodeJS.MemoryUsage[] = []
+		let numberOfAttemptsToMineBlocks: number[] = [],
+			timeConsumedToMineBlocks: number[] = [],
+			CPUUsageToMineBlocks: NodeJS.CpuUsage[] = [],
+			memUsageToMineBlocks: NodeJS.MemoryUsage[] = [],
+			/**
+			 * This code creates an object with keys that are the values of blockchain_type
+			 * and values that are 0. It is used to create an object that can be used to
+			 * track the progress of the blockchain sync.
+			 */
+			minedBlocksCountPerDeviceType = Object.values(
+				blockchain_type
+			).reduce((accumulator, current) => {
+				if (current !== 'genesis_block') accumulator[current] = 0
+				return accumulator
+			}, {} as { [key in blockchain_type]: number })
 
 		nodes.map(async (node, index) => {
 			let nodeWallet = new Wallet()
@@ -259,7 +272,7 @@ const initiateBlockchain = async () => {
 					initializeCPUUsage = cpuUsage(),
 					initializeMemoryUsage = memoryUsage()
 
-				await createBlock({
+				const minedBlock = await mineBlock({
 					node,
 					status,
 					nodeWallet,
@@ -279,9 +292,13 @@ const initiateBlockchain = async () => {
 				// console.log('CPU usage: ', CPUUsage)
 				// console.log('Memory usage: ', memUsage)
 
-				timeConsumedToCreateNodes.push(timeConsumed)
-				CPUUsageToCreateNodes.push(CPUUsage)
-				memUsageToCreateNodes.push(memUsage)
+				numberOfAttemptsToMineBlocks.push(minedBlock.attempt)
+				timeConsumedToMineBlocks.push(timeConsumed)
+				CPUUsageToMineBlocks.push(CPUUsage)
+				memUsageToMineBlocks.push(memUsage)
+				minedBlocksCountPerDeviceType[
+					node.device_type as keyof typeof blockchain_type
+				]++
 
 				if (node.status == status) {
 					break
@@ -289,6 +306,11 @@ const initiateBlockchain = async () => {
 			}
 
 			if (index == nodes.length - 1) {
+				// console.log(
+				// 	'Attempted to mine blocks: ',
+				// 	numberOfAttemptsToMineBlocks,
+				// 	numberOfAttemptsToMineBlocks.length
+				// )
 				// console.log(
 				// 	'Time consumed to create nodes: ',
 				// 	timeConsumedToCreateNodes,
@@ -304,23 +326,30 @@ const initiateBlockchain = async () => {
 				// 	memUsageToCreateNodes,
 				// 	memUsageToCreateNodes.length
 				// )
-
-				// //* calculate average time consumed to create nodes
-				// let averageTimeConsumedToCreateNodes = timeConsumedToCreateNodes.reduce(
-				// 	(accumulator, currentValue) => accumulator + currentValue
+				// console.log(
+				// 	'Mined blocks count per device type: ',
+				// 	minedBlocksCountPerDeviceType
 				// )
+
+				const transformedNumberOfAttemptsToMineBlocksData = [
+					['Block(n)', 'Attempt(n)'],
+					...numberOfAttemptsToMineBlocks.map((value, index) => [
+						index,
+						value,
+					]),
+				]
 
 				const transformedTimeConsumedToCreateNodesData = [
 					['Block(n)', 'Time(ms)'],
-					...timeConsumedToCreateNodes.map((value, index) => [
+					...timeConsumedToMineBlocks.map((value, index) => [
 						index,
 						value,
 					]),
 				]
 
 				const transformedCPUUsageToCreateNodesData = [
-					['Block', 'CPU User', 'CPU System'],
-					...CPUUsageToCreateNodes.map(({ user, system }, index) => [
+					['Block', 'User', 'System'],
+					...CPUUsageToMineBlocks.map(({ user, system }, index) => [
 						index + 1,
 						user / 1000,
 						system / 1000,
@@ -330,12 +359,12 @@ const initiateBlockchain = async () => {
 				const transformedMemUsageToCreateNodesData = [
 					[
 						'Block(n)',
-						'Mem RSS(MB)',
-						'Mem Heap Total(MB)',
-						'Mem Heap Used(MB)',
-						'Mem Array Buffers(MB)',
+						'RSS(MB)',
+						'Heap Total(MB)',
+						'Heap Used(MB)',
+						'Array Buffers(MB)',
 					],
-					...memUsageToCreateNodes.map(
+					...memUsageToMineBlocks.map(
 						({ rss, heapTotal, heapUsed, arrayBuffers }, index) => [
 							index + 1,
 							rss / (1024 * 1024),
@@ -346,11 +375,12 @@ const initiateBlockchain = async () => {
 					),
 				]
 
-				// console.log(
-				// 	transformedTimeConsumedToCreateNodesData,
-				// 	'\n\n',
-				// 	transformedCPUUsageToCreateNodesData
-				// )
+				const transformedMinedBlocksCountPerDeviceTypeData = [
+					['Device Type', 'Mined Blocks(n)'],
+					...Object.entries(minedBlocksCountPerDeviceType).map(
+						([key, value]) => [key.replace(/_/g, ' '), value]
+					),
+				]
 
 				//* store metrics in DB
 				try {
@@ -358,12 +388,16 @@ const initiateBlockchain = async () => {
 					await prisma.metrics.createMany({
 						data: {
 							id: 1,
+							attempts_to_mine_blocks:
+								transformedNumberOfAttemptsToMineBlocksData,
 							consumed_mining_time:
 								transformedTimeConsumedToCreateNodesData,
 							cpu_mining_usage:
 								transformedCPUUsageToCreateNodesData,
 							mem_mining_usage:
 								transformedMemUsageToCreateNodesData,
+							mined_block_count:
+								transformedMinedBlocksCountPerDeviceTypeData,
 						},
 					})
 				} catch (error) {

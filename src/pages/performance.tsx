@@ -1,42 +1,64 @@
 import prisma from '@functionalities/DB/prismainstance'
+import { blockchain_type } from '@prisma/client'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import { Chart } from 'react-google-charts'
 
 export async function getServerSideProps() {
-	const [{ consumed_mining_time, cpu_mining_usage, mem_mining_usage }] =
-		await prisma.metrics.findMany({
-			where: {
-				id: 1,
-			},
-			select: {
-				consumed_mining_time: true,
-				cpu_mining_usage: true,
-				mem_mining_usage: true,
-			},
-		})
+	const [
+		{
+			attempts_to_mine_blocks,
+			consumed_mining_time,
+			cpu_mining_usage,
+			mem_mining_usage,
+			mined_block_count,
+		},
+	] = await prisma.metrics.findMany({
+		where: {
+			id: 1,
+		},
+		select: {
+			attempts_to_mine_blocks: true,
+			consumed_mining_time: true,
+			cpu_mining_usage: true,
+			mem_mining_usage: true,
+			mined_block_count: true,
+		},
+	})
 
 	return {
 		props: {
-			c1data: consumed_mining_time,
-			c2data: cpu_mining_usage,
-			c3data: mem_mining_usage,
+			attempts_to_mine_blocks,
+			consumed_mining_time,
+			cpu_mining_usage,
+			mem_mining_usage,
+			mined_block_count,
 		},
 	}
 }
 
 interface PerformanceProps {
-	c1data: any
-	c2data: any
-	c3data: any
+	attempts_to_mine_blocks: any
+	consumed_mining_time: any
+	cpu_mining_usage: any
+	mem_mining_usage: any
+	mined_block_count: any
 }
 
 const Performance: NextPage<PerformanceProps> = ({
-	c1data,
-	c2data,
-	c3data,
+	attempts_to_mine_blocks,
+	consumed_mining_time,
+	cpu_mining_usage,
+	mem_mining_usage,
+	mined_block_count,
 }) => {
-	console.log(typeof c1data, typeof c2data)
+	console.log(
+		attempts_to_mine_blocks,
+		consumed_mining_time,
+		cpu_mining_usage,
+		mem_mining_usage,
+		mined_block_count
+	)
 
 	return (
 		<>
@@ -46,11 +68,30 @@ const Performance: NextPage<PerformanceProps> = ({
 
 			<section className='container my-20 min-h-screen flex justify-center flex-col gap-y-20'>
 				<Chart
+					className='px-5'
 					chartType='Bar'
 					width='100%'
 					height='75vh'
 					loader={<div>Loading Chart...</div>}
-					data={c1data}
+					data={attempts_to_mine_blocks}
+					options={{
+						chart: {
+							title: 'Number of attempts required to calculate hash for each block in the blockchain',
+							subtitle: 'in count (n)',
+						},
+						colors: ['913175'],
+						curveType: 'function',
+						bars: 'vertical',
+					}}
+				/>
+
+				<Chart
+					className='px-5'
+					chartType='Line'
+					width='100%'
+					height='75vh'
+					loader={<div>Loading Chart...</div>}
+					data={consumed_mining_time}
 					options={{
 						chart: {
 							title: 'Time required to mine each block in the blockchain',
@@ -63,15 +104,16 @@ const Performance: NextPage<PerformanceProps> = ({
 				/>
 
 				<Chart
+					className='px-5'
 					chartType='AreaChart'
-					data={c2data}
+					data={cpu_mining_usage}
 					options={{
-						title: 'CPU Usage per Block while mining',
+						title: 'CPU usage time per block while mining in milliseconds (ms)',
 						hAxis: {
 							title: 'Block(n)',
 						},
 						vAxis: {
-							title: 'CPU Usage',
+							title: 'Time(ms)',
 							minValue: 0,
 						},
 						chartArea: {
@@ -88,13 +130,14 @@ const Performance: NextPage<PerformanceProps> = ({
 				/>
 
 				<Chart
+					className='px-5 -ml-10'
 					chartType='AreaChart'
 					width='100%'
 					height='75vh'
 					loader={<div>Loading Chart...</div>}
-					data={c3data}
+					data={mem_mining_usage}
 					options={{
-						title: 'Memory Usage per Block while mining',
+						title: 'Memory usage space per block while mining in megabytes (MB)',
 						hAxis: {
 							title: 'Block(n)',
 						},
@@ -102,14 +145,46 @@ const Performance: NextPage<PerformanceProps> = ({
 							title: 'Memory(MB)',
 						},
 						chartArea: {
-							width: '80%',
-							height: '80%',
+							width: '75%',
+							height: '75%',
 						},
 						series: {
 							0: { areaOpacity: 0.65 },
 							1: { curveType: 'function' },
 						},
 					}}
+				/>
+
+				<Chart
+					chartType='PieChart'
+					loader={<div>Loading Chart...</div>}
+					data={mined_block_count}
+					options={{
+						title: 'Mined blocks ratio per device type in the blockchain',
+						legend: {
+							position: 'right',
+							alignment: 'center',
+							textStyle: {
+								color: 'black',
+								fontSize: 16,
+							},
+						},
+						// pieSliceText: 'label',
+						slices: {
+							// 0: { offset: 0.2 },
+							// 1: { offset: 0.1 },
+							// 2: { offset: 0.4 },
+							// 3: { offset: 0.5 },
+							// 4: { offset: 0.6 },
+							// 5: { offset: 0.6 },
+							6: { offset: 0.05 },
+							12: { offset: 0.3 },
+							14: { offset: 0.4 },
+							15: { offset: 0.5 },
+						},
+					}}
+					width='100%'
+					height='100vh'
 				/>
 			</section>
 		</>
