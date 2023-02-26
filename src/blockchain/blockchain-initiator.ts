@@ -158,31 +158,31 @@ const initiateBlockchain = async () => {
 				await prisma.$transaction([
 					prisma.satellite_info.findMany({
 						orderBy: { launched_on: 'asc' },
-						take: 10,
+						// take: 10,
 					}),
 					prisma.ground_station_info.findMany({
 						orderBy: { positioned_on: 'asc' },
-						take: 10,
+						// take: 10,
 					}),
 					prisma.phased_array_antenna_info.findMany({
 						orderBy: { positioned_on: 'asc' },
-						take: 10,
+						// take: 10,
 					}),
 					prisma.mobile_info.findMany({
 						orderBy: { registered_on: 'asc' },
-						take: 10,
+						// take: 10,
 					}),
 					prisma.aircraft_info.findMany({
 						orderBy: { operating_from: 'asc' },
-						take: 10,
+						// take: 10,
 					}),
 					prisma.vehicle_info.findMany({
 						orderBy: { purchased_on: 'asc' },
-						take: 10,
+						// take: 10,
 					}),
 					prisma.watercraft_info.findMany({
 						orderBy: { operating_from: 'asc' },
-						take: 10,
+						// take: 10,
 					}),
 				]),
 			DEVICE_STATUS = {

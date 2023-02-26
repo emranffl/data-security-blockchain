@@ -1,7 +1,7 @@
-import * as crypto from 'crypto'
-import prisma from '@functionalities/DB/prismainstance'
-import { blockchain, blockchain_status, blockchain_type } from '@prisma/client'
-import { initiateBlockchain, resetBlockchain } from './blockchain-initiator'
+import * as crypto from "crypto"
+import prisma from "@functionalities/DB/prismainstance"
+import { blockchain_status, blockchain_type } from "@prisma/client"
+import { initiateBlockchain } from "./blockchain-initiator"
 
 export const BLOCK_MINING_DIFFICULTY = 1
 
@@ -42,15 +42,15 @@ class Transaction {
 class Block {
 	constructor(
 		// public transactionData: TransactionDataType | string,
-		public name: TransactionDataType['name'],
-		public status: TransactionDataType['status'],
-		public type: TransactionDataType['type'],
-		public uuid: TransactionDataType['uuid'],
-		public connectingNodePublicKey: Transaction['connectingNodePublicKey'],
-		public networkNodePublicKey: Transaction['networkNodePublicKey'],
+		public name: TransactionDataType["name"],
+		public status: TransactionDataType["status"],
+		public type: TransactionDataType["type"],
+		public uuid: TransactionDataType["uuid"],
+		public connectingNodePublicKey: Transaction["connectingNodePublicKey"],
+		public networkNodePublicKey: Transaction["networkNodePublicKey"],
 		public precedingBlockHash: string,
 		public blockDepth: number,
-		public currentHash: string = '',
+		public currentHash: string = "",
 		public attempt: number = 0,
 		public transactionDate: Date = new Date(),
 		public nonce: number = Math.round(Math.random() * 999999999)
@@ -60,15 +60,17 @@ class Block {
 	 * Hashes the block data and returns the hash.
 	 */
 	calculateHash() {
-		const hash = crypto.createHash('MD5'),
+		const hash = crypto.createHash("MD5"),
 			blockClone = { ...this }
 
-		blockClone.currentHash = ''
+		blockClone.currentHash = ""
 
-		hash.update(
-			blockClone.nonce + blockClone.attempt + JSON.stringify(blockClone)
-		).end()
-		return hash.digest('hex')
+		hash
+			.update(
+				blockClone.nonce + blockClone.attempt + JSON.stringify(blockClone)
+			)
+			.end()
+		return hash.digest("hex")
 	}
 
 	get hash() {
@@ -91,19 +93,25 @@ class Chain {
 	//* singleton instance
 	public static instance = new Chain()
 
-	chain: Block[] = [
+	chain = [
+		// prisma.blockchain.count() > 1
+		// 	?
 		//* genesis block generation
-		(() => {
-			const hash = crypto.createHash('MD5'),
+		(async () => {
+			if ((await prisma.blockchain.count()) > 1) {
+				return await prisma.blockchain.findMany()
+			}
+
+			const hash = crypto.createHash("MD5"),
 				transaction = new Transaction(
 					{
-						name: 'genesis',
-						status: 'Active',
-						type: 'genesis_block',
-						uuid: 'genesis_uuid',
+						name: "genesis",
+						status: "Active",
+						type: "genesis_block",
+						uuid: "genesis_uuid",
 					},
-					'connecting_genesis_node_public_key_null',
-					'network_genesis_node_public_key_null'
+					"connecting_genesis_node_public_key_null",
+					"network_genesis_node_public_key_null"
 				),
 				genesisBlock = new Block(
 					transaction.transactionData.name,
@@ -112,17 +120,18 @@ class Chain {
 					transaction.transactionData.uuid,
 					transaction.connectingNodePublicKey,
 					transaction.networkNodePublicKey,
-					'genesis_preceding_block_hash_null',
+					"genesis_preceding_block_hash_null",
 					0,
-					'genesis_current_block_hash_null'
+					"genesis_current_block_hash_null"
 				)
 
 			hash.update(genesisBlock.toString()).end()
 
-			genesisBlock.currentHash = hash.digest('hex')
+			genesisBlock.currentHash = hash.digest("hex")
 
 			return genesisBlock
 		})(),
+		// : prisma.blockchain.findMany(),
 	]
 
 	constructor() {
@@ -156,9 +165,11 @@ class Chain {
 		// ]
 
 		;(async () => {
-			console.log('Initializing blockchain!')
+			console.log("Initializing blockchain!")
 
 			// await resetBlockchain()
+			if ((await prisma.blockchain.count()) > 1) return
+
 			await initiateBlockchain()
 			// console.log('Blockchain initiated')
 
@@ -169,9 +180,9 @@ class Chain {
 
 			if (DB_CHAIN.length != this.chain.length) {
 				console.log(
-					'Chain length mismatch! Initializing chain on class instance initialization. DB chain: ',
+					"Chain length mismatch! Initializing chain on class instance initialization. DB chain: ",
 					DB_CHAIN.length,
-					'Chain instance: ',
+					"Chain instance: ",
 					this.chain.length
 				)
 
@@ -181,9 +192,7 @@ class Chain {
 						JSON.stringify(
 							DB_CHAIN,
 							(key, value) =>
-								typeof value === 'bigint'
-									? value.toString()
-									: value // return everything else unchanged
+								typeof value === "bigint" ? value.toString() : value // return everything else unchanged
 						)
 					)
 				})())
@@ -192,16 +201,16 @@ class Chain {
 			this.chain = [
 				//* genesis block generation
 				(() => {
-					const hash = crypto.createHash('MD5'),
+					const hash = crypto.createHash("MD5"),
 						transaction = new Transaction(
 							{
-								name: 'genesis',
-								status: 'Active',
-								type: 'genesis_block',
-								uuid: 'genesis_uuid',
+								name: "genesis",
+								status: "Active",
+								type: "genesis_block",
+								uuid: "genesis_uuid",
 							},
-							'connecting_genesis_node_public_key_null',
-							'network_genesis_node_public_key_null'
+							"connecting_genesis_node_public_key_null",
+							"network_genesis_node_public_key_null"
 						),
 						genesisBlock = new Block(
 							transaction.transactionData.name,
@@ -210,14 +219,14 @@ class Chain {
 							transaction.transactionData.uuid,
 							transaction.connectingNodePublicKey,
 							transaction.networkNodePublicKey,
-							'genesis_preceding_block_hash_null',
+							"genesis_preceding_block_hash_null",
 							0,
-							'genesis_current_block_hash_null'
+							"genesis_current_block_hash_null"
 						)
 
 					hash.update(genesisBlock.toString()).end()
 
-					genesisBlock.currentHash = hash.digest('hex')
+					genesisBlock.currentHash = hash.digest("hex")
 
 					return genesisBlock
 				})(),
@@ -276,8 +285,7 @@ class Chain {
 				precedingBlock = this.chain[i - 1] as Block
 
 			if (
-				currentBlock.precedingBlockHash !==
-					precedingBlock.calculateHash() &&
+				currentBlock.precedingBlockHash !== precedingBlock.calculateHash() &&
 				currentBlock.hash !== currentBlock.calculateHash()
 			)
 				return false
@@ -317,26 +325,21 @@ class Chain {
 
 	mine(nonce: number, blockData: Block): Promise<string> {
 		let attempt = 1
-		const difficultyString = ''.padEnd(BLOCK_MINING_DIFFICULTY, '0')
+		const difficultyString = "".padEnd(BLOCK_MINING_DIFFICULTY, "0")
 
 		return new Promise<string>((resolve, reject) => {
 			while (true) {
-				const hash = crypto.createHash('MD5')
+				const hash = crypto.createHash("MD5")
 
 				blockData.attempt = attempt
-				hash.update(
-					(nonce + attempt + blockData.toString()).toString()
-				).end()
+				hash.update((nonce + attempt + blockData.toString()).toString()).end()
 
-				const blockHash = hash.digest('hex')
+				const blockHash = hash.digest("hex")
 
 				if (
-					blockHash.substring(0, BLOCK_MINING_DIFFICULTY) ===
-					difficultyString
+					blockHash.substring(0, BLOCK_MINING_DIFFICULTY) === difficultyString
 				) {
-					console.log(
-						`Solved '${blockHash}' on ${attempt} attempt\n\n`
-					)
+					console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
 					resolve(blockHash)
 					break
 				} else {
@@ -358,12 +361,9 @@ class Chain {
 		signature: Buffer
 	): Promise<Block> {
 		const verifyTransaction = crypto
-				.createVerify('SHA256')
+				.createVerify("SHA256")
 				.update(transaction.toString()),
-			isValid = verifyTransaction.verify(
-				connectingNodePublicKey,
-				signature
-			)
+			isValid = verifyTransaction.verify(connectingNodePublicKey, signature)
 
 		if (isValid) {
 			const newBlock = new Block(
@@ -383,7 +383,7 @@ class Chain {
 			this.chain.push(newBlock)
 
 			return newBlock
-		} else throw new Error('Invalid signature!')
+		} else throw new Error("Invalid signature!")
 	}
 
 	toString() {
@@ -403,10 +403,10 @@ class Wallet {
 		public_key: string | null = null,
 		private_key: string | null = null
 	) {
-		const keyPair = crypto.generateKeyPairSync('rsa', {
+		const keyPair = crypto.generateKeyPairSync("rsa", {
 			modulusLength: 2048,
-			publicKeyEncoding: { type: 'spki', format: 'pem' },
-			privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
+			publicKeyEncoding: { type: "spki", format: "pem" },
+			privateKeyEncoding: { type: "pkcs8", format: "pem" },
 		})
 
 		this.privateKey = private_key ?? keyPair.privateKey
@@ -420,7 +420,7 @@ class Wallet {
 		//* throw error if linking to itself
 		if (networkNodePublicKey == this.publicKey)
 			throw new Error(
-				'Cannot link to self! Provided public key is of the same node.'
+				"Cannot link to self! Provided public key is of the same node."
 			)
 
 		const transaction = new Transaction(
@@ -428,7 +428,7 @@ class Wallet {
 				this.publicKey,
 				networkNodePublicKey
 			),
-			signature = crypto.createSign('SHA256')
+			signature = crypto.createSign("SHA256")
 
 		signature.update(transaction.toString()).end()
 

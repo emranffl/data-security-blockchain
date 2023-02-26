@@ -6,6 +6,10 @@ type Data = {
 	[key: string]: satellite_info | ground_station_info | unknown
 }
 
+// Initialize the Chain instance when the module is loaded
+const chain = Chain.instance
+// await chain.initialize()
+
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<Data>

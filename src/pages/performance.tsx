@@ -52,13 +52,13 @@ const Performance: NextPage<PerformanceProps> = ({
 	mem_mining_usage,
 	mined_block_count,
 }) => {
-	console.log(
-		attempts_to_mine_blocks,
-		consumed_mining_time,
-		cpu_mining_usage,
-		mem_mining_usage,
-		mined_block_count
-	)
+	// console.log(
+	// 	attempts_to_mine_blocks,
+	// 	consumed_mining_time,
+	// 	cpu_mining_usage,
+	// 	mem_mining_usage,
+	// 	mined_block_count
+	// )
 
 	return (
 		<>
