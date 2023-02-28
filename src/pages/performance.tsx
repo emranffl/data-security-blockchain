@@ -52,13 +52,13 @@ const Performance: NextPage<PerformanceProps> = ({
 	mem_mining_usage,
 	mined_block_count,
 }) => {
-	// console.log(
-	// 	attempts_to_mine_blocks,
-	// 	consumed_mining_time,
-	// 	cpu_mining_usage,
-	// 	mem_mining_usage,
-	// 	mined_block_count
-	// )
+	console.log(
+		attempts_to_mine_blocks,
+		consumed_mining_time,
+		cpu_mining_usage,
+		mem_mining_usage,
+		mined_block_count
+	)
 
 	return (
 		<>
@@ -66,12 +66,12 @@ const Performance: NextPage<PerformanceProps> = ({
 				<title>Performance | Blockchain</title>
 			</Head>
 
-			<section className='container my-20 min-h-screen flex justify-center flex-col gap-y-20'>
+			<section className='mx-10 my-20 min-h-screen flex justify-center flex-col gap-y-20'>
 				<Chart
-					className='px-5'
+					className='p-5'
 					chartType='Bar'
 					width='100%'
-					height='75vh'
+					height='95vh'
 					loader={<div>Loading Chart...</div>}
 					data={attempts_to_mine_blocks}
 					options={{
@@ -86,10 +86,10 @@ const Performance: NextPage<PerformanceProps> = ({
 				/>
 
 				<Chart
-					className='px-5'
+					className='p-5'
 					chartType='Line'
 					width='100%'
-					height='75vh'
+					height='95vh'
 					loader={<div>Loading Chart...</div>}
 					data={consumed_mining_time}
 					options={{
@@ -104,7 +104,7 @@ const Performance: NextPage<PerformanceProps> = ({
 				/>
 
 				<Chart
-					className='px-5'
+					className='p-5'
 					chartType='AreaChart'
 					data={cpu_mining_usage}
 					options={{
@@ -125,7 +125,7 @@ const Performance: NextPage<PerformanceProps> = ({
 						},
 					}}
 					width='100%'
-					height='75vh'
+					height='95vh'
 					loader={<div>Loading Chart...</div>}
 				/>
 
@@ -133,7 +133,7 @@ const Performance: NextPage<PerformanceProps> = ({
 					className='px-5 -ml-10'
 					chartType='AreaChart'
 					width='100%'
-					height='75vh'
+					height='95vh'
 					loader={<div>Loading Chart...</div>}
 					data={mem_mining_usage}
 					options={{

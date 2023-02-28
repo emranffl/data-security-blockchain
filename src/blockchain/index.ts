@@ -82,7 +82,9 @@ class Block {
 	}
 
 	toString() {
-		return JSON.stringify(this)
+		return JSON.stringify(this, (key, value) =>
+			typeof value === "bigint" ? value.toString() : value
+		)
 	}
 }
 
@@ -97,10 +99,10 @@ class Chain {
 		// prisma.blockchain.count() > 1
 		// 	?
 		//* genesis block generation
-		(async () => {
-			if ((await prisma.blockchain.count()) > 1) {
-				return await prisma.blockchain.findMany()
-			}
+		(() => {
+			// if ((await prisma.blockchain.count()) > 1) {
+			// 	return await prisma.blockchain.findMany()
+			// }
 
 			const hash = crypto.createHash("MD5"),
 				transaction = new Transaction(
@@ -165,13 +167,19 @@ class Chain {
 		// ]
 
 		;(async () => {
-			console.log("Initializing blockchain!")
-
 			// await resetBlockchain()
-			if ((await prisma.blockchain.count()) > 1) return
 
+			// => handle genesis block persistence in initiateBlockchain()
+			if ((await prisma.blockchain.count()) > 1) {
+				// @ts-ignore
+				this.chain = [...this.chain, ...(await prisma.blockchain.findMany())]
+				return
+			}
+
+			console.log(
+				`Initializing blockchain with mining difficulty ${BLOCK_MINING_DIFFICULTY}...`
+			)
 			await initiateBlockchain()
-			// console.log('Blockchain initiated')
 
 			return
 
@@ -387,7 +395,9 @@ class Chain {
 	}
 
 	toString() {
-		return JSON.stringify(this.chain)
+		return JSON.stringify(this, (key, value) =>
+			typeof value === "bigint" ? value.toString() : value
+		)
 	}
 }
 
