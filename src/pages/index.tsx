@@ -388,6 +388,12 @@ const Home: NextPage<HomePageProps> = ({ nodes, edges, nodeCount }) => {
 		)
 	}, [networkEdgesState, networkNodesState])
 
+	useEffect(() => {
+		const network = fetch("/api/initialize").then(async response => {
+			const res = await response.json()
+			console.log(res)
+		})
+	}, [])
 	return (
 		<>
 			<Head>
