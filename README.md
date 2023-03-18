@@ -2,10 +2,18 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, import the database from `src/resources/emranffl_project_satellite-constellation.sql` into your local MySQL server.
+
+Then, create a `.env.local` file in the root directory of the project and add the following environment variables:
 
 ```bash
-npm run dev
+DATABASE_URL="mysql://[username]:[password]@localhost/emranffl_project_satellite-constellation"
+```
+
+Then, run the development server:
+
+```bash
+pnpm dev
 # or
 yarn dev
 ```
@@ -19,14 +27,18 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
 ## Resources Consumed
+
 - [Array randomized shuffle](https://bost.ocks.org/mike/shuffle/)
 
 ## References
+
 ### Links
+
 - [UTXO vs Accounting Model](https://www.geeksforgeeks.org/what-is-unspent-transaction-output-utxo/)
 
 ### Research Papers
+
 - [A Regulatable Blockchain Transaction Model with Privacy Protection](https://www.researchgate.net/publication/352182532_A_Regulatable_Blockchain_Transaction_Model_with_Privacy_Protection)
 
 - [Improvements of Blockchain’s Block Broadcasting:
-An Incentive Approach](https://eprint.iacr.org/2018/1152.pdf)
+  An Incentive Approach](https://eprint.iacr.org/2018/1152.pdf)
