@@ -23,10 +23,14 @@ export const Device = {
 		Consumer: "consumer",
 	},
 	Type: {
-		Satellite: "satellite",
-		GroundStation: "ground_station",
-		PhasedArrayAntenna: "phased_array_antenna",
-		Mobile: "mobile",
+		Satellite: "Satellite",
+		GroundStation: "Ground_Station",
+		PhasedArrayAntenna: "Phased_Array_Antenna",
+		Mobile: "Mobile",
+		Aircraft: "Aircraft",
+		Vehicle: "Vehicle",
+		Watercraft: "Watercraft",
+
 	},
 }
 

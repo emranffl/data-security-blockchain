@@ -16,12 +16,12 @@ import {
 	vehicle_info_status,
 	watercraft_info_status,
 	blockchain_status,
-} from '@prisma/client'
-import { cpuUsage, memoryUsage } from 'process'
-import { BLOCK_MINING_DIFFICULTY, Chain, Wallet } from './index'
-import prisma from '@functionalities/DB/prismainstance'
-import { arrayBuffer } from 'stream/consumers'
-import { Device } from '@pages/_app'
+} from "@prisma/client"
+import { cpuUsage, memoryUsage } from "process"
+import { BLOCK_MINING_DIFFICULTY, Chain, Wallet } from "./index"
+import prisma from "@functionalities/DB/prismainstance"
+import { arrayBuffer } from "stream/consumers"
+import { Device } from "@pages/_app"
 
 const mineBlock = ({
 	node,
@@ -41,10 +41,8 @@ const mineBlock = ({
 			uuid:
 				((node as satellite_info).NORAD &&
 					(node as satellite_info).NORAD.toString()) ||
-				((node as mobile_info).IMEI &&
-					(node as mobile_info).IMEI.toString()) ||
-				((node as vehicle_info).VIN &&
-					(node as vehicle_info).VIN.toString()) ||
+				((node as mobile_info).IMEI && (node as mobile_info).IMEI.toString()) ||
+				((node as vehicle_info).VIN && (node as vehicle_info).VIN.toString()) ||
 				(
 					node as
 						| ground_station_info
@@ -157,31 +155,31 @@ const initiateBlockchain = async () => {
 		const [sat, gs, paa, mobile, aircraft, vehicle, watercraft] =
 				await prisma.$transaction([
 					prisma.satellite_info.findMany({
-						orderBy: { launched_on: 'asc' },
-						// take: 10,
+						orderBy: { launched_on: "asc" },
+						take: 10,
 					}),
 					prisma.ground_station_info.findMany({
-						orderBy: { positioned_on: 'asc' },
-						// take: 10,
+						orderBy: { positioned_on: "asc" },
+						take: 30,
 					}),
 					prisma.phased_array_antenna_info.findMany({
-						orderBy: { positioned_on: 'asc' },
-						// take: 10,
+						orderBy: { positioned_on: "asc" },
+						// take: 50,
 					}),
 					prisma.mobile_info.findMany({
-						orderBy: { registered_on: 'asc' },
+						orderBy: { registered_on: "asc" },
 						// take: 10,
 					}),
 					prisma.aircraft_info.findMany({
-						orderBy: { operating_from: 'asc' },
+						orderBy: { operating_from: "asc" },
 						// take: 10,
 					}),
 					prisma.vehicle_info.findMany({
-						orderBy: { purchased_on: 'asc' },
+						orderBy: { purchased_on: "asc" },
 						// take: 10,
 					}),
 					prisma.watercraft_info.findMany({
-						orderBy: { operating_from: 'asc' },
+						orderBy: { operating_from: "asc" },
 						// take: 10,
 					}),
 				]),
@@ -211,38 +209,36 @@ const initiateBlockchain = async () => {
 		nodes = nodes.sort((firstElem, secondElem) => {
 			function getFirstLaunchDate(firstElem: any) {
 				return firstElem[
-					firstElem['launched_on']
-						? 'launched_on'
-						: firstElem['positioned_on']
-						? 'positioned_on'
-						: firstElem['registered_on']
-						? 'registered_on'
-						: firstElem['operating_from']
-						? 'operating_from'
-						: 'purchased_on'
+					firstElem["launched_on"]
+						? "launched_on"
+						: firstElem["positioned_on"]
+						? "positioned_on"
+						: firstElem["registered_on"]
+						? "registered_on"
+						: firstElem["operating_from"]
+						? "operating_from"
+						: "purchased_on"
 				]
 			}
 
 			function getSecondLaunchDate(secondElem: any) {
 				return secondElem[
-					secondElem['launched_on']
-						? 'launched_on'
-						: secondElem['positioned_on']
-						? 'positioned_on'
-						: secondElem['registered_on']
-						? 'registered_on'
-						: secondElem['operating_from']
-						? 'operating_from'
-						: 'purchased_on'
+					secondElem["launched_on"]
+						? "launched_on"
+						: secondElem["positioned_on"]
+						? "positioned_on"
+						: secondElem["registered_on"]
+						? "registered_on"
+						: secondElem["operating_from"]
+						? "operating_from"
+						: "purchased_on"
 				]
 			}
 
-			return (
-				getFirstLaunchDate(firstElem) - getSecondLaunchDate(secondElem)
-			)
+			return getFirstLaunchDate(firstElem) - getSecondLaunchDate(secondElem)
 		})
 
-		let numberOfAttemptsToMineBlocks: number[] = [],
+		let numberOfAttemptsToMineBlocks: any[] = [],
 			timeConsumedToMineBlocks: number[] = [],
 			CPUUsageToMineBlocks: NodeJS.CpuUsage[] = [],
 			memUsageToMineBlocks: NodeJS.MemoryUsage[] = [],
@@ -251,12 +247,13 @@ const initiateBlockchain = async () => {
 			 * and values that are 0. It is used to create an object that can be used to
 			 * track the progress of the blockchain sync.
 			 */
-			minedBlocksCountPerDeviceType = Object.values(
-				blockchain_type
-			).reduce((accumulator, current) => {
-				if (current !== 'genesis_block') accumulator[current] = 0
-				return accumulator
-			}, {} as { [key in blockchain_type]: number })
+			minedBlocksCountPerDeviceType = Object.values(blockchain_type).reduce(
+				(accumulator, current) => {
+					if (current !== "genesis_block") accumulator[current] = 0
+					return accumulator
+				},
+				{} as { [key in blockchain_type]: number }
+			)
 
 		nodes.map(async (node, index) => {
 			let nodeWallet = new Wallet()
@@ -292,7 +289,10 @@ const initiateBlockchain = async () => {
 				// console.log('CPU usage: ', CPUUsage)
 				// console.log('Memory usage: ', memUsage)
 
-				numberOfAttemptsToMineBlocks.push(minedBlock.attempt)
+				numberOfAttemptsToMineBlocks.push({
+					device: node.device_type,
+					attempts: minedBlock.attempt,
+				})
 				timeConsumedToMineBlocks.push(timeConsumed)
 				CPUUsageToMineBlocks.push(CPUUsage)
 				memUsageToMineBlocks.push(memUsage)
@@ -332,23 +332,41 @@ const initiateBlockchain = async () => {
 				// )
 
 				const transformedNumberOfAttemptsToMineBlocksData = [
-					['Block(n)', 'Attempt(n)'],
-					...numberOfAttemptsToMineBlocks.map((value, index) => [
-						index,
-						value,
-					]),
+					// ["Block(n)", "Attempt(n)"],
+					// ...numberOfAttemptsToMineBlocks.map((value, index) => [index, value]),
+					[
+						"Block(n)",
+						"Satellite",
+						"Ground Station",
+						"Phased Array Antenna",
+						"Mobile",
+						"Aircraft",
+						"Vehicle",
+						"Watercraft",
+					],
+					...numberOfAttemptsToMineBlocks.map((value, index) => {
+						let { device, attempts } = value
+
+						return [
+							index,
+							device == Device.Type.Satellite ? attempts : 0,
+							device == Device.Type.GroundStation ? attempts : 0,
+							device == Device.Type.PhasedArrayAntenna ? attempts : 0,
+							device == Device.Type.Mobile ? attempts : 0,
+							device == Device.Type.Aircraft ? attempts : 0,
+							device == Device.Type.Vehicle ? attempts : 0,
+							device == Device.Type.Watercraft ? attempts : 0,
+						]
+					}),
 				]
 
 				const transformedTimeConsumedToCreateNodesData = [
-					['Block(n)', 'Time(ms)'],
-					...timeConsumedToMineBlocks.map((value, index) => [
-						index,
-						value,
-					]),
+					["Block(n)", "Time(ms)"],
+					...timeConsumedToMineBlocks.map((value, index) => [index, value]),
 				]
 
 				const transformedCPUUsageToCreateNodesData = [
-					['Block', 'User', 'System'],
+					["Block", "User", "System"],
 					...CPUUsageToMineBlocks.map(({ user, system }, index) => [
 						index + 1,
 						user / 1000,
@@ -358,11 +376,11 @@ const initiateBlockchain = async () => {
 
 				const transformedMemUsageToCreateNodesData = [
 					[
-						'Block(n)',
-						'RSS(MB)',
-						'Heap Total(MB)',
-						'Heap Used(MB)',
-						'Array Buffers(MB)',
+						"Block(n)",
+						"RSS(MB)",
+						"Heap Total(MB)",
+						"Heap Used(MB)",
+						"Array Buffers(MB)",
 					],
 					...memUsageToMineBlocks.map(
 						({ rss, heapTotal, heapUsed, arrayBuffers }, index) => [
@@ -376,9 +394,9 @@ const initiateBlockchain = async () => {
 				]
 
 				const transformedMinedBlocksCountPerDeviceTypeData = [
-					['Device Type', 'Mined Blocks(n)'],
+					["Device Type", "Mined Blocks(n)"],
 					...Object.entries(minedBlocksCountPerDeviceType).map(
-						([key, value]) => [key.replace(/_/g, ' '), value]
+						([key, value]) => [key.replace(/_/g, " "), value]
 					),
 				]
 
@@ -390,14 +408,10 @@ const initiateBlockchain = async () => {
 							id: 1,
 							attempts_to_mine_blocks:
 								transformedNumberOfAttemptsToMineBlocksData,
-							consumed_mining_time:
-								transformedTimeConsumedToCreateNodesData,
-							cpu_mining_usage:
-								transformedCPUUsageToCreateNodesData,
-							mem_mining_usage:
-								transformedMemUsageToCreateNodesData,
-							mined_block_count:
-								transformedMinedBlocksCountPerDeviceTypeData,
+							consumed_mining_time: transformedTimeConsumedToCreateNodesData,
+							cpu_mining_usage: transformedCPUUsageToCreateNodesData,
+							mem_mining_usage: transformedMemUsageToCreateNodesData,
+							mined_block_count: transformedMinedBlocksCountPerDeviceTypeData,
 						},
 					})
 				} catch (error) {
@@ -406,7 +420,7 @@ const initiateBlockchain = async () => {
 			}
 		})
 
-		console.log('Chain length: ', Chain.instance.chain.length)
+		console.log("Chain length: ", Chain.instance.chain.length)
 
 		//* store blockchain in DB
 		try {
@@ -418,7 +432,7 @@ const initiateBlockchain = async () => {
 			console.log(error)
 		}
 
-		console.log('\n\n\nBlockchain initiated successfully!\n\n\n')
+		console.log("\n\n\nBlockchain initiated successfully!\n\n\n")
 	},
 	resetBlockchain = async () => {
 		Chain.instance.chain.length = 1

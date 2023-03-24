@@ -3,7 +3,8 @@ import prisma from "@functionalities/DB/prismainstance"
 import { blockchain_status, blockchain_type } from "@prisma/client"
 import { initiateBlockchain } from "./blockchain-initiator"
 
-export const BLOCK_MINING_DIFFICULTY = 1
+export const BLOCK_MINING_DIFFICULTY = 4
+const log = false
 
 interface TransactionDataType {
 	name: string
@@ -347,7 +348,7 @@ class Chain {
 				if (
 					blockHash.substring(0, BLOCK_MINING_DIFFICULTY) === difficultyString
 				) {
-					console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
+					log && console.log(`Solved '${blockHash}' on ${attempt} attempt\n\n`)
 					resolve(blockHash)
 					break
 				} else {

@@ -1,8 +1,9 @@
-import prisma from '@functionalities/DB/prismainstance'
-import { blockchain_type } from '@prisma/client'
-import { NextPage } from 'next'
-import Head from 'next/head'
-import { Chart } from 'react-google-charts'
+import prisma from "@functionalities/DB/prismainstance"
+import { blockchain_type } from "@prisma/client"
+import { NextPage } from "next"
+import Head from "next/head"
+import { Chart } from "react-google-charts"
+import dcd from "@resources/metrics.json"
 
 export async function getServerSideProps() {
 	const [
@@ -26,6 +27,55 @@ export async function getServerSideProps() {
 		},
 	})
 
+	let count = 0,
+		transformed_difficulty_based_attempt_comparison_data: (
+			| string
+			| number
+		)[][] = [],
+		transformed_difficulty_based_time_comparison_data: (string | number)[][] =
+			[]
+
+	Object.values(dcd.attempt).map((val, index) => {
+		if (index === 0)
+			transformed_difficulty_based_attempt_comparison_data.push([
+				"Block(n)",
+				"Satellite",
+				"Ground Station",
+				"Phased Array Antenna",
+				"Mobile",
+				"Aircraft",
+				"Vehicle",
+				"Watercraft",
+			])
+
+		Object.values(val).map((arr, ind) => {
+			if (ind === 0) return
+			transformed_difficulty_based_attempt_comparison_data.push([
+				count++,
+				arr[1],
+				arr[2],
+				arr[3],
+				arr[4],
+				arr[5],
+				arr[6],
+				arr[7],
+			])
+		})
+	})
+
+	Object.values(dcd.time).map((val, index) => {
+		if (index === 0)
+			transformed_difficulty_based_time_comparison_data.push([
+				"Block(n)",
+				"Time(ms)",
+			])
+
+		Object.values(val).map((arr, ind) => {
+			if (ind === 0) return
+			transformed_difficulty_based_time_comparison_data.push([count++, arr[1]])
+		})
+	})
+
 	return {
 		props: {
 			attempts_to_mine_blocks,
@@ -33,6 +83,8 @@ export async function getServerSideProps() {
 			cpu_mining_usage,
 			mem_mining_usage,
 			mined_block_count,
+			transformed_difficulty_based_attempt_comparison_data,
+			transformed_difficulty_based_time_comparison_data,
 		},
 	}
 }
@@ -43,6 +95,8 @@ interface PerformanceProps {
 	cpu_mining_usage: any
 	mem_mining_usage: any
 	mined_block_count: any
+	transformed_difficulty_based_attempt_comparison_data: any
+	transformed_difficulty_based_time_comparison_data: any
 }
 
 const Performance: NextPage<PerformanceProps> = ({
@@ -51,14 +105,18 @@ const Performance: NextPage<PerformanceProps> = ({
 	cpu_mining_usage,
 	mem_mining_usage,
 	mined_block_count,
+	transformed_difficulty_based_attempt_comparison_data,
+	transformed_difficulty_based_time_comparison_data,
 }) => {
-	console.log(
-		attempts_to_mine_blocks,
-		consumed_mining_time,
-		cpu_mining_usage,
-		mem_mining_usage,
-		mined_block_count
-	)
+	console
+		.log
+		// attempts_to_mine_blocks
+		// consumed_mining_time,
+		// cpu_mining_usage,
+		// mem_mining_usage,
+		// mined_block_count
+		// transformed_difficulty_comparison_data
+		()
 
 	return (
 		<>
@@ -66,106 +124,112 @@ const Performance: NextPage<PerformanceProps> = ({
 				<title>Performance | Blockchain</title>
 			</Head>
 
-			<section className='mx-10 my-20 min-h-screen flex justify-center flex-col gap-y-20'>
+			<section className="mx-10 my-20 min-h-screen flex justify-center flex-col gap-y-20">
 				<Chart
-					className='p-5'
-					chartType='Bar'
-					width='100%'
-					height='95vh'
+					className="p-5"
+					chartType="Line"
+					width="100%"
+					height="95vh"
 					loader={<div>Loading Chart...</div>}
 					data={attempts_to_mine_blocks}
+					// data={[
+					// 	["Block", "Mobile", "SAT", "GS"],
+					// 	[0, 7, 1, 5],
+					// ]}
 					options={{
 						chart: {
-							title: 'Number of attempts required to calculate hash for each block in the blockchain',
-							subtitle: 'in count (n)',
+							title:
+								"Number of attempts required to calculate hash for each block in the blockchain",
+							subtitle: "in count (n)",
 						},
-						colors: ['913175'],
-						curveType: 'function',
-						bars: 'vertical',
+						// colors: ["913175", "1b9e77", "d95f02"],
+						curveType: "function",
+						bars: "vertical",
 					}}
 				/>
 
 				<Chart
-					className='p-5'
-					chartType='Line'
-					width='100%'
-					height='95vh'
+					className="p-5"
+					chartType="Line"
+					width="100%"
+					height="95vh"
 					loader={<div>Loading Chart...</div>}
 					data={consumed_mining_time}
 					options={{
 						chart: {
-							title: 'Time required to mine each block in the blockchain',
-							subtitle: 'in milliseconds (ms)',
+							title: "Time required to mine each block in the blockchain",
+							subtitle: "in milliseconds (ms)",
 						},
-						colors: ['913175'],
-						curveType: 'function',
-						bars: 'vertical',
+						colors: ["913175"],
+						curveType: "function",
+						bars: "vertical",
 					}}
 				/>
 
 				<Chart
-					className='p-5'
-					chartType='AreaChart'
+					className="p-5"
+					chartType="AreaChart"
 					data={cpu_mining_usage}
 					options={{
-						title: 'CPU usage time per block while mining in milliseconds (ms)',
+						title: "CPU usage time per block while mining in milliseconds (ms)",
 						hAxis: {
-							title: 'Block(n)',
+							title: "Block(n)",
 						},
 						vAxis: {
-							title: 'Time(ms)',
+							title: "Time(ms)",
 							minValue: 0,
 						},
 						chartArea: {
-							width: '80%',
-							height: '80%',
+							width: "80%",
+							height: "80%",
 						},
 						series: {
 							0: { areaOpacity: 0.35 },
 						},
 					}}
-					width='100%'
-					height='95vh'
+					width="100%"
+					height="95vh"
 					loader={<div>Loading Chart...</div>}
 				/>
 
 				<Chart
-					className='px-5 -ml-10'
-					chartType='AreaChart'
-					width='100%'
-					height='95vh'
+					className="px-5 -ml-10"
+					chartType="AreaChart"
+					width="100%"
+					height="95vh"
 					loader={<div>Loading Chart...</div>}
 					data={mem_mining_usage}
 					options={{
-						title: 'Memory usage space per block while mining in megabytes (MB)',
+						title:
+							"Memory usage space per block while mining in megabytes (MB)",
 						hAxis: {
-							title: 'Block(n)',
+							title: "Block(n)",
 						},
 						vAxis: {
-							title: 'Memory(MB)',
+							title: "Memory(MB)",
 						},
 						chartArea: {
-							width: '75%',
-							height: '75%',
+							width: "75%",
+							height: "75%",
 						},
 						series: {
 							0: { areaOpacity: 0.65 },
-							1: { curveType: 'function' },
+							1: { curveType: "function" },
 						},
 					}}
 				/>
 
 				<Chart
-					chartType='PieChart'
+					chartType="PieChart"
 					loader={<div>Loading Chart...</div>}
 					data={mined_block_count}
 					options={{
-						title: 'Mined blocks ratio per device type in the blockchain',
+						title: "Mined blocks ratio per device type in the blockchain",
 						legend: {
-							position: 'right',
-							alignment: 'center',
+							position: "right",
+							alignment: "center",
 							textStyle: {
-								color: 'black',
+								color: "black",
 								fontSize: 16,
 							},
 						},
@@ -183,8 +247,46 @@ const Performance: NextPage<PerformanceProps> = ({
 							15: { offset: 0.5 },
 						},
 					}}
-					width='100%'
-					height='100vh'
+					width="100%"
+					height="100vh"
+				/>
+
+				<Chart
+					className="p-5"
+					chartType="Line"
+					width="100%"
+					height="95vh"
+					loader={<div>Loading Chart...</div>}
+					data={transformed_difficulty_based_attempt_comparison_data}
+					options={{
+						chart: {
+							title:
+								"Attempts required to mine each block in the blockchain based on difficulty",
+							subtitle: "in count (n)",
+						},
+						colors: ["913175"],
+						curveType: "function",
+						bars: "vertical",
+					}}
+				/>
+
+				<Chart
+					className="p-5"
+					chartType="Line"
+					width="100%"
+					height="95vh"
+					loader={<div>Loading Chart...</div>}
+					data={transformed_difficulty_based_time_comparison_data}
+					options={{
+						chart: {
+							title:
+								"Time required to mine each block in the blockchain based on difficulty",
+							subtitle: "in milliseconds (ms)",
+						},
+						colors: ["913175"],
+						curveType: "function",
+						bars: "vertical",
+					}}
 				/>
 			</section>
 		</>
