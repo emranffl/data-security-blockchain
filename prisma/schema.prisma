@@ -118,13 +118,14 @@ model watercraft_info {
 }
 
 model metrics {
-  id                      Int      @id
-  attempts_to_mine_blocks Json
-  consumed_mining_time    Json
-  cpu_mining_usage        Json
-  mem_mining_usage        Json
-  mined_block_count       Json
-  added_on                DateTime @default(now()) @db.Timestamp(0)
+  id                                             Int      @id
+  attempts_to_mine_blocks                        Json
+  consumed_mining_time                           Json
+  cpu_mining_usage                               Json
+  mem_mining_usage                               Json
+  mined_block_count                              Json
+  average_attempts_to_mine_block_per_device_type Json
+  added_on                                       DateTime @default(now()) @db.Timestamp(0)
 }
 
 enum satellite_info_status {

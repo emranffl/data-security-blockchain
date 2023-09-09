@@ -3,7 +3,7 @@ import prisma from "@functionalities/DB/prismainstance"
 import { blockchain_status, blockchain_type } from "@prisma/client"
 import { initiateBlockchain } from "./blockchain-initiator"
 
-export const BLOCK_MINING_DIFFICULTY = 4
+export const BLOCK_MINING_DIFFICULTY = 1
 const log = false
 
 interface TransactionDataType {

@@ -253,7 +253,18 @@ const initiateBlockchain = async () => {
 					return accumulator
 				},
 				{} as { [key in blockchain_type]: number }
-			)
+			),
+			/**
+			 * This code creates an object with keys that are the values of blockchain_type,
+			 * excluding 'genesis_block'. It is used to calculate the average number of
+			 * attempts to mine a block on a device type.
+			 */
+			averageAttemptsToMineBlockPerDeviceType = Object.values(
+				blockchain_type
+			).reduce((accumulator, current) => {
+				if (current !== "genesis_block") accumulator[current] = 0
+				return accumulator
+			}, {} as { [key in blockchain_type]: number })
 
 		nodes.map(async (node, index) => {
 			let nodeWallet = new Wallet()
@@ -299,6 +310,9 @@ const initiateBlockchain = async () => {
 				minedBlocksCountPerDeviceType[
 					node.device_type as keyof typeof blockchain_type
 				]++
+				averageAttemptsToMineBlockPerDeviceType[
+					node.device_type as keyof typeof blockchain_type
+				] += minedBlock.attempt
 
 				if (node.status == status) {
 					break
@@ -329,6 +343,10 @@ const initiateBlockchain = async () => {
 				// console.log(
 				// 	'Mined blocks count per device type: ',
 				// 	minedBlocksCountPerDeviceType
+				// )
+				// console.log(
+				// 	"Average attempts to mine blocks per device type: ",
+				// 	averageAttemptsToMineBlockPerDeviceType
 				// )
 
 				const transformedNumberOfAttemptsToMineBlocksData = [
@@ -400,6 +418,21 @@ const initiateBlockchain = async () => {
 					),
 				]
 
+				const transformedAverageAttemptsToMineBlockPerDeviceTypeData = [
+					["Device Type", "Average Attempts(n)"],
+					...Object.entries(averageAttemptsToMineBlockPerDeviceType).map(
+						([key, value]) => [
+							key.replace(/_/g, " "),
+							value /
+								minedBlocksCountPerDeviceType[
+									key as keyof typeof minedBlocksCountPerDeviceType
+								],
+						]
+					),
+				]
+
+				console.log(transformedAverageAttemptsToMineBlockPerDeviceTypeData)
+
 				//* store metrics in DB
 				try {
 					await prisma.metrics.deleteMany()
@@ -412,6 +445,8 @@ const initiateBlockchain = async () => {
 							cpu_mining_usage: transformedCPUUsageToCreateNodesData,
 							mem_mining_usage: transformedMemUsageToCreateNodesData,
 							mined_block_count: transformedMinedBlocksCountPerDeviceTypeData,
+							average_attempts_to_mine_block_per_device_type:
+								transformedAverageAttemptsToMineBlockPerDeviceTypeData,
 						},
 					})
 				} catch (error) {
