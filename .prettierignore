@@ -1,0 +1,27 @@
+# library files
+# app/components/library
+
+# project files
+CHANGELOG.md
+
+# misc
+node_modules
+.next
+.env*
+
+# package.json
+pnpm-lock.yaml
+README.md
+
+# config files
+.gitignore
+# .eslintrc.json
+# next.config.js
+# postcss.config.js
+# tailwind.config.js
+# tailwindcss-full.config.js
+# tsconfig.json
+
+# type declarations
+next-env.d.ts
+react-table-config.d.ts

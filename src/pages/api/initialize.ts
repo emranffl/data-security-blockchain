@@ -1,7 +1,7 @@
 import { satellite_info, ground_station_info } from "@prisma/client"
 import type { NextApiRequest, NextApiResponse } from "next"
 import { Chain } from "@blockchain/index"
-import { toObject } from "@functionalities/helper"
+import { toObject } from "@functionalities/helpers"
 
 type Data = {
 	[key: string]: satellite_info | ground_station_info | unknown

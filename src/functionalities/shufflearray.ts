@@ -1,4 +1,4 @@
-import { NodeDataSet } from "src/pages/index"
+import { NodeDataSet } from "@pages/api/fetch/graph"
 
 export const shuffle = (array: [] | NodeDataSet[]) => {
     let arrLen = array.length, swapElement, currentElement

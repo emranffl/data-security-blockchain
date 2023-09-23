@@ -147,7 +147,7 @@ const Performance: NextPage<PerformanceProps> = ({
 	return (
 		<>
 			<Head>
-				<title>Performance | Blockchain</title>
+				<title>Performance | Network Security</title>
 			</Head>
 
 			<section className="mx-10 my-20 min-h-screen flex justify-center flex-col gap-y-20">
